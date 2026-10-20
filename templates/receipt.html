@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DYPTC Official Property Handover Receipt #{{RECEIPT_NO}}</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_06">
+  <style>
+    /* Dedicated Print & Receipt Styles */
+    .receipt-page {
+      max-width: 800px;
+      margin: 1.5rem auto 3rem auto;
+      padding: 0 1rem;
+    }
+    .no-print-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 8px;
+      padding: 0.75rem 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .receipt-container {
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+      position: relative;
+    }
+    .receipt-watermark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(220, 38, 38, 0.04);
+      pointer-events: none;
+      letter-spacing: 0.2em;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .receipt-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      border-bottom: 2px solid #b91c1c;
+      padding-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .receipt-header img {
+      width: 76px;
+      height: 76px;
+      object-fit: contain;
+    }
+    .receipt-header-text h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #991b1b;
+      margin: 0;
+      line-height: 1.2;
+    }
+    .receipt-header-text p {
+      font-size: 0.82rem;
+      color: #475569;
+      margin: 0.25rem 0 0 0;
+      line-height: 1.4;
+    }
+    .receipt-title-banner {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.6rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    .receipt-title-banner h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #0f172a;
+      letter-spacing: 0.03em;
+      margin: 0;
+      text-transform: uppercase;
+    }
+    .receipt-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .receipt-meta-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+    }
+    .receipt-meta-box span {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+    }
+    .receipt-meta-box strong {
+      font-size: 0.95rem;
+      color: #0f172a;
+    }
+    .receipt-section-heading {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #b91c1c;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.4rem;
+      margin: 1.25rem 0 0.75rem 0;
+    }
+    .receipt-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1.25rem;
+      font-size: 0.88rem;
+    }
+    .receipt-table th, .receipt-table td {
+      padding: 0.6rem 0.75rem;
+      border: 1px solid #e2e8f0;
+      text-align: left;
+    }
+    .receipt-table th {
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 700;
+      width: 28%;
+    }
+    .receipt-table td {
+      color: #0f172a;
+    }
+    .receipt-signatures {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+      padding-top: 1rem;
+    }
+    .sig-box {
+      border-top: 1.5px dashed #94a3b8;
+      padding-top: 0.5rem;
+      text-align: center;
+    }
+    .sig-box p {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin: 0;
+    }
+    .sig-box strong {
+      font-size: 0.85rem;
+      color: #0f172a;
+      display: block;
+      margin-top: 0.2rem;
+    }
+    .stamp-box {
+      height: 70px;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      margin-bottom: 0.4rem;
+      background: #fdfdfd;
+    }
+    .receipt-footer-disclaimer {
+      margin-top: 2rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.72rem;
+      color: #64748b;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    /* Print media overrides */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .univ-topbar, .navbar-wrapper, .footer, .no-print-bar {
+        display: none !important;
+      }
+      .receipt-page {
+        margin: 0 !important;
+        padding: 0 !important;
+        max-width: 100% !important;
+      }
+      .receipt-container {
+        border: 1px solid #000000 !important;
+        box-shadow: none !important;
+        padding: 1.5rem !important;
+        border-radius: 0 !important;
+      }
+      .receipt-watermark {
+        color: rgba(0, 0, 0, 0.03) !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  {{NAVBAR}}
+
+  <div class="receipt-page">
+    <div class="no-print-bar">
+      <div>
+        <strong style="color: #1e40af;">Official Institutional Handover Slip:</strong>
+        <span style="font-size: 0.85rem; color: #475569; margin-left: 0.5rem;">Press <strong>Ctrl + P</strong> (Windows) or <strong>Cmd + P</strong> (Mac) to print on A4 paper.</span>
+      </div>
+      <a href="/item?id={{ITEM_ID}}" class="btn btn-outline-dark btn-sm">&larr; Return to Record #{{ITEM_ID}}</a>
+    </div>
+
+    <div class="receipt-container">
+      <div class="receipt-watermark">DYPTC 6991</div>
+
+      <div class="receipt-header">
+        <img src="/data/uploads/dyp_logo.png" alt="DYPTC Seal">
+        <div class="receipt-header-text">
+          <h2>Dr. D. Y. Patil Technical Campus</h2>
+          <p><strong>D Y Patil Academic Education Excellence Federation (DYPAEEF)</strong><br>
+          Approved by AICTE New Delhi &bull; Recognized by DTE Govt. of Maharashtra (<strong>DTE Code: 6991</strong>)<br>
+          Permanently Affiliated to <strong>Savitribai Phule Pune University (SPPU)</strong><br>
+          Varale, Talegaon Dabhade, Pune, Maharashtra &ndash; 410507 &bull; contact@dypatiltcs.com</p>
+        </div>
+      </div>
+
+      <div class="receipt-title-banner">
+        <h3>Property Handover &amp; Custody Release Slip</h3>
+        <span style="font-size: 0.85rem; font-weight: 700; color: #b91c1c;">SLIP REF: #{{RECEIPT_NO}}</span>
+      </div>
+
+      <div class="receipt-meta-grid">
+        <div class="receipt-meta-box">
+          <span>Official Claim Token</span>
+          <strong>{{CLAIM_TOKEN}}</strong>
+        </div>
+        <div class="receipt-meta-box">
+          <span>Issue Date &amp; Timestamp</span>
+          <strong>{{DATE_ISSUED}}</strong>
+        </div>
+        <div class="receipt-meta-box">
+          <span>Academic Wing / Department</span>
+          <strong>{{DEPARTMENT}}</strong>
+        </div>
+        <div class="receipt-meta-box">
+          <span>Custodial Release Location</span>
+          <strong>{{STORAGE_LOCATION}}</strong>
+        </div>
+      </div>
+
+      <div class="receipt-section-heading">1. Recovered Property Particulars</div>
+      <table class="receipt-table">
+        <tr>
+          <th>Record Identifier</th>
+          <td><strong>DYPTC-LF-{{ITEM_ID}}</strong> (Type: <strong>{{ITEM_TYPE}}</strong> &bull; Status: <strong>{{ITEM_STATUS}}</strong>)</td>
+        </tr>
+        <tr>
+          <th>Item Title &amp; Category</th>
+          <td><strong>{{ITEM_NAME}}</strong> &bull; <span class="category-tag">{{ITEM_CATEGORY}}</span></td>
+        </tr>
+        <tr>
+          <th>Primary Colour &amp; Spot</th>
+          <td>{{ITEM_COLOUR}} &bull; Recovered/Lost at: <strong>{{ITEM_LOCATION}}</strong></td>
+        </tr>
+        <tr>
+          <th>Physical Description</th>
+          <td>{{ITEM_DESCRIPTION}}</td>
+        </tr>
+      </table>
+
+      <div class="receipt-section-heading">2. Claimant &amp; Verification Clearance</div>
+      <table class="receipt-table">
+        <tr>
+          <th>Authorized Claimant</th>
+          <td><strong>{{CLAIMANT_NAME}}</strong> (Student/Staff Roll No: <code>{{CLAIMANT_STUDENT_ID}}</code>)</td>
+        </tr>
+        <tr>
+          <th>Contact &amp; Verification</th>
+          <td>{{CLAIMANT_CONTACT}} &bull; Smart ID Card Verified</td>
+        </tr>
+        <tr>
+          <th>Handover Security Officer</th>
+          <td><strong>{{OFFICER_NAME}}</strong> (Central Security Desk / Admin Ground Floor)</td>
+        </tr>
+      </table>
+
+      <div class="receipt-signatures">
+        <div class="sig-box">
+          <div class="stamp-box">Student Physical Signature</div>
+          <p>Signature of Claimant</p>
+          <strong>{{CLAIMANT_NAME}}</strong>
+        </div>
+        <div class="sig-box">
+          <div class="stamp-box">Security Desk Stamp</div>
+          <p>Official Verification Stamp</p>
+          <strong>DTE 6991 Security Desk</strong>
+        </div>
+        <div class="sig-box">
+          <div class="stamp-box">Officer Physical Signature</div>
+          <p>Custodial Release Officer</p>
+          <strong>{{OFFICER_NAME}}</strong>
+        </div>
+      </div>
+
+      <div class="receipt-footer-disclaimer">
+        This document serves as definitive official clearance of campus lost &amp; found property under the custodial regulations of Dr. D. Y. Patil Technical Campus (DYPTC), Talegaon-Varale, Pune. The claimant acknowledges complete receipt of the item in verified condition.
+      </div>
+    </div>
+  </div>
+
+  {{FOOTER}}
+</body>
+</html>

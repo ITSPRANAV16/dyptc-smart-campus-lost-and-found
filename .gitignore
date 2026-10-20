@@ -1,0 +1,17 @@
+# Executables
+*.exe
+*.o
+*.obj
+
+# Database files
+data/*.db
+data/*.db-journal
+data/*.db-wal
+data/*.db-shm
+*.db
+
+# Temporary scratch scripts
+scratch/
+
+# IDE files
+.vscode/*.log

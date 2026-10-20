@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" rx="16" fill="#f1f5f9"/>
+  <!-- Key ring -->
+  <circle cx="36" cy="38" r="16" fill="none" stroke="#d97706" stroke-width="5"/>
+  <circle cx="36" cy="38" r="9" fill="none" stroke="#b45309" stroke-width="2"/>
+  <!-- Key blade -->
+  <rect x="48" y="34" width="36" height="8" rx="2" fill="#d97706"/>
+  <rect x="74" y="42" width="6" height="8" rx="1" fill="#d97706"/>
+  <rect x="64" y="42" width="6" height="5" rx="1" fill="#d97706"/>
+  <!-- Lanyard tag -->
+  <rect x="18" y="52" width="22" height="32" rx="4" fill="#881337"/>
+  <circle cx="29" cy="58" r="2.5" fill="#ffffff"/>
+</svg>

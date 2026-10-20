@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Dr. D. Y. Patil Technical Campus (DYPTC) | Lost &amp; Found Portal</title>
+ <link rel="stylesheet" href="/style.css?v=20261020_06">
+</head>
+<body>
+ {{NAVBAR}}
+
+ <main class="main-content">
+ <div class="page-header">
+ <div class="page-title">
+ <h1>Search Campus Belongings</h1>
+ <p>Find items by title, category, or campus location. Compare Linear Search vs Binary Search in C++.</p>
+ </div>
+ </div>
+
+ {{ALERT}}
+
+ <!-- Search Box Toolbar -->
+ <div class="toolbar">
+ <form action="/search" method="GET" class="toolbar-form">
+ <div class="toolbar-item" style="flex: 2 1 250px;">
+ <label for="q">Keyword / Item Name</label>
+ <input type="text" id="q" name="q" class="form-control" placeholder="e.g., HP Laptop, AirPods, Keys, Casio..." value="{{SEARCH_QUERY}}">
+ </div>
+
+ <div class="toolbar-item">
+ <label for="category">Category</label>
+ <select id="category" name="category" class="form-control">
+ <option value="all" {{CAT_ALL_SELECTED}}>All Categories</option>
+ <option value="Electronics" {{CAT_ELEC_SELECTED}}>Electronics</option>
+ <option value="ID & Cards" {{CAT_IDCARD_SELECTED}}>ID &amp; Cards</option>
+ <option value="Books & Stationery" {{CAT_BOOKS_SELECTED}}>Books &amp; Stationery</option>
+ <option value="Keys & Accessories" {{CAT_KEYS_SELECTED}}>Keys &amp; Accessories</option>
+ <option value="Bags & Backpacks" {{CAT_BAGS_SELECTED}}>Bags &amp; Backpacks</option>
+ <option value="Clothing & Wearables" {{CAT_CLOTH_SELECTED}}>Clothing &amp; Wearables</option>
+ <option value="Other" {{CAT_OTHER_SELECTED}}>Other</option>
+ </select>
+ </div>
+
+ <div class="toolbar-item">
+ <label for="location">Location</label>
+ <input type="text" id="location" name="location" class="form-control" placeholder="e.g., Library, AI&DS Lab, Canteen, Hostel" value="{{SEARCH_LOC}}">
+ </div>
+
+ <div class="toolbar-item" style="flex: 1 1 200px;">
+ <label for="searchAlgo">DSA Search Algorithm</label>
+ <select id="searchAlgo" name="searchAlgo" class="form-control" style="font-weight: 600; color: #1e3a8a;">
+ <option value="linear" {{SEARCH_LINEAR_SELECTED}}>Linear Search (O(N) Scan)</option>
+ <option value="binary" {{SEARCH_BINARY_SELECTED}}>Binary Search (O(log N))</option>
+ </select>
+ </div>
+
+ <div class="toolbar-item" style="flex: 0 0 auto;">
+ <label>&nbsp;</label>
+ <button type="submit" class="btn btn-primary">Search</button>
+ </div>
+ </form>
+ </div>
+
+ <!-- DSA Search Metrics Banner -->
+ {{DSA_SEARCH_BANNER}}
+
+ <!-- Search Results Grid -->
+ <section class="items-grid">
+ {{SEARCH_RESULTS}}
+ </section>
+ </main>
+
+ {{FOOTER}}
+</body>
+</html>

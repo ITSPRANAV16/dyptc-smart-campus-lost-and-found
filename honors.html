@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DYPTC Honesty Hall of Fame | Department Leaderboard</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_06">
+  <style>
+    .honors-hero {
+      background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      color: #ffffff;
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+    .honors-hero-text h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 0 0 0.5rem 0;
+    }
+    .honors-hero-text p {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin: 0;
+      max-width: 600px;
+      line-height: 1.5;
+    }
+    .podium-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .podium-card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 1.75rem 1.25rem;
+      border: 2px solid #e2e8f0;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .podium-card.rank-1 {
+      border-color: #fbbf24;
+      background: linear-gradient(180deg, #fffbeb 0%, #ffffff 100%);
+      transform: translateY(-8px);
+    }
+    .podium-card.rank-2 {
+      border-color: #94a3b8;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+    .podium-card.rank-3 {
+      border-color: #d97706;
+      background: linear-gradient(180deg, #fff7ed 0%, #ffffff 100%);
+    }
+    .podium-medal {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.3rem;
+      margin: 0 auto 0.75rem auto;
+    }
+    .medal-1 { background: #fef3c7; color: #b45309; border: 2px solid #fbbf24; }
+    .medal-2 { background: #f1f5f9; color: #475569; border: 2px solid #cbd5e1; }
+    .medal-3 { background: #ffedd5; color: #c2410c; border: 2px solid #fdba74; }
+    .podium-dept {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 0.4rem;
+    }
+    .podium-score {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #059669;
+    }
+    .champions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .champ-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .champ-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .champ-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #dc2626;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.95rem;
+    }
+    @media (max-width: 768px) {
+      .podium-grid, .champions-grid {
+        grid-template-columns: 1fr;
+      }
+      .podium-card.rank-1 {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  {{NAVBAR}}
+
+  <main class="main-content">
+    <!-- Hero Banner -->
+    <div class="honors-hero">
+      <div class="honors-hero-text">
+        <span style="font-size: 0.8rem; font-weight: 800; color: #fbbf24; text-transform: uppercase; letter-spacing: 0.08em;">Institutional Integrity &amp; Ethics</span>
+        <h1>DYPTC Honesty Hall of Fame</h1>
+        <p>Recognizing exemplary student conduct, campus departments, and security staff who demonstrate extraordinary integrity by turning in lost belongings at Central Custody.</p>
+      </div>
+      <div style="background: rgba(255,255,255,0.08); padding: 1rem 1.5rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); text-align: center;">
+        <span style="font-size: 0.75rem; color: #cbd5e1; text-transform: uppercase; font-weight: 700; display: block;">Campus Recovery Ratio</span>
+        <strong style="font-size: 2rem; color: #34d399; font-weight: 900;">85.4%</strong>
+        <span style="font-size: 0.75rem; color: #94a3b8; display: block;">Higher than State Average</span>
+      </div>
+    </div>
+
+    <!-- Top 3 Department Podium -->
+    <div class="page-header">
+      <div class="page-title">
+        <h2>Top Ranked Academic Wings (Honesty Leaderboard)</h2>
+        <p>Ranked by recovery verification percentage and active custody turn-ins</p>
+      </div>
+    </div>
+
+    <div class="podium-grid">
+      <!-- 2nd Place -->
+      <div class="podium-card rank-2">
+        <div class="podium-medal medal-2">#2</div>
+        <div class="podium-dept">AI &amp; Data Science</div>
+        <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Building B &bull; Lab 204 Wing</div>
+        <div class="podium-score">85.0%</div>
+        <span style="font-size: 0.78rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Silver Honesty Citation</span>
+      </div>
+
+      <!-- 1st Place (Gold) -->
+      <div class="podium-card rank-1">
+        <div class="podium-medal medal-1">#1</div>
+        <div class="podium-dept">Computer Engineering</div>
+        <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Building B &bull; High-Tech Labs</div>
+        <div class="podium-score">92.5%</div>
+        <span style="font-size: 0.78rem; font-weight: 800; color: #b45309; text-transform: uppercase;">Gold Champion Banner</span>
+      </div>
+
+      <!-- 3rd Place -->
+      <div class="podium-card rank-3">
+        <div class="podium-medal medal-3">#3</div>
+        <div class="podium-dept">School of Architecture</div>
+        <div style="font-size: 0.82rem; color: #64748b; margin-bottom: 0.75rem;">Building C &bull; Design Studios</div>
+        <div class="podium-score">78.0%</div>
+        <span style="font-size: 0.78rem; font-weight: 700; color: #c2410c; text-transform: uppercase;">Bronze Honesty Citation</span>
+      </div>
+    </div>
+
+    <!-- Complete Department-Wise Standings Table -->
+    <div class="catalog-card" style="margin-bottom: 2.5rem;">
+      <div style="padding: 1.25rem 1.5rem; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: #0f172a; margin: 0;">Comprehensive Campus Wing Statistics</h3>
+        <span style="font-size: 0.82rem; color: #64748b;">DTE Code: 6991 &bull; SPPU Affiliated</span>
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="table" style="margin: 0;">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Academic Department / Wing</th>
+              <th>Items Reported</th>
+              <th>Reunited &amp; Returned</th>
+              <th>Honesty Score</th>
+              <th>Department Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{DEPARTMENT_ROWS}}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Campus Honesty Champions Spotlight -->
+    <div class="page-header">
+      <div class="page-title">
+        <h2>Campus Honesty Champions</h2>
+        <p>Spotlighting staff and students who safely deposited valuable campus belongings</p>
+      </div>
+    </div>
+
+    <div class="champions-grid">
+      <div class="champ-card">
+        <div class="champ-header">
+          <div class="champ-avatar">AS</div>
+          <div>
+            <strong style="color: #0f172a; display: block; font-size: 0.95rem;">Aryan Sharma</strong>
+            <span style="font-size: 0.78rem; color: #64748b;">Student &bull; Computer Engg</span>
+          </div>
+        </div>
+        <p style="font-size: 0.84rem; color: #475569; margin: 0 0 0.5rem 0;">Safely deposited an HP Pavilion laptop found in the Central Library Reading Hall at the security desk within 15 minutes.</p>
+        <div style="font-size: 0.75rem; font-weight: 700; color: #059669;">Verified Returned to Owner</div>
+      </div>
+
+      <div class="champ-card">
+        <div class="champ-header">
+          <div class="champ-avatar" style="background: #2563eb;">RA</div>
+          <div>
+            <strong style="color: #0f172a; display: block; font-size: 0.95rem;">Lab Assistant Rahul</strong>
+            <span style="font-size: 0.78rem; color: #64748b;">Staff &bull; AI&amp;DS Department</span>
+          </div>
+        </div>
+        <p style="font-size: 0.84rem; color: #475569; margin: 0 0 0.5rem 0;">Secured a pair of wireless Apple AirPods Pro found outside Lab 204 and logged the entry immediately in the portal.</p>
+        <div style="font-size: 0.75rem; font-weight: 700; color: #059669;">Verified Reunited with Priya Patel</div>
+      </div>
+
+      <div class="champ-card">
+        <div class="champ-header">
+          <div class="champ-avatar" style="background: #059669;">JM</div>
+          <div>
+            <strong style="color: #0f172a; display: block; font-size: 0.95rem;">Janitor Murthy</strong>
+            <span style="font-size: 0.78rem; color: #64748b;">Staff &bull; Campus Estate</span>
+          </div>
+        </div>
+        <p style="font-size: 0.84rem; color: #475569; margin: 0 0 0.5rem 0;">Recovered a scientific engineering calculator in LH-2 and handed it over to Academic Counter 4 before the lecture shift.</p>
+        <div style="font-size: 0.75rem; font-weight: 700; color: #059669;">Institutional Commendation</div>
+      </div>
+    </div>
+  </main>
+
+  {{FOOTER}}
+</body>
+</html>

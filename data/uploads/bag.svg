@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <rect width="100" height="100" rx="16" fill="#f1f5f9"/>
+  <!-- Handle -->
+  <path d="M40 28 C40 18 60 18 60 28" fill="none" stroke="#1e293b" stroke-width="4"/>
+  <!-- Bag Body -->
+  <path d="M26 36 C26 28 32 26 40 26 H60 C68 26 74 28 74 36 L70 82 C70 86 66 88 60 88 H40 C34 88 30 86 30 82 Z" fill="#1e3a8a"/>
+  <!-- Front Pocket -->
+  <rect x="34" y="52" width="32" height="26" rx="4" fill="#2563eb"/>
+  <line x1="38" y1="58" x2="62" y2="58" stroke="#93c5fd" stroke-width="2"/>
+</svg>

@@ -1,0 +1,40 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "shell",
+      "label": "Build Smart Campus Lost & Found (g++)",
+      "command": "g++",
+      "args": [
+        "-std=c++17",
+        "-O2",
+        "-Iinclude",
+        "main.cpp",
+        "-lsqlite3",
+        "-lws2_32",
+        "-lmswsock",
+        "-o",
+        "smart_campus.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": [
+        "$gcc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "Compiles main.cpp with C++17, Crow, and SQLite3 on Windows."
+    },
+    {
+      "type": "shell",
+      "label": "Run Server",
+      "command": "${workspaceFolder}\\smart_campus.exe",
+      "dependsOn": "Build Smart Campus Lost & Found (g++)",
+      "problemMatcher": [],
+      "detail": "Launches the compiled Smart Campus server on http://localhost:18080."
+    }
+  ]
+}
