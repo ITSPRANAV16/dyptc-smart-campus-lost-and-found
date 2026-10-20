@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: dyptc-smart-campus
+    env: docker
+    plan: free
+    region: singapore
+    branch: main
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000

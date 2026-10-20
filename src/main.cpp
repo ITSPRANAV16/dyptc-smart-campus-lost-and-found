@@ -1499,6 +1499,12 @@ int main() {
 		return res;
 	});
 
-    app.port(18080).multithreaded().run();
- return 0;
+    const char* envPort = std::getenv("PORT");
+    int port = 18080;
+    if (envPort) {
+        try { port = std::stoi(envPort); } catch (...) {}
+    }
+    std::cout << "[Server] Binding on port: " << port << std::endl;
+    app.port(port).multithreaded().run();
+	return 0;
 }

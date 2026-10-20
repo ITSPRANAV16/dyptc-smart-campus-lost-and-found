@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "https://dyptc-smart-campus.onrender.com/$1"
+    }
+  ]
+}
