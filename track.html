@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Report Status | DYPTC Smart Campus Custody</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_07">
+</head>
+<body>
+  {{NAVBAR}}
+
+  <main class="main-content">
+    <!-- Breadcrumb -->
+    <div class="portal-breadcrumb">
+      <a href="/">Home</a> &rsaquo; <span>Track Lost Report Status</span>
+    </div>
+
+    {{ALERT}}
+
+    <div class="student-portal-grid">
+      <!-- Left Column: Student Security Guide -->
+      <aside class="student-guide-col">
+        <div class="student-hero-card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff;">
+          <span class="student-hero-icon" style="background: rgba(37,99,235,0.25); color: #60a5fa;">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </span>
+          <h2 style="color: #ffffff;">Zero-Knowledge Privacy</h2>
+          <p style="color: #94a3b8; font-size: 0.88rem; line-height: 1.6;">
+            To prevent fraud and fake claims, found items are strictly sealed in Central Custody and are <strong>never publicly browsable</strong>.
+          </p>
+          <div class="student-badge-pill" style="background: rgba(37,99,235,0.3); border-color: rgba(96,165,250,0.4); color: #93c5fd;">
+            <span>Cryptographic Claim Tokens</span>
+          </div>
+        </div>
+
+        <div class="student-card">
+          <h3>Verification Protocol</h3>
+          <div class="student-steps-list">
+            <div class="student-step-item">
+              <span class="student-step-badge">1</span>
+              <div>
+                <strong>Enter Your Token / Roll No</strong>
+                <p>Use the Claim Token from your report receipt or your DYPTC Student ID.</p>
+              </div>
+            </div>
+            <div class="student-step-item">
+              <span class="student-step-badge">2</span>
+              <div>
+                <strong>Automated DSA Match</strong>
+                <p>Our C++ engine cross-references your report with sealed security custody records.</p>
+              </div>
+            </div>
+            <div class="student-step-item">
+              <span class="student-step-badge">3</span>
+              <div>
+                <strong>Claim at Security Desk</strong>
+                <p>When matched, visit Gate 1 Central Security with your physical Student ID to verify traits and collect your item.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right Column: Tracking Query & Result Card -->
+      <section class="student-form-col">
+        <div class="card" style="background:#ffffff; border-radius:14px; border:1px solid #e2e8f0; padding:2rem; box-shadow:0 4px 20px rgba(0,0,0,0.04);">
+          <div style="border-bottom: 1px solid #e2e8f0; padding-bottom: 1.25rem; margin-bottom: 1.75rem;">
+            <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.4rem;">
+              <span style="display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; background:#eff6ff; color:#2563eb; border-radius:8px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              </span>
+              <h2 style="margin:0; font-size:1.35rem; color:#0f172a; font-weight:700;">Check Your Lost Item Report</h2>
+            </div>
+            <p style="margin:0; font-size:0.88rem; color:#64748b;">
+              Enter your official DYPTC Roll Number or the unique Claim Token issued when you submitted your report.
+            </p>
+          </div>
+
+          <form action="/track" method="GET" style="margin-bottom: 2rem;">
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 260px;">
+                <label for="identifier" style="display:block; font-size:0.82rem; font-weight:700; color:#334155; margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.04em;">Student Roll No / Claim Token</label>
+                <input type="text" id="identifier" name="q" class="form-control" placeholder="e.g. DYPTC-24-CS-014 or DYP-2026-L101-CS" value="{{QUERY_VAL}}" required style="width:100%; height:46px; font-size:0.95rem; border:1.5px solid #cbd5e1; border-radius:8px; padding:0 1rem;">
+              </div>
+              <div style="display:flex; align-items:flex-end;">
+                <button type="submit" class="btn btn-primary" style="height:46px; padding:0 1.5rem; display:inline-flex; align-items:center; gap:0.5rem; font-weight:700; font-size:0.92rem; border-radius:8px;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                  <span>Track Status</span>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <!-- Tracking Results Container -->
+          <div class="tracking-results-container">
+            {{TRACK_RESULTS}}
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  {{FOOTER}}
+</body>
+</html>

@@ -175,6 +175,7 @@ inline std::string tr(const std::string& key, const std::string& lang) {
     static const std::unordered_map<std::string, std::string> dict = {
         {"Dashboard", "डॅशबोर्ड"},
         {"Browse", "कॅम्पस वस्तू"},
+        {"Track Status", "स्थिती तपासा"},
         {"Search", "शोध"},
         {"Matches", "जुळण्या"},
         {"Analytics", "अल्गोरिदम"},
@@ -194,7 +195,7 @@ inline std::string tr(const std::string& key, const std::string& lang) {
 }
 
 // Navigation Bar with Floating Glass Island Design (Mobile Responsive + Bilingual)
-inline std::string renderNavbar(const std::string& activePage, const std::string& lang = "en") {
+inline std::string renderNavbar(const std::string& activePage, const std::string& lang = "en", bool isAdmin = false) {
     auto isActive = [&](const std::string& page) {
         return (activePage == page) ? "active" : "";
     };
@@ -240,9 +241,13 @@ inline std::string renderNavbar(const std::string& activePage, const std::string
       <!-- Center Nav Links with Micro-Icons -->
       <ul class="nav-links">
         <li><a href="/" class=")" << isActive("home") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>)" << tr("Dashboard", lang) << R"(</span></a></li>
-        <li><a href="/items" class=")" << isActive("items") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>)" << tr("Browse", lang) << R"(</span></a></li>
-        <li><a href="/search" class=")" << isActive("search") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>)" << tr("Search", lang) << R"(</span></a></li>
-        <li><a href="/matches" class=")" << isActive("matches") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>)" << tr("Matches", lang) << R"(</span></a></li>
+)";
+    if (isAdmin) {
+        oss << "        <li><a href=\"/items\" class=\"" << isActive("items") << "\" title=\"Master Catalog [Admin Only]\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/></svg><span>" << tr("Browse", lang) << "</span></a></li>\n";
+    } else {
+        oss << "        <li><a href=\"/track\" class=\"" << isActive("track") << "\" title=\"Track Status of Your Lost Report\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg><span>" << tr("Track Status", lang) << "</span></a></li>\n";
+    }
+    oss << R"(        <li><a href="/matches" class=")" << isActive("matches") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>)" << tr("Matches", lang) << R"(</span></a></li>
         <li><a href="/analytics" class=")" << isActive("analytics") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>)" << tr("Analytics", lang) << R"(</span></a></li>
         <li><a href="/honors" class=")" << isActive("honors") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg><span>)" << tr("Honors", lang) << R"(</span></a></li>
         <li><a href="/heatmap" class=")" << isActive("heatmap") << R"("><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/><line x1="8" y1="4" x2="8" y2="20"/><line x1="16" y1="4" x2="16" y2="20"/></svg><span>)" << tr("Heatmap", lang) << R"(</span></a></li>
@@ -251,8 +256,13 @@ inline std::string renderNavbar(const std::string& activePage, const std::string
       <!-- Right Action CTA Buttons -->
       <div class="nav-actions">
         <a href="/lost" class="nav-action-btn nav-action-lost )" << isActive("lost") << R"("><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>)" << tr("Report Lost", lang) << R"(</span></a>
-        <a href="/found" class="nav-action-btn nav-action-found )" << isActive("found") << R"("><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>)" << tr("Report Found", lang) << R"(</span></a>
-        <a href="/admin" class="nav-action-btn nav-action-admin desktop-admin-btn )" << isActive("admin") << R"(" title="Staff &amp; Admin Management"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>)" << tr("Admin", lang) << R"(</span></a>
+)";
+    if (isAdmin) {
+        oss << "        <a href=\"/found\" class=\"nav-action-btn nav-action-found " << isActive("found") << "\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polyline points=\"20 6 9 17 4 12\"/></svg><span>" << tr("Report Found", lang) << "</span></a>\n";
+    } else {
+        oss << "        <a href=\"/track\" class=\"nav-action-btn nav-action-found " << isActive("track") << "\" style=\"background: rgba(37,99,235,0.08); color: #2563eb; border-color: rgba(37,99,235,0.25);\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg><span>" << tr("Track Status", lang) << "</span></a>\n";
+    }
+    oss << R"(        <a href="/admin" class="nav-action-btn nav-action-admin desktop-admin-btn )" << isActive("admin") << R"(" title="Staff &amp; Admin Management"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>)" << tr("Admin", lang) << R"(</span></a>
       </div>
     </div>
   </nav>

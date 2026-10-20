@@ -361,22 +361,42 @@ int main() {
  </div>)";
  }
 
- // Render recent items: STRICTLY LOST ITEMS ONLY for non-admins
+ // Render recent items: STRICTLY ADMIN ONLY for catalog listings.
+ // For students, display an anti-fraud security notice and quick tracking portal.
  std::string recentCards;
- size_t count = 0;
- for (const auto& item : allItems) {
- if (!isAdmin && item.type != "LOST") continue;
- recentCards += renderItemCard(item, isAdmin);
- count++;
- if (count >= 6) break;
- }
- if (recentCards.empty()) {
- recentCards = "<div class=\"empty-state form-group-full\">"
- " <div class=\"empty-icon\"></div>"
- " <h3 class=\"empty-title\">No Reports Yet</h3>"
- " <p class=\"empty-desc\">No lost belongings have been reported yet.</p>"
- " <a href=\"/lost\" class=\"btn btn-primary\">Report Lost Item</a>"
- "</div>";
+ if (isAdmin) {
+  size_t count = 0;
+  for (const auto& item : allItems) {
+   recentCards += renderItemCard(item, isAdmin);
+   count++;
+   if (count >= 6) break;
+  }
+  if (recentCards.empty()) {
+   recentCards = "<div class=\"empty-state form-group-full\">"
+    " <div class=\"empty-icon\"></div>"
+    " <h3 class=\"empty-title\">No Reports Yet</h3>"
+    " <p class=\"empty-desc\">No belongings have been reported yet.</p>"
+    " <a href=\"/lost\" class=\"btn btn-primary\">Report Lost Item</a>"
+    "</div>";
+  }
+ } else {
+  recentCards = R"(<div class="empty-state form-group-full" style="padding:2.5rem 2rem; background:linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border:1.5px solid #e2e8f0; border-radius:14px; text-align:center; box-shadow:0 4px 15px rgba(0,0,0,0.03);">
+   <div style="width:52px; height:52px; margin:0 auto 1rem; background:#eff6ff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#2563eb;">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+   </div>
+   <h3 style="font-size:1.25rem; color:#0f172a; margin-bottom:0.5rem; font-weight:700;">Student Lost Item Tracker</h3>
+   <p style="color:#64748b; font-size:0.9rem; line-height:1.6; max-width:540px; margin:0 auto 1.5rem;">
+    To prevent fake claims and copycat reports, belongings are securely sealed in Central Custody. Students do not need to browse. Simply track your own report below or register a missing item.
+   </p>
+   <form action="/track" method="GET" style="display:flex; gap:0.5rem; max-width:440px; margin:0 auto 1.25rem; flex-wrap:wrap; justify-content:center;">
+    <input type="text" name="q" placeholder="Enter Roll No or Claim Token..." class="form-control" style="flex:1; min-width:220px; height:42px; border-radius:8px;" required>
+    <button type="submit" class="btn btn-primary" style="height:42px; padding:0 1.25rem; border-radius:8px; font-weight:700;">Track Status</button>
+   </form>
+   <div style="display:flex; justify-content:center; gap:0.75rem;">
+    <a href="/lost" class="btn btn-outline-dark btn-sm">+ Report Lost Item</a>
+    <a href="/track" class="btn btn-outline btn-sm">Full Tracking Portal &rarr;</a>
+   </div>
+  </div>)";
  }
 
  std::string alertHtml;
@@ -389,7 +409,7 @@ int main() {
  }
  }
 
- html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("home", getLang(req)));
+ html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("home", getLang(req), isAdmin));
  html::replacePlaceholder(tmpl, "{{ALERT}}", alertHtml);
  html::replacePlaceholder(tmpl, "{{STAT_LOST}}", std::to_string(stats.total_lost));
  html::replacePlaceholder(tmpl, "{{STAT_FOUND}}", std::to_string(stats.total_found));
@@ -537,13 +557,166 @@ int main() {
  });
 
  // ========================================================================
- // 4. BROWSE ALL ITEMS (WITH DSA SORTING DEMONSTRATOR)
+ // 3.5 TRACK LOST REPORT STATUS (ZERO-KNOWLEDGE PRIVATE STATUS)
+ // ========================================================================
+ CROW_ROUTE(app, "/track")([](const crow::request& req) {
+  std::string tmpl = html::readFile("track.html");
+  if (tmpl.empty()) return crow::response(500, "Template track.html missing");
+
+  bool isAdmin = isAdminAuthenticated(req);
+  std::string q = req.url_params.get("q") ? dsa::trim(req.url_params.get("q")) : "";
+  std::string lowerQ = dsa::toLower(q);
+
+  std::string resultsHtml;
+  if (!lowerQ.empty()) {
+   std::vector<Item> allItems = g_db.getAllItems();
+   std::vector<Item> matchedItems;
+   for (const auto& item : allItems) {
+    if (item.type != "LOST") continue;
+    std::string sId = dsa::toLower(item.student_id);
+    std::string token = dsa::toLower(item.claim_token);
+    if (!sId.empty() && (sId == lowerQ || sId.find(lowerQ) != std::string::npos)) {
+     matchedItems.push_back(item);
+    } else if (!token.empty() && (token == lowerQ || token.find(lowerQ) != std::string::npos)) {
+     matchedItems.push_back(item);
+    }
+   }
+
+   if (matchedItems.empty()) {
+    resultsHtml = R"(<div class="empty-state" style="padding:2.5rem 1.5rem; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px;">
+      <div style="width:48px; height:48px; margin:0 auto 1rem; background:#fee2e2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      </div>
+      <h3 style="margin:0 0 0.5rem; font-size:1.15rem; color:#0f172a;">No Active Lost Report Found</h3>
+      <p style="margin:0 0 1.25rem; font-size:0.88rem; color:#64748b; max-width:440px; margin-left:auto; margin-right:auto;">
+        No lost report matches identifier <strong>)" + html::escape(q) + R"(</strong>. Please double-check your DYPTC Roll Number or the Claim Token printed on your receipt.
+      </p>
+      <a href="/lost" class="btn btn-primary btn-sm">+ Submit New Lost Report</a>
+    </div>)";
+   } else {
+    for (const auto& it : matchedItems) {
+     std::string statusBadge;
+     std::string statusPillStyle;
+     std::string statusDesc;
+
+     if (it.status == "MATCHED") {
+      statusBadge = "MATCH FOUND IN CUSTODY";
+      statusPillStyle = "background:#dcfce7; color:#166534; border:1px solid #86efac;";
+      statusDesc = R"(<div style="margin-top:1rem; padding:1rem 1.25rem; background:#f0fdf4; border-radius:8px; border:1px solid #bbf7d0; font-size:0.86rem; color:#166534; line-height:1.5;">
+        <strong>Action Required:</strong> A potential match for your item was handed into Central Custody! Please bring your physical <strong>DYPTC Student ID Card</strong> and Claim Token <strong>)" + html::escape(it.claim_token) + R"(</strong> to the <strong>Gate 1 Central Security Desk</strong> to verify ownership and collect your item.
+      </div>)";
+     } else if (it.status == "RETURNED") {
+      statusBadge = "RETURNED &amp; CLOSED";
+      statusPillStyle = "background:#e0e7ff; color:#3730a3; border:1px solid #c7d2fe;";
+      statusDesc = R"(<div style="margin-top:1rem; padding:1rem 1.25rem; background:#eef2ff; border-radius:8px; border:1px solid #c7d2fe; font-size:0.86rem; color:#3730a3; line-height:1.5;">
+        <strong>Resolved:</strong> This item has been verified and returned to you.
+      </div>)";
+     } else {
+      statusBadge = "ACTIVE - MONITORING CAMPUS";
+      statusPillStyle = "background:#fef3c7; color:#92400e; border:1px solid #fde68a;";
+      statusDesc = R"(<div style="margin-top:1rem; padding:1rem 1.25rem; background:#fffbeb; border-radius:8px; border:1px solid #fef3c7; font-size:0.86rem; color:#92400e; line-height:1.5;">
+        <strong>Status:</strong> Your report is registered. Our C++ algorithmic matching engine continuously scans custody hand-ins against this report. You will see an update here once a matching item is secured.
+      </div>)";
+     }
+
+     resultsHtml += R"(<div style="border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem; margin-bottom:1.25rem; background:#ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.75rem; margin-bottom:1rem; border-bottom:1px solid #f1f5f9; padding-bottom:0.85rem;">
+         <div>
+           <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+             <span style="font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:9999px; )" + statusPillStyle + R"(">)" + statusBadge + R"(</span>
+             <span style="font-size:0.75rem; color:#64748b; font-weight:600;">Report ID #)" + std::to_string(it.id) + R"(</span>
+           </div>
+           <h3 style="margin:0; font-size:1.2rem; color:#0f172a; font-weight:700;">)" + html::escape(it.name) + R"(</h3>
+         </div>
+         <div style="text-align:right;">
+           <span style="display:inline-block; font-size:0.78rem; font-weight:700; background:#f1f5f9; color:#334155; padding:3px 10px; border-radius:6px; font-family:monospace; border:1px solid #e2e8f0;">
+             Token: )" + html::escape(it.claim_token) + R"(
+           </span>
+         </div>
+       </div>
+
+       <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.75rem; font-size:0.86rem; color:#475569; margin-bottom:0.5rem;">
+         <div><strong style="color:#0f172a;">Category:</strong> )" + html::escape(it.category) + R"(</div>
+         <div><strong style="color:#0f172a;">Reported Date:</strong> )" + html::escape(it.date) + R"(</div>
+         <div><strong style="color:#0f172a;">Lost Location:</strong> )" + html::escape(it.location) + R"(</div>
+         <div><strong style="color:#0f172a;">Student ID:</strong> )" + html::escape(it.student_id) + R"(</div>
+       </div>
+
+       )" + statusDesc + R"(
+     </div>)";
+    }
+   }
+  } else {
+   resultsHtml = R"(<div style="text-align:center; padding:3rem 1.5rem; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px;">
+     <div style="width:48px; height:48px; margin:0 auto 1rem; background:#eff6ff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#2563eb;">
+       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+     </div>
+     <h3 style="margin:0 0 0.5rem; font-size:1.15rem; color:#0f172a;">Enter Your Roll Number or Token</h3>
+     <p style="margin:0; font-size:0.88rem; color:#64748b; max-width:440px; margin-left:auto; margin-right:auto;">
+       Search with your DYPTC Student Roll Number (e.g. <code>DYPTC-24-CS-014</code>) or the Claim Token printed on your receipt to view real-time custody matching progress.
+     </p>
+   </div>)";
+  }
+
+  html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("track", getLang(req), isAdmin));
+  html::replacePlaceholder(tmpl, "{{ALERT}}", "");
+  html::replacePlaceholder(tmpl, "{{QUERY_VAL}}", html::escape(q));
+  html::replacePlaceholder(tmpl, "{{TRACK_RESULTS}}", resultsHtml);
+  html::replacePlaceholder(tmpl, "{{FOOTER}}", html::renderFooter());
+
+  crow::response res(tmpl);
+  res.set_header("Content-Type", "text/html; charset=utf-8");
+  return res;
+ });
+
+ // ========================================================================
+ // 4. BROWSE ALL ITEMS (WITH DSA SORTING DEMONSTRATOR - ADMIN ONLY)
  // ========================================================================
  CROW_ROUTE(app, "/items")([](const crow::request& req) {
- std::string tmpl = html::readFile("items.html");
- if (tmpl.empty()) return crow::response(500, "Template items.html missing");
+  bool isAdmin = isAdminAuthenticated(req);
+  if (!isAdmin) {
+   std::string restrictedHtml = R"(<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Restricted | DYPTC Security Custody</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_07">
+</head>
+<body>
+)" + html::renderNavbar("items", getLang(req), false) + R"(
+  <main class="main-content" style="max-width:760px; margin:3rem auto; padding:0 1.5rem;">
+    <div class="card" style="background:#ffffff; border-radius:16px; border:1px solid #fee2e2; padding:3rem 2.5rem; text-align:center; box-shadow:0 10px 30px rgba(220,38,38,0.06);">
+      <div style="width:68px; height:68px; margin:0 auto 1.5rem; background:#fef2f2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <span style="display:inline-block; padding:4px 12px; background:#fef2f2; border:1px solid #fecaca; color:#991b1b; font-size:0.78rem; font-weight:800; border-radius:9999px; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">
+        Central Custody Anti-Fraud Protocol
+      </span>
+      <h1 style="font-size:1.75rem; color:#0f172a; margin-bottom:0.75rem; font-weight:800;">Catalog Browsing Restricted</h1>
+      <p style="color:#64748b; font-size:1rem; line-height:1.65; max-width:580px; margin:0 auto 2rem;">
+        To prevent fraudulent claims and protect students' lost belongings, public catalog browsing is restricted. Found items are held sealed in Central Custody. Students can register a lost item or track their own report.
+      </p>
+      <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="/lost" class="btn btn-primary" style="padding:0.75rem 1.5rem; font-weight:700;">+ Report Lost Item</a>
+        <a href="/track" class="btn btn-outline-dark" style="padding:0.75rem 1.5rem; font-weight:700;">Track My Report Status &rarr;</a>
+        <a href="/admin" class="btn btn-outline" style="padding:0.75rem 1.25rem; font-weight:600; color:#64748b;">Staff Login</a>
+      </div>
+    </div>
+  </main>
+)" + html::renderFooter() + R"(
+</body>
+</html>)";
+   crow::response res(restrictedHtml);
+   res.set_header("Content-Type", "text/html; charset=utf-8");
+   return res;
+  }
 
- bool isAdmin = isAdminAuthenticated(req);
+  std::string tmpl = html::readFile("items.html");
+  if (tmpl.empty()) return crow::response(500, "Template items.html missing");
  std::string q = req.url_params.get("q") ? req.url_params.get("q") : "";
  std::string filterType = req.url_params.get("type") ? req.url_params.get("type") : (isAdmin ? "all" : "lost");
  if (!isAdmin) {
@@ -722,7 +895,7 @@ int main() {
 	html::replacePlaceholder(tmpl, "{{ALGO_INSERTION_SELECTED}}", (algo == "insertion" ? "selected" : ""));
 	html::replacePlaceholder(tmpl, "{{ALGO_BUBBLE_SELECTED}}", (algo == "bubble" ? "selected" : ""));
 
-	html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("items", getLang(req)));
+	html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("items", getLang(req), isAdmin));
 	html::replacePlaceholder(tmpl, "{{ALERT}}", "");
 	html::replacePlaceholder(tmpl, "{{DSA_METRICS_BANNER}}", metricsBanner.str());
 	html::replacePlaceholder(tmpl, "{{ITEMS_CARDS}}", cardsHtml);
@@ -811,7 +984,7 @@ int main() {
  html::replacePlaceholder(tmpl, "{{SEARCH_LINEAR_SELECTED}}", (searchAlgo == "linear" ? "selected" : ""));
  html::replacePlaceholder(tmpl, "{{SEARCH_BINARY_SELECTED}}", (searchAlgo == "binary" ? "selected" : ""));
 
- html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("search", getLang(req)));
+ html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("search", getLang(req), isAdmin));
  html::replacePlaceholder(tmpl, "{{ALERT}}", "");
  html::replacePlaceholder(tmpl, "{{DSA_SEARCH_BANNER}}", searchBanner.str());
  html::replacePlaceholder(tmpl, "{{SEARCH_RESULTS}}", resultsHtml);
@@ -868,7 +1041,7 @@ int main() {
  <p style="color:#64748b;font-size:0.92rem;line-height:1.6;margin-bottom:1.5rem;">
    To protect turned-in belongings from fraudulent claims, matching evaluations are performed specifically for your registered Lost report. Please browse the directory and click <strong>Auto Matches</strong> on your item.
  </p>
- <a href="/items" class="btn btn-primary">Browse Lost Directory</a>
+ <a href="/track" class="btn btn-primary">Track Report Status &rarr;</a>
  </div>)";
  } else {
  std::vector<Item> allItems = g_db.getAllItems();
@@ -906,7 +1079,7 @@ int main() {
  }
  }
 
- html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("matches", getLang(req)));
+ html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("matches", getLang(req), isAdmin));
  html::replacePlaceholder(tmpl, "{{ALERT}}", alertHtml);
  html::replacePlaceholder(tmpl, "{{ITEM_FILTER_CLEAR}}", filterClearHtml);
  html::replacePlaceholder(tmpl, "{{TARGET_ID_HIDDEN}}", targetHiddenHtml);
@@ -1334,7 +1507,7 @@ int main() {
         FullBenchmarkSuite suite = dsa::runLiveBenchmarks(allItems);
 
         // Populate KPIs
-        html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("analytics", getLang(req)));
+        html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("analytics", getLang(req), isAdminAuthenticated(req)));
         html::replacePlaceholder(tmpl, "{{ALERT}}", "");
         html::replacePlaceholder(tmpl, "{{BENCH_TOTAL_ITEMS}}", std::to_string(allItems.size()));
         html::replacePlaceholder(tmpl, "{{GRAPH_NODES_COUNT}}", "12");
@@ -1486,7 +1659,7 @@ int main() {
 			rank++;
 		}
 
-		html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("honors", lang));
+		html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("honors", lang, isAdminAuthenticated(req)));
 		html::replacePlaceholder(tmpl, "{{DEPARTMENT_ROWS}}", rows.str());
 		html::replacePlaceholder(tmpl, "{{FOOTER}}", html::renderFooter());
 
@@ -1539,7 +1712,7 @@ int main() {
 				  << "</div>";
 		}
 
-		html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("heatmap", lang));
+		html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("heatmap", lang, isAdminAuthenticated(req)));
 		html::replacePlaceholder(tmpl, "{{HEATMAP_CARDS}}", cards.str());
 		html::replacePlaceholder(tmpl, "{{HOTSPOT_COUNT}}", std::to_string(highDensityCount));
 		html::replacePlaceholder(tmpl, "{{FOOTER}}", html::renderFooter());

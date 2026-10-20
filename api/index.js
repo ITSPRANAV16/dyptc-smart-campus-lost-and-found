@@ -178,9 +178,17 @@ function renderTypePill(type) {
     : '<span class="type-pill type-found">FOUND</span>';
 }
 
-function renderNavbar(activePage, lang = 'en') {
+function renderNavbar(activePage, lang = 'en', isAdmin = false) {
   const isActive = (p) => (activePage === p ? 'active' : '');
   const tr = (en, mr) => (lang === 'mr' ? mr : en);
+
+  const browseOrTrackLink = isAdmin
+    ? `<li><a href="/items" class="${isActive('items')}" title="Master Catalog (Admin Only)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>${tr('Browse', 'कॅटलॉग')}</span></a></li>`
+    : `<li><a href="/track" class="${isActive('track')}" title="Track Your Lost Report"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${tr('Track Status', 'स्थिती तपासा')}</span></a></li>`;
+
+  const foundOrTrackAction = isAdmin
+    ? `<a href="/found" class="nav-action-btn nav-action-found ${isActive('found')}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${tr('Report Found', 'सापडलेली नोंदवा')}</span></a>`
+    : `<a href="/track" class="nav-action-btn nav-action-found ${isActive('track')}" style="background: rgba(37,99,235,0.08); color: #2563eb; border-color: rgba(37,99,235,0.25);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${tr('Track Status', 'स्थिती तपासा')}</span></a>`;
 
   return `<!-- Student Campus Hub Top Bar -->
 <div class="univ-topbar">
@@ -220,8 +228,7 @@ function renderNavbar(activePage, lang = 'en') {
 
       <ul class="nav-links">
         <li><a href="/" class="${isActive('home')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>${tr('Dashboard', 'डॅशबोर्ड')}</span></a></li>
-        <li><a href="/items" class="${isActive('items')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>${tr('Browse', 'कॅटलॉग')}</span></a></li>
-        <li><a href="/search" class="${isActive('search')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${tr('Search', 'शोध')}</span></a></li>
+        ${browseOrTrackLink}
         <li><a href="/matches" class="${isActive('matches')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>${tr('Matches', 'मॅचिंग')}</span></a></li>
         <li><a href="/analytics" class="${isActive('analytics')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg><span>${tr('Analytics', 'अल्गोरिदम')}</span></a></li>
         <li><a href="/honors" class="${isActive('honors')}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg><span>${tr('Honors', 'सन्मान')}</span></a></li>
@@ -230,7 +237,7 @@ function renderNavbar(activePage, lang = 'en') {
 
       <div class="nav-actions">
         <a href="/lost" class="nav-action-btn nav-action-lost ${isActive('lost')}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>${tr('Report Lost', 'हरवलेली नोंदवा')}</span></a>
-        <a href="/found" class="nav-action-btn nav-action-found ${isActive('found')}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg><span>${tr('Report Found', 'सापडलेली नोंदवा')}</span></a>
+        ${foundOrTrackAction}
         <a href="/admin" class="nav-action-btn nav-action-admin desktop-admin-btn ${isActive('admin')}" title="Staff & Admin Management"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><span>${tr('Admin', 'प्रशासक')}</span></a>
       </div>
     </div>
@@ -338,6 +345,8 @@ module.exports = (req, res) => {
   const pathname = parsed.pathname || '/';
   const query = parsed.query || {};
   const lang = query.lang === 'mr' ? 'mr' : 'en';
+  const cookie = req.headers.cookie || '';
+  const isAdmin = cookie.includes('admin_session=admin_auth_token_smartcampus_2026') || query.admin === '1';
 
   // Static Assets
   if (pathname === '/style.css') {
@@ -404,8 +413,113 @@ module.exports = (req, res) => {
     return res.end(tmpl);
   }
 
-  // 2. ITEMS CATALOG (/items)
+  // 1.5 TRACK LOST REPORT STATUS (/track)
+  if (pathname === '/track') {
+    let tmpl = readTemplate('track.html');
+    const q = (query.q || '').trim().toLowerCase();
+    let resultsHtml = '';
+
+    if (q) {
+      const matched = items.filter(i => i.type === 'LOST' && (
+        (i.student_id && i.student_id.toLowerCase().includes(q)) ||
+        (i.claim_token && i.claim_token.toLowerCase().includes(q))
+      ));
+
+      if (matched.length === 0) {
+        resultsHtml = `<div class="empty-state" style="padding:2.5rem 1.5rem; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px;">
+          <div style="width:48px; height:48px; margin:0 auto 1rem; background:#fee2e2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3 style="margin:0 0 0.5rem; font-size:1.15rem; color:#0f172a;">No Active Lost Report Found</h3>
+          <p style="margin:0 0 1.25rem; font-size:0.88rem; color:#64748b;">No lost report matches identifier <strong>${query.q || ''}</strong>. Please verify your Roll Number or Claim Token.</p>
+          <a href="/lost" class="btn btn-primary btn-sm">+ Submit New Lost Report</a>
+        </div>`;
+      } else {
+        resultsHtml = matched.map(it => {
+          let statusBadge = it.status === 'MATCHED' ? 'MATCH FOUND IN CUSTODY' : (it.status === 'RETURNED' ? 'RETURNED & CLOSED' : 'ACTIVE - MONITORING CAMPUS');
+          let pillStyle = it.status === 'MATCHED' ? 'background:#dcfce7; color:#166534; border:1px solid #86efac;' : 'background:#fef3c7; color:#92400e; border:1px solid #fde68a;';
+          let statusDesc = it.status === 'MATCHED'
+            ? `<div style="margin-top:1rem; padding:1rem 1.25rem; background:#f0fdf4; border-radius:8px; border:1px solid #bbf7d0; font-size:0.86rem; color:#166534; line-height:1.5;"><strong>Action Required:</strong> A potential match for your item was handed into Central Custody! Please bring your physical <strong>Student ID</strong> and Claim Token <strong>${it.claim_token}</strong> to Gate 1 Central Security Desk to verify and claim.</div>`
+            : `<div style="margin-top:1rem; padding:1rem 1.25rem; background:#fffbeb; border-radius:8px; border:1px solid #fef3c7; font-size:0.86rem; color:#92400e; line-height:1.5;"><strong>Status:</strong> Your report is registered. Our algorithmic matching engine continuously scans custody hand-ins against this report.</div>`;
+          return `<div style="border:1px solid #e2e8f0; border-radius:12px; padding:1.5rem; margin-bottom:1.25rem; background:#ffffff; box-shadow:0 2px 8px rgba(0,0,0,0.03);">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; margin-bottom:1rem; border-bottom:1px solid #f1f5f9; padding-bottom:0.85rem;">
+              <div>
+                <span style="font-size:0.72rem; font-weight:800; padding:2px 8px; border-radius:9999px; ${pillStyle}">${statusBadge}</span>
+                <h3 style="margin:0.25rem 0 0; font-size:1.2rem; color:#0f172a; font-weight:700;">${it.name}</h3>
+              </div>
+              <span style="font-size:0.78rem; font-weight:700; background:#f1f5f9; padding:3px 10px; border-radius:6px; font-family:monospace; border:1px solid #e2e8f0;">Token: ${it.claim_token}</span>
+            </div>
+            <div style="font-size:0.86rem; color:#475569; display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:0.5rem; margin-bottom:0.5rem;">
+              <div><strong>Category:</strong> ${it.category}</div>
+              <div><strong>Reported:</strong> ${it.date}</div>
+              <div><strong>Location:</strong> ${it.location}</div>
+              <div><strong>Student ID:</strong> ${it.student_id}</div>
+            </div>
+            ${statusDesc}
+          </div>`;
+        }).join('\n');
+      }
+    } else {
+      resultsHtml = `<div style="text-align:center; padding:3rem 1.5rem; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:12px;">
+        <div style="width:48px; height:48px; margin:0 auto 1rem; background:#eff6ff; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#2563eb;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </div>
+        <h3 style="margin:0 0 0.5rem; font-size:1.15rem; color:#0f172a;">Enter Your Roll Number or Token</h3>
+        <p style="margin:0; font-size:0.88rem; color:#64748b; max-width:440px; margin-left:auto; margin-right:auto;">Search with your Student Roll Number or Claim Token to inspect real-time custody matching progress.</p>
+      </div>`;
+    }
+
+    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('track', lang, isAdmin));
+    tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{QUERY_VAL\}\}/g, query.q || '');
+    tmpl = tmpl.replace(/\{\{TRACK_RESULTS\}\}/g, resultsHtml);
+    tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    return res.end(tmpl);
+  }
+
+  // 2. ITEMS CATALOG (/items - RESTRICTED TO ADMIN)
   if (pathname === '/items') {
+    if (!isAdmin) {
+      const restrictedHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Restricted | DYPTC Security Custody</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_07">
+</head>
+<body>
+${renderNavbar('items', lang, false)}
+  <main class="main-content" style="max-width:760px; margin:3rem auto; padding:0 1.5rem;">
+    <div class="card" style="background:#ffffff; border-radius:16px; border:1px solid #fee2e2; padding:3rem 2.5rem; text-align:center; box-shadow:0 10px 30px rgba(220,38,38,0.06);">
+      <div style="width:68px; height:68px; margin:0 auto 1.5rem; background:#fef2f2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <span style="display:inline-block; padding:4px 12px; background:#fef2f2; border:1px solid #fecaca; color:#991b1b; font-size:0.78rem; font-weight:800; border-radius:9999px; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:1rem;">
+        Central Custody Anti-Fraud Protocol
+      </span>
+      <h1 style="font-size:1.75rem; color:#0f172a; margin-bottom:0.75rem; font-weight:800;">Catalog Browsing Restricted</h1>
+      <p style="color:#64748b; font-size:1rem; line-height:1.65; max-width:580px; margin:0 auto 2rem;">
+        To prevent fraudulent claims and protect students' lost belongings, public catalog browsing is restricted. Found items are held sealed in Central Custody. Students can register a lost item or track their own report.
+      </p>
+      <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="/lost" class="btn btn-primary" style="padding:0.75rem 1.5rem; font-weight:700;">+ Report Lost Item</a>
+        <a href="/track" class="btn btn-outline-dark" style="padding:0.75rem 1.5rem; font-weight:700;">Track My Report Status &rarr;</a>
+        <a href="/admin" class="btn btn-outline" style="padding:0.75rem 1.25rem; font-weight:600; color:#64748b;">Staff Login</a>
+      </div>
+    </div>
+  </main>
+${renderFooter()}
+</body>
+</html>`;
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.end(restrictedHtml);
+    }
+
     let tmpl = readTemplate('items.html');
     const lostOnly = items.filter(i => i.type === 'LOST');
     const cards = lostOnly.map(i => renderItemCard(i, false)).join('\n');
