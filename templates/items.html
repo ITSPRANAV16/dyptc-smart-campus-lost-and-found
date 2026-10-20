@@ -1,129 +1,122 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Dr. D. Y. Patil Technical Campus (DYPTC) | Lost &amp; Found Portal</title>
- <link rel="stylesheet" href="/style.css?v=20261020_06">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dr. D. Y. Patil Technical Campus (DYPTC) | Lost &amp; Found Portal</title>
+	<link rel="stylesheet" href="/style.css?v=20261020_06">
 </head>
 <body>
- {{NAVBAR}}
+	{{NAVBAR}}
 
- <main class="main-content">
- <div class="page-header">
- <div class="page-title">
- <h1>Campus Belongings Catalog</h1>
- <p>Explore all active lost and found reports. Sort records dynamically using C++ DSA algorithms.</p>
- </div>
- <div class="page-actions">
- <a href="/lost" class="btn btn-danger btn-sm">Report Lost</a>
- <a href="/found" class="btn btn-success btn-sm"> Report Found</a>
- </div>
- </div>
+	<main class="main-content">
+	<div class="page-header">
+		<div class="page-title">
+			<h1>{{CATALOG_TITLE}}</h1>
+			<p>{{CATALOG_SUBTITLE}}</p>
+		</div>
+		<div class="page-actions">
+			<a href="/lost" class="btn btn-danger btn-sm">Report Lost Belonging</a>
+			{{ADMIN_FOUND_ACTION_BTN}}
+		</div>
+	</div>
 
- {{ALERT}}
+	{{ALERT}}
 
- <!-- Status Quick Filter Tabs -->
- <div class="status-tabs">
- <a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=all" class="status-tab {{STATUS_ALL_ACTIVE}}">
- <span></span> All Statuses <span class="status-tab-count">{{COUNT_ALL}}</span>
- </a>
- <a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=OPEN" class="status-tab {{STATUS_OPEN_ACTIVE}}">
- <span></span> Active Open <span class="status-tab-count">{{COUNT_OPEN}}</span>
- </a>
- <a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=MATCHED" class="status-tab {{STATUS_MATCHED_ACTIVE}}">
- <span></span> Algorithmic Matched <span class="status-tab-count">{{COUNT_MATCHED}}</span>
- </a>
- <a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=RETURNED" class="status-tab {{STATUS_RETURNED_ACTIVE}}">
- <span></span> Resolved &amp; Returned <span class="status-tab-count">{{COUNT_RETURNED}}</span>
- </a>
- </div>
+	<!-- Status Quick Filter Tabs -->
+	<div class="status-tabs">
+		<a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=all" class="status-tab {{STATUS_ALL_ACTIVE}}">
+			<span></span> {{STATUS_ALL_LABEL}} <span class="status-tab-count">{{COUNT_ALL}}</span>
+		</a>
+		<a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=OPEN" class="status-tab {{STATUS_OPEN_ACTIVE}}">
+			<span></span> Active Open <span class="status-tab-count">{{COUNT_OPEN}}</span>
+		</a>
+		<a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=MATCHED" class="status-tab {{STATUS_MATCHED_ACTIVE}}">
+			<span></span> Algorithmic Matched <span class="status-tab-count">{{COUNT_MATCHED}}</span>
+		</a>
+		<a href="/items?type={{ACTIVE_TYPE}}&category={{ACTIVE_CAT}}&status=RETURNED" class="status-tab {{STATUS_RETURNED_ACTIVE}}">
+			<span></span> Resolved &amp; Returned <span class="status-tab-count">{{COUNT_RETURNED}}</span>
+		</a>
+	</div>
 
- <!-- Interactive Sorting & Filter Toolbar -->
- <div class="toolbar">
- <form action="/items" method="GET" class="toolbar-form">
- <div class="toolbar-item" style="flex: 2 1 220px;">
- <label for="q">Search Keyword / Place</label>
- <input type="text" id="q" name="q" value="{{SEARCH_QUERY}}" class="form-control" placeholder="Search by name, colour, place...">
- </div>
+	<!-- Interactive Sorting & Filter Toolbar -->
+	<div class="toolbar">
+		<form action="/items" method="GET" class="toolbar-form">
+			<div class="toolbar-item" style="flex: 2 1 220px;">
+				<label for="q">Search Keyword / Place</label>
+				<input type="text" id="q" name="q" value="{{SEARCH_QUERY}}" class="form-control" placeholder="Search by name, colour, place...">
+			</div>
 
- <div class="toolbar-item">
- <label for="type">Record Type</label>
- <select id="type" name="type" class="form-control">
- <option value="all" {{TYPE_ALL_SELECTED}}>All Records</option>
- <option value="lost" {{TYPE_LOST_SELECTED}}>Only Lost Items</option>
- <option value="found" {{TYPE_FOUND_SELECTED}}>Only Found Items</option>
- </select>
- </div>
+			{{TYPE_FILTER_CONTROL}}
 
- <div class="toolbar-item">
- <label for="category">Category</label>
- <select id="category" name="category" class="form-control">
- <option value="all" {{CAT_ALL_SELECTED}}>All Categories</option>
- <option value="Electronics" {{CAT_ELEC_SELECTED}}>Electronics</option>
- <option value="ID & Cards" {{CAT_IDCARD_SELECTED}}>ID &amp; Cards</option>
- <option value="Books & Stationery" {{CAT_BOOKS_SELECTED}}>Books &amp; Stationery</option>
- <option value="Keys & Accessories" {{CAT_KEYS_SELECTED}}>Keys &amp; Accessories</option>
- <option value="Bags & Backpacks" {{CAT_BAGS_SELECTED}}>Bags &amp; Backpacks</option>
- <option value="Clothing & Wearables" {{CAT_CLOTH_SELECTED}}>Clothing &amp; Wearables</option>
- <option value="Other" {{CAT_OTHER_SELECTED}}>Other</option>
- </select>
- </div>
+			<div class="toolbar-item">
+				<label for="category">Category</label>
+				<select id="category" name="category" class="form-control">
+					<option value="all" {{CAT_ALL_SELECTED}}>All Categories</option>
+					<option value="Electronics" {{CAT_ELEC_SELECTED}}>Electronics</option>
+					<option value="ID & Cards" {{CAT_IDCARD_SELECTED}}>ID &amp; Cards</option>
+					<option value="Books & Stationery" {{CAT_BOOKS_SELECTED}}>Books &amp; Stationery</option>
+					<option value="Keys & Accessories" {{CAT_KEYS_SELECTED}}>Keys &amp; Accessories</option>
+					<option value="Bags & Backpacks" {{CAT_BAGS_SELECTED}}>Bags &amp; Backpacks</option>
+					<option value="Clothing & Wearables" {{CAT_CLOTH_SELECTED}}>Clothing &amp; Wearables</option>
+					<option value="Other" {{CAT_OTHER_SELECTED}}>Other</option>
+				</select>
+			</div>
 
- <div class="toolbar-item">
- <label for="status">Status</label>
- <select id="status" name="status" class="form-control">
- <option value="all" {{STATUS_ALL_SELECTED}}>All Statuses</option>
- <option value="OPEN" {{STATUS_OPEN_SELECTED}}>Open</option>
- <option value="IN_REVIEW" {{STATUS_REVIEW_SELECTED}}>In Review</option>
- <option value="MATCHED" {{STATUS_MATCHED_SELECTED}}>Matched</option>
- <option value="RETURNED" {{STATUS_RETURNED_SELECTED}}>Returned</option>
- <option value="CLOSED" {{STATUS_CLOSED_SELECTED}}>Closed</option>
- </select>
- </div>
+			<div class="toolbar-item">
+				<label for="status">Status</label>
+				<select id="status" name="status" class="form-control">
+					<option value="all" {{STATUS_ALL_SELECTED}}>All Statuses</option>
+					<option value="OPEN" {{STATUS_OPEN_SELECTED}}>Open</option>
+					<option value="IN_REVIEW" {{STATUS_REVIEW_SELECTED}}>In Review</option>
+					<option value="MATCHED" {{STATUS_MATCHED_SELECTED}}>Matched</option>
+					<option value="RETURNED" {{STATUS_RETURNED_SELECTED}}>Returned</option>
+					<option value="CLOSED" {{STATUS_CLOSED_SELECTED}}>Closed</option>
+				</select>
+			</div>
 
- <div class="toolbar-item">
- <label for="sortBy">Sort Field</label>
- <select id="sortBy" name="sortBy" class="form-control">
- <option value="date" {{SORT_DATE_SELECTED}}>Date (Default)</option>
- <option value="name" {{SORT_NAME_SELECTED}}>Item Name</option>
- <option value="category" {{SORT_CAT_SELECTED}}>Category</option>
- </select>
- </div>
+			<div class="toolbar-item">
+				<label for="sortBy">Sort Field</label>
+				<select id="sortBy" name="sortBy" class="form-control">
+					<option value="date" {{SORT_DATE_SELECTED}}>Date (Default)</option>
+					<option value="name" {{SORT_NAME_SELECTED}}>Item Name</option>
+					<option value="category" {{SORT_CAT_SELECTED}}>Category</option>
+				</select>
+			</div>
 
- <div class="toolbar-item">
- <label for="order">Direction</label>
- <select id="order" name="order" class="form-control">
- <option value="desc" {{ORDER_DESC_SELECTED}}>Descending</option>
- <option value="asc" {{ORDER_ASC_SELECTED}}>Ascending</option>
- </select>
- </div>
+			<div class="toolbar-item">
+				<label for="order">Direction</label>
+				<select id="order" name="order" class="form-control">
+					<option value="desc" {{ORDER_DESC_SELECTED}}>Descending</option>
+					<option value="asc" {{ORDER_ASC_SELECTED}}>Ascending</option>
+				</select>
+			</div>
 
- <div class="toolbar-item" style="flex: 1 1 200px;">
- <label for="algo">DSA Sorting Algorithm</label>
- <select id="algo" name="algo" class="form-control" style="font-weight: 600; color: #1e3a8a;">
- <option value="merge" {{ALGO_MERGE_SELECTED}}>Merge Sort (O(N log N))</option>
- <option value="insertion" {{ALGO_INSERTION_SELECTED}}>Insertion Sort (O(N²))</option>
- <option value="bubble" {{ALGO_BUBBLE_SELECTED}}>Bubble Sort (O(N²))</option>
- </select>
- </div>
+			<div class="toolbar-item" style="flex: 1 1 200px;">
+				<label for="algo">DSA Sorting Algorithm</label>
+				<select id="algo" name="algo" class="form-control" style="font-weight: 600; color: #1e3a8a;">
+					<option value="merge" {{ALGO_MERGE_SELECTED}}>Merge Sort (O(N log N))</option>
+					<option value="insertion" {{ALGO_INSERTION_SELECTED}}>Insertion Sort (O(N²))</option>
+					<option value="bubble" {{ALGO_BUBBLE_SELECTED}}>Bubble Sort (O(N²))</option>
+				</select>
+			</div>
 
- <div class="toolbar-item" style="flex: 0 0 auto;">
- <label>&nbsp;</label>
- <button type="submit" class="btn btn-primary">Apply &amp; Sort</button>
- </div>
- </form>
- </div>
+			<div class="toolbar-item" style="flex: 0 0 auto;">
+				<label>&nbsp;</label>
+				<button type="submit" class="btn btn-primary">Apply &amp; Sort</button>
+			</div>
+		</form>
+	</div>
 
- <!-- DSA Live Metrics Banner -->
- {{DSA_METRICS_BANNER}}
+	<!-- DSA Live Metrics Banner -->
+	{{DSA_METRICS_BANNER}}
 
- <!-- Items Grid -->
- <section class="items-grid">
- {{ITEMS_CARDS}}
- </section>
- </main>
+	<!-- Items Grid -->
+	<section class="items-grid">
+		{{ITEMS_CARDS}}
+	</section>
+	</main>
 
- {{FOOTER}}
+	{{FOOTER}}
 </body>
 </html>

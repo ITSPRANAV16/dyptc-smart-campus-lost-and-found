@@ -216,10 +216,10 @@ SmartCampusLostFound/
 - **Answer:** *"The `/admin/export.csv` route is protected by `isAdminAuthenticated`. It queries all SQLite records, encodes them according to RFC 4180 (properly escaping internal double quotes with `""` and wrapping strings), and emits a pure `text/csv` stream with the HTTP response header `Content-Disposition: attachment; filename=\"dyptc_lost_found_register_2026.csv\"`. This allows the campus security desk to instantly download audits into Microsoft Excel or Google Sheets."*
 
 ### प्रश्न ११: *"How does your system prevent fake claims and copycat lost reports when a valuable found item is registered?"*
-- **Answer:** *"Madam, this is our core security innovation: the **Zero-Knowledge Blind Custody Protocol**:
-  1. When a valuable item is registered as **FOUND**, its sensitive physical markers (serial numbers, password hints, internal bag contents, exact color, and specific bench/room location) are **automatically redacted** from the public catalog (`[Anti-Fraud Protected]`).
-  2. A dishonest student browsing the website cannot see the identifying details to manufacture a fraudulent copycat 'LOST' report.
-  3. Instead, our **C++ Priority Queue DSA Engine** performs blind cross-matching in the background. If a legitimate match occurs, the claimant must answer an **Ownership Challenge Question** and perform a **Physical Device Unlock** in front of the Central Security Desk before any item is handed over and marked as `RETURNED`."*
+- **Answer:** *"Madam, this is our core security architecture: the **Zero-Knowledge Blind Custody Protocol**:
+  1. When a belonging is registered as **FOUND**, it is **100% concealed** from public view. Unauthenticated students and campus visitors ONLY see `type == 'LOST'` on `/items`, `/`, and `/search`. No found items, photos, or descriptions ever appear on the public pages (`renderItemCard` strictly filters them out).
+  2. Because found items are completely hidden from public listings, a dishonest student cannot browse the website to see what was turned in to manufacture a fraudulent copycat 'LOST' report.
+  3. Instead, students report their genuine 'LOST' item with their private unique serial numbers and marks. Our **C++ Priority Queue DSA Engine** performs blind cross-matching in the background. Only authenticated campus security administrators (`/admin`) can inspect Central Custody records and oversee the Ownership Challenge before any item is marked `RETURNED`."*
 
 ---
 

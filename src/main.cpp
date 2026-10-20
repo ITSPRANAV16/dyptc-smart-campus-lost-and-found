@@ -35,6 +35,12 @@ inline std::string getLang(const crow::request& req) {
 
 // Helper to render an item card for catalog and search results
 std::string renderItemCard(const Item& item, bool isAdmin = false) {
+    // Zero-Knowledge Blind Custody: FOUND items are strictly confidential
+    // and held in Central Custody. Normal users / students can NEVER view them under any circumstances.
+    if (!isAdmin && item.type == "FOUND") {
+        return "";
+    }
+
     std::ostringstream oss;
     std::string img = item.image_url.empty() ? "/data/uploads/item_default.svg" : item.image_url;
 
@@ -42,16 +48,6 @@ std::string renderItemCard(const Item& item, bool isAdmin = false) {
     std::string displayDesc = item.description;
     std::string displayColour = item.colour;
     std::string displayLocation = item.location;
-    std::string securityPill = "";
-
-    // Zero-Knowledge Blind Custody: Withhold specific identifiers of FOUND items from unauthenticated students
-    if (!isAdmin && item.type == "FOUND") {
-        displayName = "Custody Item: " + item.category + " (Central Locker)";
-        displayDesc = "🔒 [Anti-Fraud Protected]: Specific physical marks, serial numbers, and contents are sealed to prevent fraudulent claims. Inquire at Central Security Control Room or verify ownership.";
-        displayColour = "Confidential (Verify on Claim)";
-        displayLocation = item.department.empty() ? "Central Custody Desk" : (item.department + " (Custody Lockbox)");
-        securityPill = "<span class=\"badge\" style=\"background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.72rem;font-weight:700;\">🔒 Blind Custody</span>";
-    }
 
     oss << "<div class=\"item-card\">"
         << "  <div class=\"item-card-header\">"
@@ -64,7 +60,7 @@ std::string renderItemCard(const Item& item, bool isAdmin = false) {
         << "  <div class=\"item-card-body\">"
         << "    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;\">"
         << "      " << html::renderCategoryBadge(item.category)
-        << "      " << (securityPill.empty() ? html::renderClaimTokenBadge(item.claim_token) : securityPill)
+        << "      " << html::renderClaimTokenBadge(item.claim_token)
         << "    </div>"
         << "    <h3 class=\"item-title\">" << html::escape(displayName) << "</h3>"
         << "    <p class=\"item-desc\">" << html::escape(displayDesc) << "</p>"
@@ -101,23 +97,26 @@ std::string renderMatchCard(const MatchResult& match, bool isAdmin = false) {
     std::string foundDisplayLoc = match.found_item.location;
     std::string foundDisplayCol = match.found_item.colour;
     std::string foundDisplayDesc = match.found_item.description;
+    std::string foundActionBtn = "<a href=\"/item?id=" + std::to_string(match.found_item.id) + "\" class=\"btn btn-outline-dark btn-sm\">View Found #" + std::to_string(match.found_item.id) + "</a>";
 
     if (!isAdmin) {
-        foundDisplayName = "Found Candidate #" + std::to_string(match.found_item.id) + " (" + match.found_item.category + ")";
-        foundDisplayLoc = match.found_item.department + " (Central Custody Lockbox)";
-        foundDisplayCol = "🔒 Sealed for Ownership Challenge";
-        foundDisplayDesc = "🔒 [Anti-Fraud Sealed]: Full description withheld to prevent copycat claims. Match score calculated via C++ Priority Queue engine.";
+        foundImg = "/data/uploads/item_default.svg";
+        foundDisplayName = "Sealed Custody Belonging (" + match.found_item.category + ")";
+        foundDisplayLoc = match.found_item.department.empty() ? "Central Custody Lockbox" : (match.found_item.department + " (Custody Lockbox)");
+        foundDisplayCol = "🔒 Confidential (Verify on Claim)";
+        foundDisplayDesc = "🔒 [Anti-Fraud Blind Custody]: All identifying physical marks and serials are withheld to prevent copycat claims. Bring your DYPTC Student ID to the Central Security Control Room to verify ownership.";
+        foundActionBtn = "<span class=\"badge\" style=\"background:#fef2f2;color:#b91c1c;padding:0.35rem 0.65rem;border:1px solid #fecaca;font-weight:700;\">🔒 Central Custody Desk</span>";
     }
 
     oss << "<div class=\"match-comparison-card\">"
         << "  <div class=\"match-header\">"
         << "    <div>"
-        << "      <span style=\"font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;\">Match Candidate Pair</span>"
+        << "      <span style=\"font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;\">Algorithmic Match Candidate</span>"
         << "      <h3 style=\"font-size: 1.25rem; color: #0f172a;\">" << html::escape(match.lost_item.name) << " &harr; " << html::escape(foundDisplayName) << "</h3>"
         << "    </div>"
-        << "    <div style=\"display: flex; gap: 0.5rem;\">"
+        << "    <div style=\"display: flex; gap: 0.5rem; align-items: center;\">"
         << "      <a href=\"/item?id=" << match.lost_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Lost #" << match.lost_item.id << "</a>"
-        << "      <a href=\"/item?id=" << match.found_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Found #" << match.found_item.id << "</a>"
+        << "      " << foundActionBtn
         << "    </div>"
         << "  </div>"
         << "  <div class=\"match-grid\">"
@@ -140,7 +139,7 @@ std::string renderMatchCard(const MatchResult& match, bool isAdmin = false) {
         << "      <div style=\"display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;\">"
         << "        <img src=\"" << html::escape(foundImg) << "\" style=\"width: 44px; height: 44px; border-radius: 6px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;\">"
         << "        <div>"
-        << "          <span class=\"badge\" style=\"background: #ecfdf5; color: #059669; font-size: 0.75rem; margin-bottom: 2px;\">Found Turn-in</span>"
+        << "          <span class=\"badge\" style=\"background: #ecfdf5; color: #059669; font-size: 0.75rem; margin-bottom: 2px;\">Custody Record</span>"
         << "          <h4 style=\"margin: 0; font-size: 1rem;\">" << html::escape(foundDisplayName) << "</h4>"
         << "        </div>"
         << "      </div>"
@@ -295,16 +294,18 @@ int main() {
 
  std::vector<Item> allItems = g_db.getAllItems();
  DashboardStats stats = dsa::computeStats(allItems);
+ bool isAdmin = isAdminAuthenticated(req);
 
  // Find top high-confidence matches for home showcase (min 40% score)
- std::vector<MatchResult> topMatches = dsa::findRankedMatches(allItems, -1, 40.0);
  std::string matchesShowcaseHtml;
+ if (isAdmin) {
+ std::vector<MatchResult> topMatches = dsa::findRankedMatches(allItems, -1, 40.0);
  if (!topMatches.empty()) {
  std::ostringstream mOss;
  mOss << "<div class=\"home-matches-section\">"
  << " <div class=\"home-matches-header\">"
  << " <div>"
- << " <span style=\"font-size: 0.78rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em;\">C++ Engine Live Stream</span>"
+ << " <span style=\"font-size: 0.78rem; font-weight: 800; color: #2563eb; text-transform: uppercase; letter-spacing: 0.05em;\">Administrator Custody Live Stream</span>"
  << " <h3 style=\"font-size: 1.25rem; font-weight: 800; color: #0f172a;\">High-Confidence Potential Matches</h3>"
  << " </div>"
  << " <a href=\"/matches\" class=\"btn btn-primary btn-sm\">View All Algorithmic Matches &rarr;</a>"
@@ -339,18 +340,41 @@ int main() {
  mOss << " </div></div>";
  matchesShowcaseHtml = mOss.str();
  }
+ } else {
+ matchesShowcaseHtml = R"(<div class="home-matches-section">
+   <div class="home-matches-header">
+     <div>
+       <span style="font-size: 0.78rem; font-weight: 800; color: #dc2626; text-transform: uppercase; letter-spacing: 0.05em;">Campus Anti-Fraud Security</span>
+       <h3 style="font-size: 1.25rem; font-weight: 800; color: #0f172a;">Zero-Knowledge Campus Custody Active</h3>
+     </div>
+     <a href="/lost" class="btn btn-primary btn-sm">+ Report Lost Item</a>
+   </div>
+   <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:12px; padding:1.25rem 1.5rem; display:flex; align-items:center; gap:1.25rem; box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+     <div style="width:48px; height:48px; border-radius:10px; background:#fef2f2; color:#dc2626; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+     </div>
+     <div>
+       <h4 style="margin:0 0 0.25rem; font-size:1rem; color:#0f172a;">Found Items are Sealed in Central Custody</h4>
+       <p style="margin:0; font-size:0.86rem; color:#64748b; line-height:1.5;">To prevent fake claims and copycat reports, found belongings are strictly hidden from students and sealed in Central Custody. When you submit a lost report, our C++17 algorithmic engine evaluates matches against sealed custody records in the background.</p>
+     </div>
+   </div>
+ </div>)";
+ }
 
- // Render recent 6 items
+ // Render recent items: STRICTLY LOST ITEMS ONLY for non-admins
  std::string recentCards;
- size_t count = std::min(allItems.size(), size_t(6));
- for (size_t i = 0; i < count; ++i) {
- recentCards += renderItemCard(allItems[i]);
+ size_t count = 0;
+ for (const auto& item : allItems) {
+ if (!isAdmin && item.type != "LOST") continue;
+ recentCards += renderItemCard(item, isAdmin);
+ count++;
+ if (count >= 6) break;
  }
  if (recentCards.empty()) {
  recentCards = "<div class=\"empty-state form-group-full\">"
  " <div class=\"empty-icon\"></div>"
  " <h3 class=\"empty-title\">No Reports Yet</h3>"
- " <p class=\"empty-desc\">No lost or found belongings have been reported yet.</p>"
+ " <p class=\"empty-desc\">No lost belongings have been reported yet.</p>"
  " <a href=\"/lost\" class=\"btn btn-primary\">Report Lost Item</a>"
  "</div>";
  }
@@ -519,8 +543,12 @@ int main() {
  std::string tmpl = html::readFile("items.html");
  if (tmpl.empty()) return crow::response(500, "Template items.html missing");
 
+ bool isAdmin = isAdminAuthenticated(req);
  std::string q = req.url_params.get("q") ? req.url_params.get("q") : "";
- std::string filterType = req.url_params.get("type") ? req.url_params.get("type") : "all";
+ std::string filterType = req.url_params.get("type") ? req.url_params.get("type") : (isAdmin ? "all" : "lost");
+ if (!isAdmin) {
+ filterType = "lost"; // Strict enforcement: non-admins can never filter or view found items
+ }
  std::string filterCategory = req.url_params.get("category") ? req.url_params.get("category") : "all";
  std::string filterStatus = req.url_params.get("status") ? req.url_params.get("status") : "all";
  std::string sortBy = req.url_params.get("sortBy") ? req.url_params.get("sortBy") : "date";
@@ -532,9 +560,10 @@ int main() {
  // Fetch raw items from database
  std::vector<Item> items = g_db.getAllItems();
 
- // Calculate status counts based on current type and category filters
+ // Calculate status counts based on current filters (strictly LOST for non-admins)
  int countAll = 0, countOpen = 0, countMatched = 0, countReturned = 0;
  for (const auto& item : items) {
+ if (!isAdmin && item.type != "LOST") continue;
  if (filterType != "all" && dsa::toLower(item.type) != dsa::toLower(filterType)) continue;
  if (filterCategory != "all" && dsa::toLower(item.category) != dsa::toLower(filterCategory)) continue;
  countAll++;
@@ -548,6 +577,7 @@ int main() {
  std::vector<Item> filtered;
  std::string lowerQ = dsa::toLower(dsa::trim(q));
  for (const auto& item : items) {
+ if (!isAdmin && item.type != "LOST") continue;
  if (filterType != "all" && dsa::toLower(item.type) != dsa::toLower(filterType)) {
  continue;
  }
@@ -605,66 +635,92 @@ int main() {
  << "</div>";
 
  // Render Cards
- std::string cardsHtml;
- for (const auto& item : filtered) {
- bool isAdmin = isAdminAuthenticated(req);
+	std::string cardsHtml;
+	for (const auto& item : filtered) {
 		cardsHtml += renderItemCard(item, isAdmin);
- }
- if (cardsHtml.empty()) {
- cardsHtml = "<div class=\"empty-state form-group-full\">"
- " <div class=\"empty-icon\"></div>"
- " <h3 class=\"empty-title\">No Items Match Filters</h3>"
- " <p class=\"empty-desc\">Try adjusting your keyword, category, or status filter.</p>"
- " <a href=\"/items\" class=\"btn btn-outline-dark\">Reset Filters</a>"
- "</div>";
- }
+	}
+	if (cardsHtml.empty()) {
+		cardsHtml = "<div class=\"empty-state form-group-full\">"
+			" <div class=\"empty-icon\"></div>"
+			" <h3 class=\"empty-title\">No Items Match Filters</h3>"
+			" <p class=\"empty-desc\">Try adjusting your keyword, category, or status filter.</p>"
+			" <a href=\"/items\" class=\"btn btn-outline-dark\">Reset Filters</a>"
+			"</div>";
+	}
 
- // Populate search & status quick tabs
- html::replacePlaceholder(tmpl, "{{SEARCH_QUERY}}", html::escape(q));
- html::replacePlaceholder(tmpl, "{{ACTIVE_TYPE}}", html::escape(filterType));
- html::replacePlaceholder(tmpl, "{{ACTIVE_CAT}}", html::escape(filterCategory));
+	std::string typeFilterControl;
+	if (isAdmin) {
+		std::ostringstream oss;
+		oss << "<div class=\"toolbar-item\">"
+			<< "<label for=\"type\">Record Type</label>"
+			<< "<select id=\"type\" name=\"type\" class=\"form-control\">"
+			<< "<option value=\"all\" " << (filterType == "all" ? "selected" : "") << ">All Records</option>"
+			<< "<option value=\"lost\" " << (filterType == "lost" ? "selected" : "") << ">Only Lost Items</option>"
+			<< "<option value=\"found\" " << (filterType == "found" ? "selected" : "") << ">Only Found Items</option>"
+			<< "</select></div>";
+		typeFilterControl = oss.str();
+	} else {
+		typeFilterControl = "<div class=\"toolbar-item\">"
+							"<label for=\"type\">Directory Mode</label>"
+							"<div style=\"display:flex;align-items:center;height:38px;padding:0 0.75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:0.82rem;font-weight:700;color:#991b1b;gap:6px;\">"
+							"<svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"8\" x2=\"12\" y2=\"12\"/><line x1=\"12\" y1=\"16\" x2=\"12.01\" y2=\"16\"/></svg>"
+							"Lost Belongings Directory</div>"
+							"<input type=\"hidden\" id=\"type\" name=\"type\" value=\"lost\">"
+							"</div>";
+	}
 
- html::replacePlaceholder(tmpl, "{{COUNT_ALL}}", std::to_string(countAll));
- html::replacePlaceholder(tmpl, "{{COUNT_OPEN}}", std::to_string(countOpen));
- html::replacePlaceholder(tmpl, "{{COUNT_MATCHED}}", std::to_string(countMatched));
- html::replacePlaceholder(tmpl, "{{COUNT_RETURNED}}", std::to_string(countReturned));
+	std::string catalogTitle = isAdmin ? "Campus Belongings Master Registry" : "Campus Lost Belongings Directory";
+	std::string catalogSubtitle = isAdmin ? "Administrator view: All active lost and found records across campus." : "Explore all active lost belongings reported across campus. Found items are sealed in Central Custody.";
+	std::string adminFoundActionBtn = isAdmin ? "<a href=\"/found\" class=\"btn btn-success btn-sm\">Report Found Item</a>" : "";
+	std::string statusAllLabel = isAdmin ? "All Records" : "All Lost Reports";
 
- html::replacePlaceholder(tmpl, "{{STATUS_ALL_ACTIVE}}", (filterStatus == "all" ? "active" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_OPEN_ACTIVE}}", (filterStatus == "OPEN" ? "active" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_MATCHED_ACTIVE}}", (filterStatus == "MATCHED" ? "active" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_RETURNED_ACTIVE}}", (filterStatus == "RETURNED" ? "active" : ""));
+	html::replacePlaceholder(tmpl, "{{CATALOG_TITLE}}", catalogTitle);
+	html::replacePlaceholder(tmpl, "{{CATALOG_SUBTITLE}}", catalogSubtitle);
+	html::replacePlaceholder(tmpl, "{{ADMIN_FOUND_ACTION_BTN}}", adminFoundActionBtn);
+	html::replacePlaceholder(tmpl, "{{STATUS_ALL_LABEL}}", statusAllLabel);
+	html::replacePlaceholder(tmpl, "{{TYPE_FILTER_CONTROL}}", typeFilterControl);
 
- // Populate dropdown selections
- html::replacePlaceholder(tmpl, "{{TYPE_ALL_SELECTED}}", (filterType == "all" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{TYPE_LOST_SELECTED}}", (filterType == "lost" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{TYPE_FOUND_SELECTED}}", (filterType == "found" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{SEARCH_QUERY}}", html::escape(q));
+	html::replacePlaceholder(tmpl, "{{ACTIVE_TYPE}}", html::escape(filterType));
+	html::replacePlaceholder(tmpl, "{{ACTIVE_CAT}}", html::escape(filterCategory));
 
- html::replacePlaceholder(tmpl, "{{CAT_ALL_SELECTED}}", (filterCategory == "all" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_ELEC_SELECTED}}", (filterCategory == "Electronics" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_IDCARD_SELECTED}}", (filterCategory == "ID & Cards" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_BOOKS_SELECTED}}", (filterCategory == "Books & Stationery" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_KEYS_SELECTED}}", (filterCategory == "Keys & Accessories" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_BAGS_SELECTED}}", (filterCategory == "Bags & Backpacks" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_CLOTH_SELECTED}}", (filterCategory == "Clothing & Wearables" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{CAT_OTHER_SELECTED}}", (filterCategory == "Other" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{COUNT_ALL}}", std::to_string(countAll));
+	html::replacePlaceholder(tmpl, "{{COUNT_OPEN}}", std::to_string(countOpen));
+	html::replacePlaceholder(tmpl, "{{COUNT_MATCHED}}", std::to_string(countMatched));
+	html::replacePlaceholder(tmpl, "{{COUNT_RETURNED}}", std::to_string(countReturned));
 
- html::replacePlaceholder(tmpl, "{{STATUS_ALL_SELECTED}}", (filterStatus == "all" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_OPEN_SELECTED}}", (filterStatus == "OPEN" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_REVIEW_SELECTED}}", (filterStatus == "IN_REVIEW" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_MATCHED_SELECTED}}", (filterStatus == "MATCHED" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_RETURNED_SELECTED}}", (filterStatus == "RETURNED" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{STATUS_CLOSED_SELECTED}}", (filterStatus == "CLOSED" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_ALL_ACTIVE}}", (filterStatus == "all" ? "active" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_OPEN_ACTIVE}}", (filterStatus == "OPEN" ? "active" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_MATCHED_ACTIVE}}", (filterStatus == "MATCHED" ? "active" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_RETURNED_ACTIVE}}", (filterStatus == "RETURNED" ? "active" : ""));
 
- html::replacePlaceholder(tmpl, "{{SORT_DATE_SELECTED}}", (sortBy == "date" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{SORT_NAME_SELECTED}}", (sortBy == "name" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{SORT_CAT_SELECTED}}", (sortBy == "category" ? "selected" : ""));
+	// Populate dropdown selections
+	html::replacePlaceholder(tmpl, "{{CAT_ALL_SELECTED}}", (filterCategory == "all" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_ELEC_SELECTED}}", (filterCategory == "Electronics" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_IDCARD_SELECTED}}", (filterCategory == "ID & Cards" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_BOOKS_SELECTED}}", (filterCategory == "Books & Stationery" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_KEYS_SELECTED}}", (filterCategory == "Keys & Accessories" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_BAGS_SELECTED}}", (filterCategory == "Bags & Backpacks" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_CLOTH_SELECTED}}", (filterCategory == "Clothing & Wearables" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{CAT_OTHER_SELECTED}}", (filterCategory == "Other" ? "selected" : ""));
 
- html::replacePlaceholder(tmpl, "{{ORDER_DESC_SELECTED}}", (!ascending ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{ORDER_ASC_SELECTED}}", (ascending ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_ALL_SELECTED}}", (filterStatus == "all" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_OPEN_SELECTED}}", (filterStatus == "OPEN" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_REVIEW_SELECTED}}", (filterStatus == "IN_REVIEW" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_MATCHED_SELECTED}}", (filterStatus == "MATCHED" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_RETURNED_SELECTED}}", (filterStatus == "RETURNED" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{STATUS_CLOSED_SELECTED}}", (filterStatus == "CLOSED" ? "selected" : ""));
 
- html::replacePlaceholder(tmpl, "{{ALGO_MERGE_SELECTED}}", (algo == "merge" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{ALGO_INSERTION_SELECTED}}", (algo == "insertion" ? "selected" : ""));
- html::replacePlaceholder(tmpl, "{{ALGO_BUBBLE_SELECTED}}", (algo == "bubble" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{SORT_DATE_SELECTED}}", (sortBy == "date" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{SORT_NAME_SELECTED}}", (sortBy == "name" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{SORT_CAT_SELECTED}}", (sortBy == "category" ? "selected" : ""));
+
+	html::replacePlaceholder(tmpl, "{{ORDER_DESC_SELECTED}}", (!ascending ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{ORDER_ASC_SELECTED}}", (ascending ? "selected" : ""));
+
+	html::replacePlaceholder(tmpl, "{{ALGO_MERGE_SELECTED}}", (algo == "merge" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{ALGO_INSERTION_SELECTED}}", (algo == "insertion" ? "selected" : ""));
+	html::replacePlaceholder(tmpl, "{{ALGO_BUBBLE_SELECTED}}", (algo == "bubble" ? "selected" : ""));
 
 	html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("items", getLang(req)));
 	html::replacePlaceholder(tmpl, "{{ALERT}}", "");
@@ -684,28 +740,37 @@ int main() {
  std::string tmpl = html::readFile("search.html");
  if (tmpl.empty()) return crow::response(500, "Template search.html missing");
 
+ bool isAdmin = isAdminAuthenticated(req);
  std::string q = req.url_params.get("q") ? req.url_params.get("q") : "";
  std::string category = req.url_params.get("category") ? req.url_params.get("category") : "all";
  std::string location = req.url_params.get("location") ? req.url_params.get("location") : "";
  std::string searchAlgo = req.url_params.get("searchAlgo") ? req.url_params.get("searchAlgo") : "linear";
 
  std::vector<Item> allItems = g_db.getAllItems();
+ std::vector<Item> searchableItems;
+ for (const auto& item : allItems) {
+ if (isAdmin || item.type == "LOST") {
+ searchableItems.push_back(item);
+ }
+ }
+
  std::vector<Item> results;
  SearchMetrics metrics;
 
  if (searchAlgo == "binary") {
  // Binary search requires sorted array by key (item name)
  SortMetrics sortM;
- std::vector<Item> sortedItems = allItems;
+ std::vector<Item> sortedItems = searchableItems;
  dsa::mergeSort(sortedItems, "name", true, sortM);
  results = dsa::binarySearchByName(sortedItems, q, metrics);
  } else {
- results = dsa::linearSearch(allItems, q, category, location, "all", metrics);
+ results = dsa::linearSearch(searchableItems, q, category, location, "all", metrics);
  }
 
  std::string resultsHtml;
  for (const auto& item : results) {
- resultsHtml += renderItemCard(item);
+ if (!isAdmin && item.type != "LOST") continue;
+ resultsHtml += renderItemCard(item, isAdmin);
  }
 
  if (resultsHtml.empty()) {
@@ -764,12 +829,22 @@ int main() {
  std::string tmpl = html::readFile("matches.html");
  if (tmpl.empty()) return crow::response(500, "Template matches.html missing");
 
+ bool isAdmin = isAdminAuthenticated(req);
  int targetId = -1;
  if (req.url_params.get("id") != nullptr) {
  try {
  targetId = std::stoi(req.url_params.get("id"));
  } catch (...) {
  targetId = -1;
+ }
+ }
+
+ if (targetId > 0 && !isAdmin) {
+ auto optTarget = g_db.getItemById(targetId);
+ if (optTarget.has_value() && optTarget->type == "FOUND") {
+ crow::response res(303);
+ res.set_header("Location", "/items");
+ return res;
  }
  }
 
@@ -783,13 +858,25 @@ int main() {
  }
  int activeThreshInt = static_cast<int>(std::round(minScoreThreshold));
 
+ std::string matchCardsHtml;
+ if (!isAdmin && targetId <= 0) {
+ matchCardsHtml = R"(<div class="empty-state form-group-full" style="max-width:650px;margin:2rem auto;padding:2.5rem;background:#fff;border-radius:12px;border:1px solid #e2e8f0;text-align:center;">
+ <div style="width:52px;height:52px;margin:0 auto 1rem;background:#eff6ff;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#2563eb;">
+   <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+ </div>
+ <h3 style="font-size:1.25rem;color:#0f172a;margin-bottom:0.5rem;">Select Your Lost Item Report</h3>
+ <p style="color:#64748b;font-size:0.92rem;line-height:1.6;margin-bottom:1.5rem;">
+   To protect turned-in belongings from fraudulent claims, matching evaluations are performed specifically for your registered Lost report. Please browse the directory and click <strong>Auto Matches</strong> on your item.
+ </p>
+ <a href="/items" class="btn btn-primary">Browse Lost Directory</a>
+ </div>)";
+ } else {
  std::vector<Item> allItems = g_db.getAllItems();
  // Use std::priority_queue Max-Heap in dsa::findRankedMatches
  std::vector<MatchResult> rankedMatches = dsa::findRankedMatches(allItems, targetId, minScoreThreshold);
 
- std::string matchCardsHtml;
  for (const auto& match : rankedMatches) {
- matchCardsHtml += renderMatchCard(match);
+ matchCardsHtml += renderMatchCard(match, isAdmin);
  }
 
  if (matchCardsHtml.empty()) {
@@ -797,8 +884,9 @@ int main() {
  " <div class=\"empty-icon\"></div>"
  " <h3 class=\"empty-title\">No Matches Met The " + std::to_string(activeThreshInt) + "% Threshold</h3>"
  " <p class=\"empty-desc\">The algorithmic matching engine did not detect candidate pairs exceeding your selected score limit. Try lowering the threshold.</p>"
- " <a href=\"/matches?threshold=25\" class=\"btn btn-outline-dark\">Show All Candidates (&ge; 25%)</a>"
+ " <a href=\"/matches?threshold=25" + (targetId > 0 ? ("&id=" + std::to_string(targetId)) : "") + "\" class=\"btn btn-outline-dark\">Show All Candidates (&ge; 25%)</a>"
  "</div>";
+ }
  }
 
  std::string filterClearHtml;
@@ -860,6 +948,31 @@ int main() {
  if (tmpl.empty()) return crow::response(500, "Template details.html missing");
 
  bool isAdmin = isAdminAuthenticated(req) || (req.url_params.get("admin") != nullptr && std::string(req.url_params.get("admin")) == "1");
+
+ if (!isAdmin && item.type == "FOUND") {
+ std::string lang = getLang(req);
+ std::string deniedHtml = R"(<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Campus Custody Protected | DYPTC</title><link rel="stylesheet" href="/style.css?v=20261020_06"></head><body>)" +
+ html::renderNavbar("items", lang) +
+ R"(<main class="main-content"><div class="empty-state" style="max-width:650px;margin:3.5rem auto;padding:2.5rem;background:#fff;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,0.06);border:1px solid #e2e8f0;text-align:center;">
+ <div style="width:60px;height:60px;margin:0 auto 1.25rem;background:#fef2f2;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#dc2626;">
+   <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+ </div>
+ <h2 style="font-size:1.35rem;color:#0f172a;margin-bottom:0.75rem;">Confidential Campus Custody Belonging</h2>
+ <p style="color:#64748b;font-size:0.92rem;line-height:1.6;margin-bottom:1.5rem;">
+   To prevent copycat and fraudulent claims, details of found belongings are sealed in <strong>Central Security Custody</strong> and cannot be browsed publicly.
+ </p>
+ <div style="background:#f8fafc;padding:1.1rem;border-radius:8px;border:1px solid #e2e8f0;font-size:0.88rem;color:#334155;margin-bottom:1.5rem;text-align:left;">
+   <strong>Did you lose an item?</strong> Register your report via <a href="/lost" style="color:#2563eb;font-weight:700;">Report Lost Item</a> with your specific serial number, distinctive markings, or colour. When a match is detected, Campus Security will verify your identity and return your property.
+ </div>
+ <div style="display:flex;gap:0.75rem;justify-content:center;">
+   <a href="/lost" class="btn btn-primary">Report Lost Item</a>
+   <a href="/items" class="btn btn-outline-dark">Browse Lost Directory</a>
+ </div>
+ </div></main>)" + html::renderFooter() + "</body></html>";
+ crow::response res(403, deniedHtml);
+ res.set_header("Content-Type", "text/html; charset=utf-8");
+ return res;
+ }
 
  // Find potential matches for this item using priority queue
  std::vector<Item> allItems = g_db.getAllItems();
@@ -1294,6 +1407,12 @@ int main() {
 			else return crow::response(404, "No records found for receipt generation");
 		}
 		const Item& item = itemOpt.value();
+		bool isAdmin = isAdminAuthenticated(req);
+		if (!isAdmin && item.type == "FOUND") {
+			crow::response res(303);
+			res.set_header("Location", "/items");
+			return res;
+		}
 
 		std::string storage = item.storage_location.empty() ? "Gate 1 Central Security Desk" : item.storage_location;
 		std::string dept = item.department.empty() ? "General Engineering" : item.department;

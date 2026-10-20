@@ -283,6 +283,9 @@ function renderFooter() {
 }
 
 function renderItemCard(item, isAdmin = false) {
+  if (!isAdmin && item.type === "FOUND") {
+    return "";
+  }
   const img = item.image_url || '/data/uploads/item_default.svg';
   
   let displayName = item.name;
@@ -290,14 +293,6 @@ function renderItemCard(item, isAdmin = false) {
   let displayColour = item.colour;
   let displayLocation = item.location;
   let securityPill = item.claim_token ? `<span class="claim-token-badge" style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;font-family:monospace;border:1px solid #bfdbfe;">${escapeHtml(item.claim_token)}</span>` : '';
-
-  if (!isAdmin && item.type === "FOUND") {
-    displayName = "Custody Item: " + item.category + " (Central Locker)";
-    displayDesc = "🔒 [Anti-Fraud Protected]: Specific physical marks, serial numbers, and contents are sealed to prevent fraudulent claims. Inquire at Central Security Control Room or verify ownership.";
-    displayColour = "Confidential (Verify on Claim)";
-    displayLocation = (item.department || "Central Custody Desk") + " (Custody Lockbox)";
-    securityPill = '<span class="badge" style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.72rem;font-weight:700;">🔒 Blind Custody</span>';
-  }
 
   return `<div class="item-card">
   <div class="item-card-header">
@@ -373,7 +368,26 @@ module.exports = (req, res) => {
     const totalReturned = items.filter(i => i.status === 'RETURNED').length;
     const totalMatched = 5;
 
-    const recentCards = items.slice(0, 6).map(renderItemCard).join('\n');
+    const lostOnly = items.filter(i => i.type === 'LOST');
+    const recentCards = lostOnly.slice(0, 6).map(i => renderItemCard(i, false)).join('\n');
+    const matchesShowcase = `<div class="home-matches-section">
+      <div class="home-matches-header">
+        <div>
+          <span style="font-size:0.78rem;font-weight:800;color:#dc2626;text-transform:uppercase;letter-spacing:0.05em;">Campus Anti-Fraud Security</span>
+          <h3 style="font-size:1.25rem;font-weight:800;color:#0f172a;">Zero-Knowledge Campus Custody Active</h3>
+        </div>
+        <a href="/lost" class="btn btn-primary btn-sm">+ Report Lost Item</a>
+      </div>
+      <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;padding:1.25rem 1.5rem;display:flex;align-items:center;gap:1.25rem;box-shadow:0 2px 10px rgba(0,0,0,0.03);">
+        <div style="width:48px;height:48px;border-radius:10px;background:#fef2f2;color:#dc2626;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div>
+          <h4 style="margin:0 0 0.25rem;font-size:1rem;color:#0f172a;">Found Items are Sealed in Central Custody</h4>
+          <p style="margin:0;font-size:0.86rem;color:#64748b;line-height:1.5;">To prevent fake claims and copycat reports, found belongings are strictly hidden from students and sealed in Central Custody. When you submit a lost report, our C++17 algorithmic engine evaluates matches against sealed custody records in the background.</p>
+        </div>
+      </div>
+    </div>`;
 
     tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('home', lang));
     tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
@@ -382,7 +396,7 @@ module.exports = (req, res) => {
     tmpl = tmpl.replace(/\{\{STAT_MATCHED\}\}/g, String(totalMatched));
     tmpl = tmpl.replace(/\{\{STAT_RETURNED\}\}/g, String(totalReturned));
     tmpl = tmpl.replace(/\{\{STAT_TOTAL\}\}/g, String(items.length));
-    tmpl = tmpl.replace(/\{\{HOME_MATCHES_SHOWCASE\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{HOME_MATCHES_SHOWCASE\}\}/g, matchesShowcase);
     tmpl = tmpl.replace(/\{\{RECENT_ITEMS\}\}/g, recentCards);
     tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
 
@@ -393,18 +407,38 @@ module.exports = (req, res) => {
   // 2. ITEMS CATALOG (/items)
   if (pathname === '/items') {
     let tmpl = readTemplate('items.html');
-    const cards = items.map(renderItemCard).join('\n');
+    const lostOnly = items.filter(i => i.type === 'LOST');
+    const cards = lostOnly.map(i => renderItemCard(i, false)).join('\n');
     tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('items', lang));
-    tmpl = tmpl.replace(/\{\{ITEMS\}\}/g, cards);
-    tmpl = tmpl.replace(/\{\{ITEM_COUNT\}\}/g, String(items.length));
-    tmpl = tmpl.replace(/\{\{TAB_ALL_ACTIVE\}\}/g, 'active');
-    tmpl = tmpl.replace(/\{\{TAB_OPEN_ACTIVE\}\}/g, '');
-    tmpl = tmpl.replace(/\{\{TAB_MATCHED_ACTIVE\}\}/g, '');
-    tmpl = tmpl.replace(/\{\{TAB_RETURNED_ACTIVE\}\}/g, '');
-    tmpl = tmpl.replace(/\{\{COUNT_ALL\}\}/g, String(items.length));
-    tmpl = tmpl.replace(/\{\{COUNT_OPEN\}\}/g, '12');
+    tmpl = tmpl.replace(/\{\{CATALOG_TITLE\}\}/g, 'Campus Lost Belongings Directory');
+    tmpl = tmpl.replace(/\{\{CATALOG_SUBTITLE\}\}/g, 'Explore all active lost belongings reported across campus. Found items are sealed in Central Custody.');
+    tmpl = tmpl.replace(/\{\{ADMIN_FOUND_ACTION_BTN\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{STATUS_ALL_LABEL\}\}/g, 'All Lost Reports');
+    tmpl = tmpl.replace(/\{\{TYPE_FILTER_CONTROL\}\}/g, '<div class="toolbar-item"><label for="type">Directory Mode</label><div style="display:flex;align-items:center;height:38px;padding:0 0.75rem;background:#fef2f2;border:1px solid #fecaca;border-radius:6px;font-size:0.82rem;font-weight:700;color:#991b1b;gap:6px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Lost Belongings Directory</div><input type="hidden" id="type" name="type" value="lost"></div>');
+    tmpl = tmpl.replace(/\{\{SEARCH_QUERY\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ACTIVE_TYPE\}\}/g, 'lost');
+    tmpl = tmpl.replace(/\{\{ACTIVE_CAT\}\}/g, 'all');
+    tmpl = tmpl.replace(/\{\{COUNT_ALL\}\}/g, String(lostOnly.length));
+    tmpl = tmpl.replace(/\{\{COUNT_OPEN\}\}/g, String(lostOnly.filter(i => i.status === 'OPEN').length));
     tmpl = tmpl.replace(/\{\{COUNT_MATCHED\}\}/g, '0');
-    tmpl = tmpl.replace(/\{\{COUNT_RETURNED\}\}/g, '2');
+    tmpl = tmpl.replace(/\{\{COUNT_RETURNED\}\}/g, String(lostOnly.filter(i => i.status === 'RETURNED').length));
+    tmpl = tmpl.replace(/\{\{STATUS_ALL_ACTIVE\}\}/g, 'active');
+    tmpl = tmpl.replace(/\{\{STATUS_OPEN_ACTIVE\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{STATUS_MATCHED_ACTIVE\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{STATUS_RETURNED_ACTIVE\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{CAT_ALL_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{CAT_[A-Z]+_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{STATUS_ALL_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{STATUS_[A-Z]+_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{SORT_DATE_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{SORT_[A-Z]+_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ORDER_DESC_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{ORDER_ASC_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ALGO_MERGE_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{ALGO_[A-Z]+_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{DSA_METRICS_BANNER\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ITEMS_CARDS\}\}/g, cards);
+    tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
     tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(tmpl);
