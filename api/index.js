@@ -640,8 +640,43 @@ ${renderFooter()}
     return res.end(tmpl);
   }
 
-  // 10. SEARCH (/search)
+  // 10. SEARCH (/search - RESTRICTED TO ADMIN)
   if (pathname === '/search') {
+    if (!isAdmin) {
+      const restrictedHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Access Restricted | DYPTC Security Custody</title>
+  <link rel="stylesheet" href="/style.css?v=20261020_07">
+</head>
+<body>
+${renderNavbar('search', lang, false)}
+  <main class="main-content" style="max-width:760px; margin:3rem auto; padding:0 1.5rem;">
+    <div class="card" style="background:#ffffff; border-radius:16px; border:1px solid #fee2e2; padding:3rem 2.5rem; text-align:center; box-shadow:0 10px 30px rgba(220,38,38,0.06);">
+      <div style="width:68px; height:68px; margin:0 auto 1.5rem; background:#fee2e2; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#dc2626;">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"/>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        </svg>
+      </div>
+      <span style="display:inline-block; padding:4px 12px; background:#fef2f2; border:1px solid #fecaca; color:#991b1b; font-size:0.78rem; font-weight:800; border-radius:9999px; text-transform:uppercase;">Central Custody Anti-Fraud Protocol</span>
+      <h1 style="font-size:1.75rem; color:#0f172a; margin:0.75rem 0; font-weight:800;">Catalog Search Restricted</h1>
+      <p style="color:#64748b; font-size:1rem; line-height:1.65; max-width:580px; margin:0 auto 2rem;">To prevent fraudulent claims, public item directory searching is restricted. Found items are held sealed in Central Custody. Students can register a lost item or track their own report.</p>
+      <div style="display:flex; justify-content:center; gap:1rem; flex-wrap:wrap;">
+        <a href="/lost" class="btn btn-primary">+ Report Lost Item</a>
+        <a href="/track" class="btn btn-outline-dark">Track My Report Status &rarr;</a>
+        <a href="/admin" class="btn btn-outline">Staff Login</a>
+      </div>
+    </div>
+  </main>
+${renderFooter()}
+</body>
+</html>`;
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.end(restrictedHtml);
+    }
     let tmpl = readTemplate('search.html');
     tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('search', lang));
     tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
