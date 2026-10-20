@@ -282,12 +282,26 @@ function renderFooter() {
 </footer>`;
 }
 
-function renderItemCard(item) {
+function renderItemCard(item, isAdmin = false) {
   const img = item.image_url || '/data/uploads/item_default.svg';
-  const tokenBadge = item.claim_token ? `<span class="claim-token-badge" style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;font-family:monospace;border:1px solid #bfdbfe;">${escapeHtml(item.claim_token)}</span>` : '';
+  
+  let displayName = item.name;
+  let displayDesc = item.description;
+  let displayColour = item.colour;
+  let displayLocation = item.location;
+  let securityPill = item.claim_token ? `<span class="claim-token-badge" style="background:#eff6ff;color:#2563eb;padding:2px 8px;border-radius:4px;font-size:0.75rem;font-weight:700;font-family:monospace;border:1px solid #bfdbfe;">${escapeHtml(item.claim_token)}</span>` : '';
+
+  if (!isAdmin && item.type === "FOUND") {
+    displayName = "Custody Item: " + item.category + " (Central Locker)";
+    displayDesc = "🔒 [Anti-Fraud Protected]: Specific physical marks, serial numbers, and contents are sealed to prevent fraudulent claims. Inquire at Central Security Control Room or verify ownership.";
+    displayColour = "Confidential (Verify on Claim)";
+    displayLocation = (item.department || "Central Custody Desk") + " (Custody Lockbox)";
+    securityPill = '<span class="badge" style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.72rem;font-weight:700;">🔒 Blind Custody</span>';
+  }
+
   return `<div class="item-card">
   <div class="item-card-header">
-    <img src="${escapeHtml(img)}" alt="${escapeHtml(item.name)}">
+    <img src="${escapeHtml(img)}" alt="${escapeHtml(displayName)}">
     <div class="item-card-badges">
       ${renderTypePill(item.type)}
       ${renderStatusPill(item.status)}
@@ -296,14 +310,14 @@ function renderItemCard(item) {
   <div class="item-card-body">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.4rem;">
       <span class="category-tag">${escapeHtml(item.category)}</span>
-      ${tokenBadge}
+      ${securityPill}
     </div>
-    <h3 class="item-title">${escapeHtml(item.name)}</h3>
-    <p class="item-desc">${escapeHtml(item.description)}</p>
+    <h3 class="item-title">${escapeHtml(displayName)}</h3>
+    <p class="item-desc">${escapeHtml(displayDesc)}</p>
     <div class="item-meta">
       <div class="item-meta-row"><strong>Department:</strong> ${escapeHtml(item.department || 'General')}</div>
-      <div class="item-meta-row"><strong>Colour:</strong> ${escapeHtml(item.colour)}</div>
-      <div class="item-meta-row"><strong>Location:</strong> ${escapeHtml(item.location)}</div>
+      <div class="item-meta-row"><strong>Colour:</strong> ${escapeHtml(displayColour)}</div>
+      <div class="item-meta-row"><strong>Location:</strong> ${escapeHtml(displayLocation)}</div>
       <div class="item-meta-row"><strong>Date:</strong> ${escapeHtml(item.date)}</div>
     </div>
   </div>

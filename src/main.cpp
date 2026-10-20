@@ -34,142 +34,125 @@ inline std::string getLang(const crow::request& req) {
 }
 
 // Helper to render an item card for catalog and search results
-std::string renderItemCard(const Item& item) {
- std::ostringstream oss;
- std::string img = item.image_url.empty() ? "/data/uploads/item_default.svg" : item.image_url;
+std::string renderItemCard(const Item& item, bool isAdmin = false) {
+    std::ostringstream oss;
+    std::string img = item.image_url.empty() ? "/data/uploads/item_default.svg" : item.image_url;
 
- oss << "<div class=\"item-card\">"
- << " <div class=\"item-card-header\">"
- << " <img src=\"" << html::escape(img) << "\" alt=\"" << html::escape(item.name) << "\">"
- << " <div class=\"item-card-badges\">"
- << " " << html::renderTypePill(item.type)
- << " " << html::renderStatusPill(item.status)
- << " </div>"
- << " </div>"
- << " <div class=\"item-card-body\">"
- << " <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;\">"
- << " " << html::renderCategoryBadge(item.category)
- << " " << html::renderClaimTokenBadge(item.claim_token)
- << " </div>"
- << " <h3 class=\"item-title\">" << html::escape(item.name) << "</h3>"
- << " <p class=\"item-desc\">" << html::escape(item.description) << "</p>"
- << " <div class=\"item-meta\">"
- << " <div class=\"item-meta-row\"><strong>Department:</strong> " << html::escape(item.department) << "</div>"
- << " <div class=\"item-meta-row\"><strong>Colour:</strong> " << html::escape(item.colour) << "</div>"
- << " <div class=\"item-meta-row\"><strong>Location:</strong> " << html::escape(item.location) << "</div>"
- << " <div class=\"item-meta-row\"><strong>Date:</strong> " << html::escape(item.date) << "</div>"
- << " </div>"
- << " </div>"
- << " <div class=\"item-card-footer\">"
- << " <a href=\"/item?id=" << item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Details</a>"
- << " <a href=\"/receipt?id=" << item.id << "\" class=\"btn btn-outline-dark btn-sm\" title=\"Print Official Handover Slip\">Receipt</a>"
- << " <a href=\"/matches?id=" << item.id << "\" class=\"btn btn-primary btn-sm\">Auto Matches</a>"
- << " </div>"
- << "</div>";
+    std::string displayName = item.name;
+    std::string displayDesc = item.description;
+    std::string displayColour = item.colour;
+    std::string displayLocation = item.location;
+    std::string securityPill = "";
 
- return oss.str();
+    // Zero-Knowledge Blind Custody: Withhold specific identifiers of FOUND items from unauthenticated students
+    if (!isAdmin && item.type == "FOUND") {
+        displayName = "Custody Item: " + item.category + " (Central Locker)";
+        displayDesc = "🔒 [Anti-Fraud Protected]: Specific physical marks, serial numbers, and contents are sealed to prevent fraudulent claims. Inquire at Central Security Control Room or verify ownership.";
+        displayColour = "Confidential (Verify on Claim)";
+        displayLocation = item.department.empty() ? "Central Custody Desk" : (item.department + " (Custody Lockbox)");
+        securityPill = "<span class=\"badge\" style=\"background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;font-size:0.72rem;font-weight:700;\">🔒 Blind Custody</span>";
+    }
+
+    oss << "<div class=\"item-card\">"
+        << "  <div class=\"item-card-header\">"
+        << "    <img src=\"" << html::escape(img) << "\" alt=\"" << html::escape(displayName) << "\">"
+        << "    <div class=\"item-card-badges\">"
+        << "      " << html::renderTypePill(item.type)
+        << "      " << html::renderStatusPill(item.status)
+        << "    </div>"
+        << "  </div>"
+        << "  <div class=\"item-card-body\">"
+        << "    <div style=\"display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;\">"
+        << "      " << html::renderCategoryBadge(item.category)
+        << "      " << (securityPill.empty() ? html::renderClaimTokenBadge(item.claim_token) : securityPill)
+        << "    </div>"
+        << "    <h3 class=\"item-title\">" << html::escape(displayName) << "</h3>"
+        << "    <p class=\"item-desc\">" << html::escape(displayDesc) << "</p>"
+        << "    <div class=\"item-meta\">"
+        << "      <div class=\"item-meta-row\"><strong>Department:</strong> " << html::escape(item.department) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Colour:</strong> " << html::escape(displayColour) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Location:</strong> " << html::escape(displayLocation) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Date:</strong> " << html::escape(item.date) << "</div>"
+        << "    </div>"
+        << "  </div>"
+        << "  <div class=\"item-card-footer\">"
+        << "    <a href=\"/item?id=" << item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Details</a>"
+        << "    <a href=\"/receipt?id=" << item.id << "\" class=\"btn btn-outline-dark btn-sm\" title=\"Print Official Handover Slip\">Receipt</a>"
+        << "    <a href=\"/matches?id=" << item.id << "\" class=\"btn btn-primary btn-sm\">Auto Matches</a>"
+        << "  </div>"
+        << "</div>";
+
+    return oss.str();
 }
 
 // Helper to render a match card for the Matching Engine
-std::string renderMatchCard(const MatchResult& match) {
- std::ostringstream oss;
- int score = static_cast<int>(std::round(match.breakdown.total_score));
+std::string renderMatchCard(const MatchResult& match, bool isAdmin = false) {
+    std::ostringstream oss;
+    int score = static_cast<int>(std::round(match.breakdown.total_score));
 
- std::string scoreColorClass = "score-low";
- if (score >= 75) scoreColorClass = "score-high";
- else if (score >= 50) scoreColorClass = "score-mid";
+    std::string scoreColorClass = "score-low";
+    if (score >= 75) scoreColorClass = "score-high";
+    else if (score >= 50) scoreColorClass = "score-mid";
 
- std::string lostImg = match.lost_item.image_url.empty() ? "/data/uploads/item_default.svg" : match.lost_item.image_url;
- std::string foundImg = match.found_item.image_url.empty() ? "/data/uploads/item_default.svg" : match.found_item.image_url;
+    std::string lostImg = match.lost_item.image_url.empty() ? "/data/uploads/item_default.svg" : match.lost_item.image_url;
+    std::string foundImg = match.found_item.image_url.empty() ? "/data/uploads/item_default.svg" : match.found_item.image_url;
 
- oss << "<div class=\"match-comparison-card\">"
- << " <div class=\"match-header\">"
- << " <div>"
- << " <span style=\"font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;\">Match Candidate Pair</span>"
- << " <h3 style=\"font-size: 1.25rem; color: #0f172a;\">" << html::escape(match.lost_item.name) << " &harr; " << html::escape(match.found_item.name) << "</h3>"
- << " </div>"
- << " <div style=\"display: flex; gap: 0.5rem;\">"
- << " <a href=\"/item?id=" << match.lost_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Lost #" << match.lost_item.id << "</a>"
- << " <a href=\"/item?id=" << match.found_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Found #" << match.found_item.id << "</a>"
- << " </div>"
- << " </div>"
- << " <div class=\"match-grid\">"
- << " <!-- Lost Item Side -->"
- << " <div class=\"match-side match-side-lost\">"
- << " <div style=\"display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;\">"
- << " <img src=\"" << html::escape(lostImg) << "\" style=\"width: 44px; height: 44px; border-radius: 6px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;\">"
- << " <div>"
- << " " << html::renderTypePill("LOST") << " " << html::renderStatusPill(match.lost_item.status)
- << " <h4 style=\"font-size: 1.05rem; margin-top: 0.2rem;\">" << html::escape(match.lost_item.name) << "</h4>"
- << " </div>"
- << " </div>"
- << " <p style=\"font-size: 0.88rem; color: #475569; margin-bottom: 0.5rem;\">" << html::escape(match.lost_item.description) << "</p>"
- << " <div style=\"font-size: 0.82rem; color: #64748b;\">"
- << " <div><strong>Lost at:</strong> " << html::escape(match.lost_item.location) << "</div>"
- << " <div><strong>Date Lost:</strong> " << html::escape(match.lost_item.date) << "</div>"
- << " <div><strong>Colour:</strong> " << html::escape(match.lost_item.colour) << "</div>"
- << " </div>"
- << " </div>"
- << " <!-- Center Score Circle -->"
- << " <div class=\"match-center\">"
- << " <div class=\"score-badge-circle " << scoreColorClass << "\">"
- << " <span class=\"score-percent\">" << score << "%</span>"
- << " <span class=\"score-sub\">Match</span>"
- << " </div>"
- << " <div style=\"font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;\">Max-Heap Ranked</div>"
- << " </div>"
- << " <!-- Found Item Side -->"
- << " <div class=\"match-side match-side-found\">"
- << " <div style=\"display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;\">"
- << " <img src=\"" << html::escape(foundImg) << "\" style=\"width: 44px; height: 44px; border-radius: 6px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;\">"
- << " <div>"
- << " " << html::renderTypePill("FOUND") << " " << html::renderStatusPill(match.found_item.status)
- << " <h4 style=\"font-size: 1.05rem; margin-top: 0.2rem;\">" << html::escape(match.found_item.name) << "</h4>"
- << " </div>"
- << " </div>"
- << " <p style=\"font-size: 0.88rem; color: #475569; margin-bottom: 0.5rem;\">" << html::escape(match.found_item.description) << "</p>"
- << " <div style=\"font-size: 0.82rem; color: #64748b;\">"
- << " <div><strong>Found at:</strong> " << html::escape(match.found_item.location) << "</div>"
- << " <div><strong>Date Found:</strong> " << html::escape(match.found_item.date) << "</div>"
- << " <div><strong>Held at:</strong> " << html::escape(match.found_item.storage_location.empty() ? "Security Office" : match.found_item.storage_location) << "</div>"
- << " </div>"
- << " </div>"
- << " </div>"
- << " <!-- 6-Factor DSA Point Breakdown Grid -->"
- << " <div class=\"score-factors-grid\">"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Category (25%)</span><span class=\"factor-val "
- << (match.breakdown.category_score >= 20.0 ? "factor-val-high" : "factor-val-low") << "\">"
- << static_cast<int>(std::round(match.breakdown.category_score)) << "/25</span></div>"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Name Sim (25%)</span><span class=\"factor-val "
- << (match.breakdown.name_score >= 18.0 ? "factor-val-high" : (match.breakdown.name_score >= 10.0 ? "factor-val-mid" : "factor-val-low")) << "\">"
- << static_cast<int>(std::round(match.breakdown.name_score)) << "/25</span></div>"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Colour (15%)</span><span class=\"factor-val "
- << (match.breakdown.colour_score >= 12.0 ? "factor-val-high" : "factor-val-low") << "\">"
- << static_cast<int>(std::round(match.breakdown.colour_score)) << "/15</span></div>"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Location (15%)</span><span class=\"factor-val "
- << (match.breakdown.location_score >= 10.0 ? "factor-val-high" : "factor-val-low") << "\">"
- << static_cast<int>(std::round(match.breakdown.location_score)) << "/15</span></div>"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Tokens (10%)</span><span class=\"factor-val "
- << (match.breakdown.description_score >= 7.0 ? "factor-val-high" : "factor-val-low") << "\">"
- << static_cast<int>(std::round(match.breakdown.description_score)) << "/10</span></div>"
- << " <div class=\"factor-chip\"><span class=\"factor-label\">Date Prox (10%)</span><span class=\"factor-val "
- << (match.breakdown.date_score >= 7.0 ? "factor-val-high" : "factor-val-low") << "\">"
- << static_cast<int>(std::round(match.breakdown.date_score)) << "/10</span></div>"
- << " </div>"
- << " <!-- Breakdown Reasons Chips -->"
- << " <div class=\"match-reasons\">"
- << " <div class=\"reasons-title\">Algorithmic Scoring Rationale:</div>"
- << " <div class=\"reasons-chips\">";
- 
- for (const auto& reason : match.breakdown.reasons) {
- oss << "<span class=\"reason-chip\">" << html::escape(reason) << "</span>";
- }
+    std::string foundDisplayName = match.found_item.name;
+    std::string foundDisplayLoc = match.found_item.location;
+    std::string foundDisplayCol = match.found_item.colour;
+    std::string foundDisplayDesc = match.found_item.description;
 
- oss << " </div>"
- << " </div>"
- << "</div>";
+    if (!isAdmin) {
+        foundDisplayName = "Found Candidate #" + std::to_string(match.found_item.id) + " (" + match.found_item.category + ")";
+        foundDisplayLoc = match.found_item.department + " (Central Custody Lockbox)";
+        foundDisplayCol = "🔒 Sealed for Ownership Challenge";
+        foundDisplayDesc = "🔒 [Anti-Fraud Sealed]: Full description withheld to prevent copycat claims. Match score calculated via C++ Priority Queue engine.";
+    }
 
- return oss.str();
+    oss << "<div class=\"match-comparison-card\">"
+        << "  <div class=\"match-header\">"
+        << "    <div>"
+        << "      <span style=\"font-size: 0.85rem; font-weight: 700; color: #64748b; text-transform: uppercase;\">Match Candidate Pair</span>"
+        << "      <h3 style=\"font-size: 1.25rem; color: #0f172a;\">" << html::escape(match.lost_item.name) << " &harr; " << html::escape(foundDisplayName) << "</h3>"
+        << "    </div>"
+        << "    <div style=\"display: flex; gap: 0.5rem;\">"
+        << "      <a href=\"/item?id=" << match.lost_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Lost #" << match.lost_item.id << "</a>"
+        << "      <a href=\"/item?id=" << match.found_item.id << "\" class=\"btn btn-outline-dark btn-sm\">View Found #" << match.found_item.id << "</a>"
+        << "    </div>"
+        << "  </div>"
+        << "  <div class=\"match-grid\">"
+        << "    <!-- Lost Item Side -->"
+        << "    <div class=\"match-side match-side-lost\">"
+        << "      <div style=\"display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;\">"
+        << "        <img src=\"" << html::escape(lostImg) << "\" style=\"width: 44px; height: 44px; border-radius: 6px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;\">"
+        << "        <div>"
+        << "          <span class=\"badge\" style=\"background: #fef2f2; color: #b91c1c; font-size: 0.75rem; margin-bottom: 2px;\">Lost Report</span>"
+        << "          <h4 style=\"margin: 0; font-size: 1rem;\">" << html::escape(match.lost_item.name) << "</h4>"
+        << "        </div>"
+        << "      </div>"
+        << "      <div class=\"item-meta-row\"><strong>Location:</strong> " << html::escape(match.lost_item.location) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Colour:</strong> " << html::escape(match.lost_item.colour) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Reported Date:</strong> " << html::escape(match.lost_item.date) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Description:</strong> " << html::escape(match.lost_item.description) << "</div>"
+        << "    </div>"
+        << "    <!-- Found Item Side -->"
+        << "    <div class=\"match-side match-side-found\">"
+        << "      <div style=\"display: flex; gap: 0.75rem; align-items: center; margin-bottom: 0.75rem;\">"
+        << "        <img src=\"" << html::escape(foundImg) << "\" style=\"width: 44px; height: 44px; border-radius: 6px; background: #fff; padding: 4px; border: 1px solid #e2e8f0;\">"
+        << "        <div>"
+        << "          <span class=\"badge\" style=\"background: #ecfdf5; color: #059669; font-size: 0.75rem; margin-bottom: 2px;\">Found Turn-in</span>"
+        << "          <h4 style=\"margin: 0; font-size: 1rem;\">" << html::escape(foundDisplayName) << "</h4>"
+        << "        </div>"
+        << "      </div>"
+        << "      <div class=\"item-meta-row\"><strong>Location:</strong> " << html::escape(foundDisplayLoc) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Colour:</strong> " << html::escape(foundDisplayCol) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Found Date:</strong> " << html::escape(match.found_item.date) << "</div>"
+        << "      <div class=\"item-meta-row\"><strong>Description:</strong> " << html::escape(foundDisplayDesc) << "</div>"
+        << "    </div>"
+        << "  </div>"
+        << "</div>";
+
+    return oss.str();
 }
 
 // Helper to render Lost page with preserved form values
@@ -624,7 +607,8 @@ int main() {
  // Render Cards
  std::string cardsHtml;
  for (const auto& item : filtered) {
- cardsHtml += renderItemCard(item);
+ bool isAdmin = isAdminAuthenticated(req);
+		cardsHtml += renderItemCard(item, isAdmin);
  }
  if (cardsHtml.empty()) {
  cardsHtml = "<div class=\"empty-state form-group-full\">"
@@ -884,7 +868,7 @@ int main() {
  std::string itemMatchesHtml;
  size_t matchLimit = std::min(rankedMatches.size(), size_t(3));
  for (size_t i = 0; i < matchLimit; ++i) {
- itemMatchesHtml += renderMatchCard(rankedMatches[i]);
+ itemMatchesHtml += renderMatchCard(rankedMatches[i], isAdmin);
  }
  if (itemMatchesHtml.empty()) {
  itemMatchesHtml = "<div class=\"empty-state\" style=\"padding: 2rem;\">"
@@ -929,9 +913,23 @@ int main() {
 	std::string auditHtml = html::renderAuditTimeline(auditLogs);
 
 	html::replacePlaceholder(tmpl, "{{NAVBAR}}", html::renderNavbar("items", lang));
-	html::replacePlaceholder(tmpl, "{{ALERT}}", "");
 	html::replacePlaceholder(tmpl, "{{ITEM_ID}}", std::to_string(item.id));
-	html::replacePlaceholder(tmpl, "{{ITEM_NAME}}", html::escape(item.name));
+	std::string itemDisplayName = item.name;
+	std::string itemDisplayDesc = item.description;
+	std::string itemDisplayCol = item.colour;
+	std::string itemDisplayLoc = item.location;
+	std::string blindNoticeHtml = "";
+
+	if (!isAdmin && item.type == "FOUND") {
+		itemDisplayName = "Custody Belonging: " + item.category + " (Locked in Central Security)";
+		itemDisplayDesc = "🔒 [CONFIDENTIAL - ZERO-KNOWLEDGE CUSTODY]: Specific physical markings, serial numbers, password hints, and internal contents have been sealed by Central Security to prevent unauthorized and fraudulent claims. To initiate an ownership claim, you must pass the Challenge Verification below and present your DYPTC Student ID at the Central Security Control Room.";
+		itemDisplayCol = "Confidential (Claimant must verify upon release)";
+		itemDisplayLoc = item.department.empty() ? "Central Security Desk" : (item.department + " (Turned in to Central Security)");
+		blindNoticeHtml = R"(<div class="alert" style="background:#fffbeb;border:1px solid #fcd34d;color:#92400e;display:flex;align-items:center;gap:0.75rem;margin-bottom:1.5rem;padding:0.9rem;border-radius:8px;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg><div><strong>Blind Custody Protection Active:</strong> Identifying details of this found belonging are strictly withheld from the public to prevent fraudulent reports. Complete the Ownership Challenge below to claim.</div></div>)";
+	}
+
+	html::replacePlaceholder(tmpl, "{{ALERT}}", blindNoticeHtml);
+	html::replacePlaceholder(tmpl, "{{ITEM_NAME}}", html::escape(itemDisplayName));
 	html::replacePlaceholder(tmpl, "{{ITEM_IMAGE}}", html::escape(img));
 	html::replacePlaceholder(tmpl, "{{ITEM_TYPE_PILL}}", html::renderTypePill(item.type));
 	html::replacePlaceholder(tmpl, "{{ITEM_STATUS_PILL}}", html::renderStatusPill(item.status));
@@ -939,9 +937,9 @@ int main() {
 	html::replacePlaceholder(tmpl, "{{CLAIM_TOKEN_BADGE}}", html::renderClaimTokenBadge(item.claim_token));
 	html::replacePlaceholder(tmpl, "{{ITEM_DEPARTMENT}}", html::escape(item.department));
 	html::replacePlaceholder(tmpl, "{{ITEM_DATE}}", html::escape(item.date));
-	html::replacePlaceholder(tmpl, "{{ITEM_COLOUR}}", html::escape(item.colour));
-	html::replacePlaceholder(tmpl, "{{ITEM_LOCATION}}", html::escape(item.location));
-	html::replacePlaceholder(tmpl, "{{ITEM_DESCRIPTION}}", html::escape(item.description));
+	html::replacePlaceholder(tmpl, "{{ITEM_COLOUR}}", html::escape(itemDisplayCol));
+	html::replacePlaceholder(tmpl, "{{ITEM_LOCATION}}", html::escape(itemDisplayLoc));
+	html::replacePlaceholder(tmpl, "{{ITEM_DESCRIPTION}}", html::escape(itemDisplayDesc));
 	html::replacePlaceholder(tmpl, "{{ITEM_CONTACT_NAME}}", html::escape(item.contact_name));
 	html::replacePlaceholder(tmpl, "{{ITEM_STUDENT_ID}}", html::escape(item.student_id));
 	html::replacePlaceholder(tmpl, "{{ITEM_CONTACT_INFO}}", html::maskContactInfo(item.contact_info, isAdmin));

@@ -215,6 +215,12 @@ SmartCampusLostFound/
 ### प्रश्न १०: *"How does the CSV Export feature generate files in C++ without third-party libraries?"*
 - **Answer:** *"The `/admin/export.csv` route is protected by `isAdminAuthenticated`. It queries all SQLite records, encodes them according to RFC 4180 (properly escaping internal double quotes with `""` and wrapping strings), and emits a pure `text/csv` stream with the HTTP response header `Content-Disposition: attachment; filename=\"dyptc_lost_found_register_2026.csv\"`. This allows the campus security desk to instantly download audits into Microsoft Excel or Google Sheets."*
 
+### प्रश्न ११: *"How does your system prevent fake claims and copycat lost reports when a valuable found item is registered?"*
+- **Answer:** *"Madam, this is our core security innovation: the **Zero-Knowledge Blind Custody Protocol**:
+  1. When a valuable item is registered as **FOUND**, its sensitive physical markers (serial numbers, password hints, internal bag contents, exact color, and specific bench/room location) are **automatically redacted** from the public catalog (`[Anti-Fraud Protected]`).
+  2. A dishonest student browsing the website cannot see the identifying details to manufacture a fraudulent copycat 'LOST' report.
+  3. Instead, our **C++ Priority Queue DSA Engine** performs blind cross-matching in the background. If a legitimate match occurs, the claimant must answer an **Ownership Challenge Question** and perform a **Physical Device Unlock** in front of the Central Security Desk before any item is handed over and marked as `RETURNED`."*
+
 ---
 
 ## 🏛️ ६. Dr. D. Y. Patil Technical Campus (DYPTC) ची अधिकृत Departments (Official Departments)
