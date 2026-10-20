@@ -1,9 +1,8 @@
 {
   "version": 2,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "https://dyptc-smart-campus.onrender.com/$1"
-    }
+    { "source": "/style.css", "destination": "/api/index.js" },
+    { "source": "/data/uploads/:path*", "destination": "/api/index.js" },
+    { "source": "/(.*)", "destination": "/api/index.js" }
   ]
 }

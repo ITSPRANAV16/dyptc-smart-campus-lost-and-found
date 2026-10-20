@@ -1,0 +1,10 @@
+{
+  "name": "dyptc-smart-campus-lost-and-found",
+  "version": "1.0.0",
+  "description": "Dr. D. Y. Patil Technical Campus (DYPTC) Lost & Found Portal",
+  "main": "api/index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "keywords": ["dsa", "c++", "dyptc", "lost-and-found"]
+}
