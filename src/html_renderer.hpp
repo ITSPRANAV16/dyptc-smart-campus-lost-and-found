@@ -244,6 +244,7 @@ inline std::string renderNavbar(const std::string& activePage, const std::string
 )";
     if (isAdmin) {
         oss << "        <li><a href=\"/items\" class=\"" << isActive("items") << "\" title=\"Master Catalog [Admin Only]\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/></svg><span>" << tr("Browse", lang) << "</span></a></li>\n";
+        oss << "        <li><a href=\"/search\" class=\"" << isActive("search") << "\" title=\"DSA Search Catalog [Admin Only]\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg><span>" << tr("Search", lang) << "</span></a></li>\n";
     } else {
         oss << "        <li><a href=\"/track\" class=\"" << isActive("track") << "\" title=\"Track Status of Your Lost Report\"><svg width=\"15\" height=\"15\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><line x1=\"21\" y1=\"21\" x2=\"16.65\" y2=\"16.65\"/></svg><span>" << tr("Track Status", lang) << "</span></a></li>\n";
     }

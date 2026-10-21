@@ -183,7 +183,8 @@ function renderNavbar(activePage, lang = 'en', isAdmin = false) {
   const tr = (en, mr) => (lang === 'mr' ? mr : en);
 
   const browseOrTrackLink = isAdmin
-    ? `<li><a href="/items" class="${isActive('items')}" title="Master Catalog (Admin Only)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>${tr('Browse', 'कॅटलॉग')}</span></a></li>`
+    ? `<li><a href="/items" class="${isActive('items')}" title="Master Catalog (Admin Only)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span>${tr('Browse', 'कॅटलॉग')}</span></a></li>
+       <li><a href="/search" class="${isActive('search')}" title="DSA Search Catalog (Admin Only)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${tr('Search', 'शोध')}</span></a></li>`
     : `<li><a href="/track" class="${isActive('track')}" title="Track Your Lost Report"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><span>${tr('Track Status', 'स्थिती तपासा')}</span></a></li>`;
 
   const foundOrTrackAction = isAdmin
@@ -597,8 +598,21 @@ ${renderFooter()}
   // 7. REPORT LOST (/lost)
   if (pathname === '/lost') {
     let tmpl = readTemplate('lost.html');
-    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('lost', lang));
+    const adminCatalogActionsHtml = isAdmin
+      ? `<div class="admin-quick-links" style="margin-top:1rem; background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:1.25rem;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:0.5rem; color:#166534; font-size:0.78rem; font-weight:800; text-transform:uppercase;">
+            <span style="width:8px; height:8px; background:#16a34a; border-radius:50%; display:inline-block;"></span> Staff Custody Tools
+          </div>
+          <p style="margin:0 0 0.75rem; font-size:0.84rem; color:#15803d; line-height:1.4;">Official Staff Custody Access: Search full catalog or inspect all campus records.</p>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <a href="/search" class="btn btn-outline-dark btn-sm" style="width:100%; justify-content:center; font-weight:700; background:#ffffff;">🔍 Search Catalog (Admin)</a>
+            <a href="/items" class="btn btn-outline-dark btn-sm" style="width:100%; justify-content:center; font-weight:700; background:#ffffff;">📋 Browse Master Catalog</a>
+          </div>
+        </div>`
+      : '';
+    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('lost', lang, isAdmin));
     tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ADMIN_CATALOG_ACTIONS\}\}/g, adminCatalogActionsHtml);
     tmpl = tmpl.replace(/\{\{VAL_NAME\}\}/g, '');
     tmpl = tmpl.replace(/\{\{VAL_COLOUR\}\}/g, '');
     tmpl = tmpl.replace(/\{\{VAL_LOCATION\}\}/g, '');
@@ -615,8 +629,21 @@ ${renderFooter()}
   // 8. REPORT FOUND (/found)
   if (pathname === '/found') {
     let tmpl = readTemplate('found.html');
-    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('found', lang));
+    const adminCatalogActionsHtml = isAdmin
+      ? `<div class="admin-quick-links" style="margin-top:1rem; background:#f0fdf4; border:1.5px solid #86efac; border-radius:12px; padding:1.25rem;">
+          <div style="display:flex; align-items:center; gap:6px; margin-bottom:0.5rem; color:#166534; font-size:0.78rem; font-weight:800; text-transform:uppercase;">
+            <span style="width:8px; height:8px; background:#16a34a; border-radius:50%; display:inline-block;"></span> Staff Custody Tools
+          </div>
+          <p style="margin:0 0 0.75rem; font-size:0.84rem; color:#15803d; line-height:1.4;">Official Staff Custody Access: Search full catalog or inspect all campus records.</p>
+          <div style="display:flex; flex-direction:column; gap:0.5rem;">
+            <a href="/search" class="btn btn-outline-dark btn-sm" style="width:100%; justify-content:center; font-weight:700; background:#ffffff;">🔍 Search Catalog (Admin)</a>
+            <a href="/items" class="btn btn-outline-dark btn-sm" style="width:100%; justify-content:center; font-weight:700; background:#ffffff;">📋 Browse Master Catalog</a>
+          </div>
+        </div>`
+      : '';
+    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('found', lang, isAdmin));
     tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{ADMIN_CATALOG_ACTIONS\}\}/g, adminCatalogActionsHtml);
     tmpl = tmpl.replace(/\{\{VAL_NAME\}\}/g, '');
     tmpl = tmpl.replace(/\{\{VAL_COLOUR\}\}/g, '');
     tmpl = tmpl.replace(/\{\{VAL_LOCATION\}\}/g, '');
@@ -634,7 +661,7 @@ ${renderFooter()}
   // 9. ADMIN (/admin)
   if (pathname === '/admin') {
     let tmpl = readTemplate('admin.html');
-    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('admin', lang));
+    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('admin', lang, isAdmin));
     tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(tmpl);
@@ -677,8 +704,34 @@ ${renderFooter()}
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.end(restrictedHtml);
     }
+
     let tmpl = readTemplate('search.html');
-    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('search', lang));
+    const q = (query.q || '').toLowerCase();
+    const cat = query.category || 'all';
+    let results = items;
+    if (q) {
+      results = results.filter(i => (i.name || '').toLowerCase().includes(q) || (i.description || '').toLowerCase().includes(q));
+    }
+    if (cat && cat !== 'all') {
+      results = results.filter(i => i.category === cat);
+    }
+    const resultsHtml = results.map(i => renderItemCard(i, true)).join('\n');
+    tmpl = tmpl.replace(/\{\{NAVBAR\}\}/g, renderNavbar('search', lang, true));
+    tmpl = tmpl.replace(/\{\{ALERT\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{SEARCH_QUERY\}\}/g, escapeHtml(query.q || ''));
+    tmpl = tmpl.replace(/\{\{SEARCH_LOC\}\}/g, escapeHtml(query.location || ''));
+    tmpl = tmpl.replace(/\{\{CAT_ALL_SELECTED\}\}/g, cat === 'all' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_ELEC_SELECTED\}\}/g, cat === 'Electronics' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_IDCARD_SELECTED\}\}/g, cat === 'ID & Cards' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_BOOKS_SELECTED\}\}/g, cat === 'Books & Stationery' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_KEYS_SELECTED\}\}/g, cat === 'Keys & Accessories' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_BAGS_SELECTED\}\}/g, cat === 'Bags & Backpacks' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_CLOTH_SELECTED\}\}/g, cat === 'Clothing & Wearables' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{CAT_OTHER_SELECTED\}\}/g, cat === 'Other' ? 'selected' : '');
+    tmpl = tmpl.replace(/\{\{SEARCH_LINEAR_SELECTED\}\}/g, 'selected');
+    tmpl = tmpl.replace(/\{\{SEARCH_BINARY_SELECTED\}\}/g, '');
+    tmpl = tmpl.replace(/\{\{DSA_SEARCH_BANNER\}\}/g, '<div class="dsa-banner"><div class="dsa-banner-title"><span>DSA Search Metrics:</span><span class="dsa-tag">Linear Search (O(N))</span></div><div class="dsa-stats"><span>Items Checked: <strong>' + results.length + '</strong></span><span>Found: <strong>' + results.length + '</strong></span></div></div>');
+    tmpl = tmpl.replace(/\{\{SEARCH_RESULTS\}\}/g, resultsHtml || '<div class="empty-state form-group-full"><h3 class="empty-title">No Records Found</h3></div>');
     tmpl = tmpl.replace(/\{\{FOOTER\}\}/g, renderFooter());
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     return res.end(tmpl);
