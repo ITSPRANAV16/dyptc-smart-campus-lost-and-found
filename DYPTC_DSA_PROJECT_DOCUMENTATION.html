@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DYPTC Smart Campus - DSA & Sorting Comprehensive Guide</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap');
+
+    @page {
+      size: A4;
+      margin: 16mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: counter(page);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: #1e293b;
+      background: #ffffff;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* Print Break Utilities */
+    .page-break {
+      page-break-before: always;
+    }
+    .avoid-break {
+      page-break-inside: avoid;
+    }
+
+    /* Cover / Header Banner */
+    .header-seal-block {
+      border-bottom: 2.5px solid #b91c1c;
+      padding-bottom: 12px;
+      margin-bottom: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header-logo-text h2 {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #991b1b;
+      letter-spacing: -0.02em;
+    }
+    .header-logo-text p {
+      font-size: 8.5pt;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .header-badge {
+      text-align: right;
+      font-size: 8pt;
+      color: #475569;
+    }
+    .header-badge strong {
+      color: #0f172a;
+      display: block;
+      font-size: 9pt;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+      border: 1px solid #bfdbfe;
+      border-left: 5px solid #2563eb;
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 20px;
+    }
+    .hero-banner h1 {
+      font-size: 16pt;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .hero-banner .subtitle {
+      font-size: 9.5pt;
+      color: #2563eb;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #cbd5e1;
+      font-size: 8pt;
+    }
+    .meta-item strong {
+      color: #475569;
+      display: block;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .meta-item span {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 12.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-bottom: 1.5px solid #e2e8f0;
+      padding-bottom: 4px;
+      margin-top: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    h2 .section-num {
+      background: #b91c1c;
+      color: #ffffff;
+      font-size: 8.5pt;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-weight: 800;
+    }
+    h3 {
+      font-size: 10.5pt;
+      font-weight: 700;
+      color: #1e3a8a;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+      text-align: justify;
+    }
+
+    /* Algorithm Card */
+    .algo-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+    }
+    .algo-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 4px;
+    }
+    .algo-title {
+      font-size: 10.5pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .algo-tag {
+      font-size: 7.5pt;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 9999px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0 14px;
+      font-size: 8.5pt;
+    }
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 6px 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background: #f1f5f9;
+      color: #0f172a;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 7.5pt;
+      letter-spacing: 0.03em;
+    }
+    tr:nth-child(even) td {
+      background: #f8fafc;
+    }
+
+    /* Complexity Badges */
+    .complexity-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 8pt;
+      padding: 1px 6px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .c-log { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+    .c-linear { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+    .c-quad { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+
+    /* Code Snippets */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 8pt;
+      background: #f1f5f9;
+      color: #b91c1c;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+    pre {
+      background: #0f172a;
+      color: #f8fafc;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 7.5pt;
+      padding: 8px 12px;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 6px 0 10px;
+      line-height: 1.45;
+    }
+
+    /* Key Callout Box */
+    .callout {
+      border-left: 4px solid #10b981;
+      background: #f0fdf4;
+      padding: 8px 12px;
+      margin: 8px 0;
+      border-radius: 0 6px 6px 0;
+      font-size: 8.5pt;
+    }
+    .callout strong {
+      color: #065f46;
+    }
+
+    /* Viva Q&A */
+    .viva-item {
+      margin-bottom: 10px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+    .viva-q {
+      font-weight: 700;
+      color: #0f172a;
+      font-size: 9pt;
+      margin-bottom: 3px;
+    }
+    .viva-a {
+      color: #334155;
+      font-size: 8.5pt;
+      line-height: 1.45;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Institutional Header -->
+  <div class="header-seal-block">
+    <div class="header-logo-text">
+      <h2>Dr. D. Y. Patil Technical Campus (DYPTC)</h2>
+      <p>Talegaon-Varale, Pune &bull; Department of Computer Engineering &bull; DTE Code: 6991 (SPPU Affiliated)</p>
+    </div>
+    <div class="header-badge">
+      <strong>DSA Lab Course Project</strong>
+      <span>Academic Year 2026-27 | SEM-03</span>
+    </div>
+  </div>
+
+  <!-- Hero Title Card -->
+  <div class="hero-banner">
+    <h1>Smart Campus Lost &amp; Found System</h1>
+    <div class="subtitle">Complete Technical &amp; Algorithmic Documentation (C++17 Core Engine)</div>
+    <p style="font-size: 8.5pt; color: #475569; margin-bottom: 0;">
+      A high-performance algorithmic matching and campus custody tracking platform built strictly using modern C++17,
+      the Crow multi-threaded microframework, SQLite3 database persistence, and pure HTML5/CSS3 zero-JavaScript architecture.
+    </p>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <strong>Course Name</strong>
+        <span>Data Structures &amp; Algorithms</span>
+      </div>
+      <div class="meta-item">
+        <strong>Course Code</strong>
+        <span>CS-210257 (SPPU)</span>
+      </div>
+      <div class="meta-item">
+        <strong>Core Language</strong>
+        <span>ISO C++17 (Native)</span>
+      </div>
+      <div class="meta-item">
+        <strong>Web Architecture</strong>
+        <span>Crow C++ Microframework</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 1 -->
+  <h2><span class="section-num">1</span> प्रकल्प विहंगावलोकन (Project Overview &amp; Problem Statement)</h2>
+  <p>
+    Dr. D. Y. Patil Technical Campus (DYPTC) च्या विस्तीर्ण संकुलामध्ये दररोज शेकडो विद्यार्थ्यांची मौल्यवान उपकरणे जसे की 
+    Laptops, AirPods, Scientific Calculators, Smart ID Cards, Hostel Keys आणि Backpacks हरवतात. पारंपारिक मॅन्युअल नोंदवहीत 
+    नोंद केल्याने वस्तू शोधण्यात अनेक दिवस वाया जायचे आणि बनावट दावे (fraudulent claims) होण्याचा धोका असायचा.
+  </p>
+  <p>
+    हा प्रश्न सोडवण्यासाठी आपण <strong>C++17</strong> मध्ये संपूर्ण <strong>Data Structures &amp; Algorithms (DSA) Engine</strong> 
+    विकसित केला आहे. या प्रणालीमध्ये कोणतेही बाह्य थर्ड-पार्टी अल्गोरिदम्स किंवा Python/Node.js लायब्ररी न वापरता 
+    सर्व सॉर्टिंग, सर्चिंग, स्ट्रिंग साम्य (Levenshtein &amp; Jaccard), आणि प्रायॉरिटी क्यू रँकिंग <strong>शुद्ध C++ कोड</strong> द्वारे चालवले जाते.
+  </p>
+
+  <!-- SECTION 2: SORTING ALGORITHMS -->
+  <h2><span class="section-num">2</span> सर्व Sorting Algorithms चे सविस्तर विश्लेषण (Sorting Deep-Dive)</h2>
+  <p>
+    प्रकल्पामध्ये <strong>३ स्वतंत्र Sorting Algorithms</strong> प्रत्यक्ष विकसित केले आहेत. वापरकर्ते आणि शिक्षक `items.html` 
+    पेजवर रनटाईम मायक्रोसेकंद (&mu;s), तुलनांची संख्या (Comparisons), आणि स्वॅप्स थेट तपासून पाहू शकतात:
+  </p>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">२.१ Merge Sort (Divide &amp; Conquer) &bull; Production Default</div>
+      <span class="algo-tag">O(N log N) Stable</span>
+    </div>
+    <p><strong>कार्यपद्धती:</strong> Merge Sort हा Divide-and-Conquer तत्त्वावर चालतो. तो वेक्टरचे दोन समान अर्धे भाग करतो (`mid = (low + high) / 2`), दोन्ही भाग रिकर्सिव्हली सॉर्ट करतो, आणि शेवटी दोन पॉइंटर्स वापरून सॉर्टेड क्रमाने एकत्र (merge) करतो.</p>
+    <div class="callout">
+      <strong>का वापरले? (Why Used?):</strong><br>
+      १. <strong>गॅरंटीड परफॉर्मन्स:</strong> डेटा कितीही मोठा असला तरी Best, Average आणि Worst सर्व परिस्थितींमध्ये Merge Sort चा वेळ $O(N \log N)$ च राहतो.<br>
+      २. <strong>Stable Sorting:</strong> दोन वस्तूंची तारीख किंवा नाव समान असल्यास, आधी नोंदवलेली वस्तू आधीच राहते (समान घटकांची अंतर्गत जागा बदलत नाही).<br>
+      ३. <strong>Binary Search ची पूर्वतयारी:</strong> Binary Search चालवण्यासाठी डेटा आधी सॉर्टेड असणे बंधनकारक आहे, ते काम Merge Sort करते.
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 295 ते 350) &bull; <code>dsa::mergeSort()</code>, <code>dsa::merge()</code></p>
+  </div>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">२.२ Insertion Sort (Adaptive Shifting) &bull; Optimal for Small/Near-Sorted Data</div>
+      <span class="algo-tag">O(N) Best / O(N²) Worst</span>
+    </div>
+    <p><strong>कार्यपद्धती:</strong> पत्ते खेळताना आपण हातातील पाने सॉर्ट करतो, त्याप्रमाणे हा डावीकडील सॉर्टेड सब-अरेमध्ये नवीन घटकाला उजवीकडून डावीकडे शिफ्ट करत योग्य जागी बसवतो.</p>
+    <div class="callout">
+      <strong>का वापरले? (Why Used?):</strong><br>
+      १. <strong>जवळपास सॉर्टेड डेटामध्ये सर्वात वेगवान:</strong> कॅम्पसमध्ये आधी १०० वस्तू सॉर्ट केलेल्या असताना नव्याने केवळ १-२ वस्तूंचीच नोंद होते. अशा वेळी संपूर्ण अरे पुन्हा सॉर्ट करण्यापेक्षा Insertion Sort फक्त नवीन घटकाला त्याच्या जागी सरकवतो, जे अवघ्या <strong>$O(N)$ वेळेत</strong> पूर्ण होते.<br>
+      २. <strong>Zero Extra Memory ($O(1)$ Space):</strong> Merge Sort प्रमाणे याला कोणताही तात्पुरता (auxiliary) वेक्टर लागत नाही.
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 246 ते 290) &bull; <code>dsa::insertionSort()</code></p>
+  </div>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">२.३ Bubble Sort (Adjacent Comparison) &bull; Educational Benchmarking</div>
+      <span class="algo-tag">O(N) Best / O(N²) Worst</span>
+    </div>
+    <p><strong>कार्यपद्धती:</strong> अरेमधील लगतच्या (adjacent) दोन घटकांची तुलना करतो आणि क्रम चुकीचा असल्यास त्यांची अदलाबदल (swap) करतो. प्रत्येक फेरीत सर्वात मोठा घटक पाण्याच्या बुडबुड्याप्रमाणे उजव्या बाजूला स्थिरावतो.</p>
+    <div class="callout">
+      <strong>का वापरले? (Why Used?):</strong><br>
+      १. <strong>Early Exit Optimization:</strong> आपण कोडमध्ये <code>swapped</code> फ्लॅग वापरला आहे. जर एका संपूर्ण फेरीत एकही स्वॅप झाला नाही, तर डेटा सॉर्ट झाला आहे हे ओळखून अल्गोरिदम लगेच थांबतो, ज्यामुळे अनावश्यक लूप्स टळतात ($O(N)$ Best Case).<br>
+      २. <strong>लॅबमधील तुलनात्मक निकष:</strong> $O(N^2)$ अल्गोरिदम मोठ्या डेटामध्ये किती जास्त वेळ आणि स्वॅप्स घेतो हे Merge Sort च्या $O(N \log N)$ सोबत तुलना करून मॅडमना दाखवण्यासाठी.
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 209 ते 238) &bull; <code>dsa::bubbleSort()</code></p>
+  </div>
+
+  <!-- TABLE: SORTING COMPARISON -->
+  <div class="avoid-break">
+    <h3>📊 Sorting Algorithms सर्वसमावेशक तुलनात्मक तक्ता (Master Comparison Table)</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Algorithm</th>
+          <th>Best Case</th>
+          <th>Average Case</th>
+          <th>Worst Case</th>
+          <th>Space Complexity</th>
+          <th>Stable?</th>
+          <th>प्रकल्पामधील नेमका उद्देश</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Merge Sort</strong></td>
+          <td><span class="complexity-badge c-log">O(N log N)</span></td>
+          <td><span class="complexity-badge c-log">O(N log N)</span></td>
+          <td><span class="complexity-badge c-log">O(N log N)</span></td>
+          <td><span class="complexity-badge c-linear">O(N)</span></td>
+          <td>होय (Yes)</td>
+          <td>कॅटलॉगचा मुख्य सॉर्ट + Binary Search साठी पूर्व-सॉर्टिंग</td>
+        </tr>
+        <tr>
+          <td><strong>Insertion Sort</strong></td>
+          <td><span class="complexity-badge c-linear">O(N)</span></td>
+          <td><span class="complexity-badge c-quad">O(N²)</span></td>
+          <td><span class="complexity-badge c-quad">O(N²)</span></td>
+          <td><span class="complexity-badge c-log">O(1)</span> In-place</td>
+          <td>होय (Yes)</td>
+          <td>नवीन १-२ आयटम्स जोडल्यावर जलद अडॉप्टिव्ह सॉर्टिंग</td>
+        </tr>
+        <tr>
+          <td><strong>Bubble Sort</strong></td>
+          <td><span class="complexity-badge c-linear">O(N)</span></td>
+          <td><span class="complexity-badge c-quad">O(N²)</span></td>
+          <td><span class="complexity-badge c-quad">O(N²)</span></td>
+          <td><span class="complexity-badge c-log">O(1)</span> In-place</td>
+          <td>होय (Yes)</td>
+          <td>Lab Evaluation मध्ये Comparision आणि Swaps चे रनटाईम प्रात्यक्षिक</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 3: SEARCHING ALGORITHMS -->
+  <h2><span class="section-num">3</span> Searching Algorithms: Linear Search vs Binary Search</h2>
+  <p>
+    शोध कार्यासाठी सिस्टीममध्ये दोन तंत्रे दिली आहेत, जी `search.html` वर ॲडमिनला मायक्रोसेकंद अचूकतेने तुलना करून दाखवतात:
+  </p>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">३.१ Linear Search (Multi-Field Sequential Scan)</div>
+      <span class="algo-tag">O(N) Complexity</span>
+    </div>
+    <p><strong>कार्यपद्धती:</strong> अरेमधील पहिल्या घटकापासून शेवटच्या घटकापर्यंत क्रमाने जात प्रत्येक आयटमची तुलना करतो.</p>
+    <div class="callout">
+      <strong>का वापरले?:</strong> विद्यार्थी जेव्हा वस्तू शोधतात, तेव्हा ते फक्त नाव नाही तर <em>Category, Location, Colour, आणि Date</em> असे अनेक निकष एकत्र निवडतात. अशा बहुआयामी अनसॉर्टेड डेटावर Linear Search अत्यंत लवचिकपणे काम करतो.
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 365 ते 415) &bull; <code>dsa::linearSearch()</code></p>
+  </div>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">३.२ Binary Search (Logarithmic Divide &amp; Conquer)</div>
+      <span class="algo-tag">O(log N) Complexity</span>
+    </div>
+    <p><strong>कार्यपद्धती:</strong> डेटा आधी Merge Sort ने सॉर्ट केलेला असतो. अल्गोरिदम मध्य घटक (`mid`) तपासून डाव्या किंवा उजव्या अर्ध्या भागात जातो, ज्यामुळे प्रत्येक पायरीवर शोधक्षेत्र ५०% कमी होते.</p>
+    <div class="callout">
+      <strong>का वापरले?:</strong> जर १०२४ वस्तू नोंदवलेल्या असतील, तर Linear Search ला १०२४ वेळा तपासणी करावी लागेल, परंतु Binary Search <strong>केवळ १० फेऱ्यांमध्ये ($2^{10} = 1024$)</strong> अचूक वस्तू शोधून काढतो!
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 420 ते 480) &bull; <code>dsa::binarySearchByName()</code></p>
+  </div>
+
+  <!-- SECTION 4: DATA STRUCTURES -->
+  <h2><span class="section-num">4</span> Data Structures (डेटा स्ट्रक्चर्स): प्रकार, निवड व कारणे</h2>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">४.१ Priority Queue (Max-Heap) &bull; Top-K Auto Match Ranking</div>
+      <span class="algo-tag">Push: O(log K) &bull; Top: O(1)</span>
+    </div>
+    <p><strong>C++ STL:</strong> <code>std::priority_queue&lt;MatchResult, std::vector&lt;MatchResult&gt;, MatchComparator&gt;</code></p>
+    <div class="callout">
+      <strong>का वापरले? (महत्त्वाचा Viva प्रश्न):</strong><br>
+      जर १०० हरवलेल्या आणि १०० सापडलेल्या वस्तू असतील, तर एकूण $100 	imes 100 = 10,000$ जोड्या तयार होतात. संपूर्ण १०,००० जोड्या Quicksort ने सॉर्ट केल्यास $O(K \log K)$ वेळ लागेल. परंतु वापरकर्त्याला <strong>फक्त Top 5 सर्वोत्तम जुळणाऱ्या जोड्याच</strong> हव्या असतात. Max-Heap मुळे सर्वाधिक स्कोअर असलेला घटक थेट मुळाशी (Root) $O(1)$ वेळेत मिळतो आणि काढणे $O(\log K)$ वेळेत होते!
+    </div>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 510 ते 580) &bull; <code>dsa::findRankedMatches()</code></p>
+  </div>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">४.२ Hash Table Indexing (`std::unordered_map` &amp; `std::unordered_set`)</div>
+      <span class="algo-tag">O(1) Average Lookup</span>
+    </div>
+    <p>
+      <strong>१. Category Inverted Index (`dsa::buildCategoryIndex`):</strong> कॅटेगरीनुसार (उदा. `"Electronics" &rarr; [1, 4, 9]`) आयडींचे हॅश टेबल बनवले जाते, ज्यामुळे इलेक्ट्रॉनिक्स सिलेक्ट केल्यास पूर्ण डेटा न तपासता $O(1)$ मध्ये यादी मिळते.<br>
+      <strong>२. Bilingual Engine (`html::tr`):</strong> इंग्रजी-मराठी शब्दकोश हॅश टेबलमध्ये साठवून रिअल-टाईम भाषांतर $O(1)$ वेळेत केले जाते.
+    </p>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/dsa_engine.hpp` (ओळ 150 ते 162), `src/html_renderer.hpp` (ओळ 173)</p>
+  </div>
+
+  <div class="algo-card avoid-break">
+    <div class="algo-card-header">
+      <div class="algo-title">४.३ Dynamic Array (`std::vector<Item>`) &bull; Contiguous RAM Cache</div>
+      <span class="algo-tag">O(1) Random Access</span>
+    </div>
+    <p>
+      कॅम्पसमध्ये वस्तूंची संख्या मर्यादित नसल्याने Static Array ऐवजी Vector वापरला आहे. Contiguous Memory Allocation मुळे हा CPU Cache-friendly आहे आणि Random Access $O(1)$ वेळेत देतो.
+    </p>
+    <p style="font-size: 8pt; color:#64748b; margin-bottom:0;"><strong>कोड संदर्भ:</strong> `src/models.hpp` (ओळ 15 ते 55) &bull; <code>struct Item</code></p>
+  </div>
+
+  <!-- SECTION 5: SPECIALIZED ALGORITHMS -->
+  <h2><span class="section-num">5</span> प्रगत स्ट्रिंग व मॅचिंग अल्गोरिदम्स (Specialized Algorithms)</h2>
+
+  <div class="avoid-break">
+    <h3>५.१ Dynamic Programming: Levenshtein Distance ($O(M 	imes N)$)</h3>
+    <p>
+      विद्यार्थी वस्तूंची नावे टाकताना स्पेलिंगच्या चुका करतात (उदा. <strong>"AirPods"</strong> vs <strong>"Earbuds"</strong> किंवा <strong>"Airpod"</strong>). 
+      साध्या `==` ने हे मॅच होत नाही. हा DP अल्गोरिदम $M 	imes N$ आकाराचा मॅट्रिक्स तयार करून दोन शब्दांमधील Minimum Edit Operations (Insert, Delete, Substitute) 
+      मोजतो आणि Normalized Ratio ($0.0$ ते $1.0$) मध्ये रूपांतरित करतो:
+    </p>
+    <pre>DP[i][j] = min({ DP[i-1][j] + 1,        // deletion
+                  DP[i][j-1] + 1,        // insertion
+                  DP[i-1][j-1] + cost });// substitution</pre>
+  </div>
+
+  <div class="avoid-break">
+    <h3>५.२ Set Theory: Jaccard Token Similarity</h3>
+    <p>
+      जेव्हा शब्दांचा क्रम बदलतो (उदा. <strong>"HP Silver Laptop"</strong> आणि <strong>"Laptop Silver HP"</strong>), तेव्हा Levenshtein कमी गुण देतो. 
+      म्हणून आपण Jaccard Similarity वापरतो, जी शब्दांचे संच (Token Sets) करून मोजते:
+    </p>
+    <div style="text-align: center; font-weight: 700; margin: 6px 0; font-size: 10pt; color: #1e3a8a;">
+      Jaccard Ratio = |A &cap; B| &divide; |A &cup; B|
+    </div>
+    <p>आपले Hybrid Matcher <strong>६०% Jaccard आणि ४०% Levenshtein</strong> एकत्र करून अचूक गुण काढते.</p>
+  </div>
+
+  <div class="avoid-break">
+    <h3>५.३ Weighted 6-Factor Multi-Attribute Scoring Engine</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>घटक (Attribute)</th>
+          <th>Weightage</th>
+          <th>अल्गोरिदम</th>
+          <th>कॅम्पस उद्देश</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>1. Category</strong></td>
+          <td><strong>25%</strong></td>
+          <td>Exact Hash Match</td>
+          <td>इलेक्ट्रॉनिक्स वस्तू बॅगेसोबत चुकीने जुळू नये</td>
+        </tr>
+        <tr>
+          <td><strong>2. Item Name</strong></td>
+          <td><strong>25%</strong></td>
+          <td>Hybrid (60% Jaccard + 40% Levenshtein)</td>
+          <td>ब्रँड व उपकरणाचे नाव अचूक जुळवणे</td>
+        </tr>
+        <tr>
+          <td><strong>3. Location</strong></td>
+          <td><strong>15%</strong></td>
+          <td>Token Intersection + Substring</td>
+          <td>Central Library, Canteen, AI&amp;DS Lab जुळवणे</td>
+        </tr>
+        <tr>
+          <td><strong>4. Colour</strong></td>
+          <td><strong>15%</strong></td>
+          <td>Levenshtein Edit Tolerance</td>
+          <td>रंगातील साम्य (Silver vs Matte Black)</td>
+        </tr>
+        <tr>
+          <td><strong>5. Description</strong></td>
+          <td><strong>10%</strong></td>
+          <td>Jaccard Word Overlap</td>
+          <td>स्टिकर्स, कव्हर, ओरखडे यांसारख्या खुणा तपासणे</td>
+        </tr>
+        <tr>
+          <td><strong>6. Date Proximity</strong></td>
+          <td><strong>10%</strong></td>
+          <td>Exponential Day Decay</td>
+          <td>एकाच दिवशी हरवलेली व सापडलेली वस्तू वर रँक करणे</td>
+        </tr>
+        <tr>
+          <td><strong>एकूण (Total)</strong></td>
+          <td><strong>100%</strong></td>
+          <td colspan="2"><strong>Max-Heap Priority Queue मध्ये सर्वोच्च गुण असलेली वस्तू वर दाखवली जाते</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="page-break"></div>
+
+  <!-- SECTION 6: CODE TRACEABILITY -->
+  <h2><span class="section-num">6</span> कोड ट्रेसेबिलिटी संदर्भ तक्ता (Code Traceability Reference)</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>DSA Concept</th>
+        <th>Source File</th>
+        <th>Line Numbers</th>
+        <th>C++ Function / Structure Signature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Merge Sort</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 295 - 350</td>
+        <td><code>void mergeSort(vector&lt;Item&gt;&amp;, string, bool, SortMetrics&amp;)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Insertion Sort</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 246 - 290</td>
+        <td><code>void insertionSort(vector&lt;Item&gt;&amp;, string, bool, SortMetrics&amp;)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Bubble Sort</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 209 - 238</td>
+        <td><code>void bubbleSort(vector&lt;Item&gt;&amp;, string, bool, SortMetrics&amp;)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Linear Search</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 365 - 415</td>
+        <td><code>vector&lt;Item&gt; linearSearch(vector&lt;Item&gt;, q, cat, loc, status, metrics)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Binary Search</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 420 - 480</td>
+        <td><code>vector&lt;Item&gt; binarySearchByName(vector&lt;Item&gt;, q, metrics)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Priority Queue (Max-Heap)</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 510 - 580</td>
+        <td><code>priority_queue&lt;MatchResult, vector, MatchComparator&gt;</code></td>
+      </tr>
+      <tr>
+        <td><strong>Levenshtein Distance (DP)</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 67 - 106</td>
+        <td><code>int levenshteinDistance(const string&amp;, const string&amp;)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Jaccard Token Similarity</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 114 - 145</td>
+        <td><code>double jaccardSimilarity(const string&amp;, const string&amp;)</code></td>
+      </tr>
+      <tr>
+        <td><strong>Category Hash Index</strong></td>
+        <td><code>src/dsa_engine.hpp</code></td>
+        <td>Lines 150 - 162</td>
+        <td><code>unordered_map&lt;string, vector&lt;int&gt;&gt; buildCategoryIndex()</code></td>
+      </tr>
+      <tr>
+        <td><strong>Functor Operator Overload</strong></td>
+        <td><code>src/models.hpp</code></td>
+        <td>Lines 75 - 81</td>
+        <td><code>bool MatchComparator::operator()(const MatchResult&amp;, const MatchResult&amp;)</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- SECTION 7: VIVA QUESTIONS & MODEL ANSWERS -->
+  <h2><span class="section-num">7</span> मॅडम विचारू शकतील असे टॉप १० Viva Questions &amp; Answers</h2>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q1. Why did you choose Merge Sort as the primary catalog sorting algorithm?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> Merge Sort guarantees <code>O(N log N)</code> time complexity in all cases (Best, Average, and Worst). Furthermore, it is a <strong>stable sorting algorithm</strong>. In a lost and found database, preserving the original registration order for items with identical dates or categories is essential, which Merge Sort achieves reliably.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q2. What is the fundamental prerequisite of Binary Search, and how is it handled in your application?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> Binary Search strictly requires the underlying dataset to be sorted on the key being searched. In our <code>/search</code> route controller, before invoking <code>dsa::binarySearchByName()</code>, we automatically sort the array alphabetically using <code>dsa::mergeSort()</code> on the <code>name</code> field.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q3. Why is a Priority Queue (Max-Heap) better than QuickSort for Auto-Matching?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> Comparing N lost items with M found items yields <code>N &times; M</code> pairs. Fully sorting all pairs with QuickSort costs <code>O(K log K)</code> where <code>K = N &times; M</code>. However, users only need the top 5 highest-probability matches. A Max-Heap extracts the top elements in <code>O(K log 5)</code> time and maintains the highest score at the root in <code>O(1)</code>, saving memory and CPU cycles.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q4. How does your system match items with typographical or spelling errors?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> We implemented the <strong>Levenshtein Distance algorithm</strong> using Dynamic Programming in <code>O(M &times; N)</code> time. It calculates the minimum edit operations (insertions, deletions, substitutions) required to transform one string into another, converting it into a normalized ratio from 0.0 to 1.0.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q5. What happens if words are reordered (e.g. "HP Silver Laptop" vs "Laptop Silver HP")?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> Levenshtein distance penalizes character shifts heavily. To overcome this, we integrated <strong>Jaccard Token Similarity</strong> (|A &cap; B| / |A &cup; B|). By splitting strings into token sets, word order variations achieve a 100% match. Our hybrid matcher combines 60% Jaccard with 40% Levenshtein.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q6. What is the space complexity trade-off between Merge Sort and Bubble/Insertion Sort?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> Merge Sort requires <code>O(N)</code> auxiliary space to hold merged partitions in memory. In contrast, Bubble Sort and Insertion Sort operate in-place with <code>O(1)</code> auxiliary memory overhead.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q7. How does the Bubble Sort early exit optimization work in code?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> We maintain a boolean flag <code>swapped = false</code>. If a complete pass through the vector occurs without any adjacent pair swap, the vector is already ordered, and the loop breaks immediately, reducing the Best Case complexity from <code>O(N²)</code> to <code>O(N)</code>.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q8. Where and why did you use Hash Tables (`std::unordered_map`)?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> We used Hash Tables in: (1) <code>dsa::buildCategoryIndex()</code> to create an inverted index mapping categories to item IDs for <code>O(1)</code> subset queries, and (2) <code>html::tr()</code> for <code>O(1)</code> bilingual Marathi/English translation lookups.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q9. How do you measure and display microsecond execution times?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> We use C++17 <code>std::chrono::high_resolution_clock::now()</code> before and after algorithm execution. We compute duration in microseconds (<code>&mu;s</code>) alongside counter variables tracking exact comparisons and swaps, rendering them directly into HTML templates.
+    </div>
+  </div>
+
+  <div class="viva-item avoid-break">
+    <div class="viva-q">Q10. How does the architecture prevent student fraud while preserving DSA transparency?</div>
+    <div class="viva-a">
+      <strong>Answer:</strong> We implemented <strong>Zero-Knowledge Blind Custody (Role-Based Access Control)</strong>. Regular students only lodge lost reports and query their private status using unique cryptographic Claim Tokens (<code>/track</code>), blocking unauthorized viewing of custody items. Meanwhile, authorized staff (<code>/admin</code>) have exclusive access to the Master Catalog and DSA comparison tools (<code>/search</code> and <code>/items</code>) for institutional oversight.
+    </div>
+  </div>
+
+  <!-- Footer Seal -->
+  <div style="margin-top: 24px; padding-top: 10px; border-top: 1.5px solid #cbd5e1; display: flex; justify-content: space-between; font-size: 8pt; color: #64748b;">
+    <span>Dr. D. Y. Patil Technical Campus (DYPTC) Pune &bull; Department of Computer Engineering</span>
+    <span>C++17 DSA Course Project Evaluation Report &bull; SPPU Pune</span>
+  </div>
+
+</body>
+</html>
