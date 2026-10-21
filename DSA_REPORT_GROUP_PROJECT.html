@@ -4,22 +4,20 @@
   <meta charset="UTF-8">
   <title>Smart Campus Lost &amp; Found System - DSA Course Project Report</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap');
-
     @page {
       size: A4 portrait;
       margin: 16mm 15mm 16mm 15mm;
       @bottom-right {
         content: "Page " counter(page);
-        font-family: 'Inter', sans-serif;
-        font-size: 8pt;
-        color: #64748b;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 8.5pt;
+        color: #000000;
       }
       @bottom-left {
         content: "DYPTC Pune \2022 Department of Computer Engineering";
-        font-family: 'Inter', sans-serif;
-        font-size: 8pt;
-        color: #64748b;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 8.5pt;
+        color: #000000;
       }
     }
 
@@ -30,10 +28,10 @@
     }
 
     body {
-      font-family: 'Inter', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 9.2pt;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 9.5pt;
       line-height: 1.5;
-      color: #1e293b;
+      color: #000000;
       background: #ffffff;
       -webkit-print-color-adjust: exact;
       print-color-adjust: exact;
@@ -55,11 +53,11 @@
 
     /* Top Running Header on every page (except cover) */
     .running-header {
-      border-bottom: 1.5px solid #cbd5e1;
-      padding-bottom: 5px;
+      border-bottom: 1.5px solid #000000;
+      padding-bottom: 4px;
       margin-bottom: 12px;
-      font-size: 8pt;
-      color: #475569;
+      font-size: 8.5pt;
+      color: #000000;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -67,176 +65,176 @@
       letter-spacing: 0.04em;
     }
     .running-header strong {
-      color: #991b1b;
-      font-weight: 700;
+      color: #000000;
+      font-weight: bold;
     }
 
     /* Cover Page Specific Styles */
     .cover-container {
       text-align: center;
-      padding: 28px 18px 18px;
+      padding: 26px 18px 16px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       flex: 1;
-      border: 3px double #cbd5e1;
-      border-radius: 8px;
+      border: 3px double #000000;
+      border-radius: 4px;
     }
     .inst-seal {
       margin-bottom: 8px;
     }
     .inst-name {
-      font-size: 15pt;
-      font-weight: 800;
-      color: #991b1b;
+      font-size: 16pt;
+      font-weight: bold;
+      color: #000000;
       line-height: 1.25;
       text-transform: uppercase;
       letter-spacing: 0.02em;
     }
     .inst-sub {
-      font-size: 9.5pt;
-      color: #334155;
+      font-size: 10pt;
+      color: #000000;
       margin-top: 4px;
-      font-weight: 600;
+      font-weight: bold;
     }
     .inst-code {
-      font-size: 8pt;
-      color: #64748b;
+      font-size: 8.5pt;
+      color: #333333;
       margin-top: 2px;
-      font-family: 'JetBrains Mono', monospace;
     }
 
     .report-badge {
       display: inline-block;
-      background: #fef2f2;
-      border: 1px solid #fecaca;
-      color: #991b1b;
-      font-size: 8.5pt;
-      font-weight: 700;
+      border: 1px solid #000000;
+      color: #000000;
+      font-size: 9pt;
+      font-weight: bold;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       padding: 4px 14px;
-      border-radius: 9999px;
+      border-radius: 20px;
       margin-bottom: 12px;
     }
     .project-title {
-      font-size: 21pt;
-      font-weight: 800;
-      color: #0f172a;
+      font-size: 22pt;
+      font-weight: bold;
+      color: #000000;
       line-height: 1.2;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.01em;
       margin-bottom: 6px;
+      text-transform: uppercase;
     }
     .project-subtitle {
-      font-size: 10.5pt;
-      color: #475569;
-      font-weight: 500;
+      font-size: 11pt;
+      color: #111111;
+      font-weight: normal;
       line-height: 1.35;
       max-width: 580px;
-      margin: 0 auto 12px;
+      margin: 0 auto 10px;
     }
 
     .submission-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: 1.25fr 0.75fr;
       gap: 14px;
       text-align: left;
-      margin: 12px 0;
+      margin: 10px 0;
     }
     .sub-box {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 6px;
-      padding: 12px 14px;
+      background: #ffffff;
+      border: 1.5px solid #000000;
+      border-radius: 4px;
+      padding: 10px 12px;
     }
     .sub-box h4 {
-      font-size: 8.5pt;
+      font-size: 9pt;
       text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: #991b1b;
-      border-bottom: 1px solid #e2e8f0;
+      letter-spacing: 0.05em;
+      color: #000000;
+      border-bottom: 1px solid #000000;
       padding-bottom: 4px;
       margin-bottom: 8px;
-      font-weight: 700;
+      font-weight: bold;
     }
     .sub-box p {
-      font-size: 9pt;
-      color: #0f172a;
+      font-size: 9.5pt;
+      color: #000000;
       line-height: 1.4;
       margin-bottom: 3px;
     }
     .sub-box strong {
-      color: #0f172a;
+      color: #000000;
     }
     .dept-footer {
-      border-top: 2px solid #991b1b;
+      border-top: 2px solid #000000;
       padding-top: 10px;
       margin-top: 10px;
     }
     .dept-name {
-      font-size: 10.5pt;
-      font-weight: 800;
-      color: #0f172a;
+      font-size: 11pt;
+      font-weight: bold;
+      color: #000000;
       text-transform: uppercase;
     }
     .acad-year {
-      font-size: 8.5pt;
-      color: #475569;
-      font-weight: 600;
+      font-size: 9pt;
+      color: #111111;
+      font-weight: bold;
       margin-top: 2px;
     }
 
     /* Headings */
     h1.page-title {
-      font-size: 13.5pt;
-      font-weight: 800;
-      color: #0f172a;
-      border-bottom: 2px solid #b91c1c;
+      font-size: 14pt;
+      font-weight: bold;
+      color: #000000;
+      border-bottom: 2px solid #000000;
       padding-bottom: 4px;
       margin-bottom: 10px;
       text-transform: uppercase;
-      letter-spacing: -0.01em;
+      letter-spacing: 0.01em;
     }
     h2 {
-      font-size: 10.5pt;
-      font-weight: 700;
-      color: #1e3a8a;
+      font-size: 11pt;
+      font-weight: bold;
+      color: #000000;
       margin-top: 10px;
       margin-bottom: 5px;
     }
     h3 {
-      font-size: 9.5pt;
-      font-weight: 700;
-      color: #0f172a;
+      font-size: 10pt;
+      font-weight: bold;
+      color: #000000;
       margin-top: 6px;
       margin-bottom: 3px;
     }
     p {
       margin-bottom: 8px;
-      color: #334155;
+      color: #000000;
       text-align: justify;
     }
     ul, ol {
-      margin-left: 18px;
+      margin-left: 20px;
       margin-bottom: 8px;
-      color: #334155;
+      color: #000000;
     }
     li {
       margin-bottom: 3px;
     }
 
-    /* Callout & Highlight Blocks */
+    /* Callout & Highlight Blocks (Formal Greyscale / Monochrome) */
     .highlight-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-left: 4px solid #2563eb;
-      border-radius: 4px;
+      background: #fbfbfb;
+      border: 1px solid #000000;
+      border-left: 5px solid #000000;
+      border-radius: 3px;
       padding: 8px 12px;
       margin: 8px 0;
-      font-size: 8.8pt;
+      font-size: 9.2pt;
+      color: #000000;
     }
     .highlight-card strong {
-      color: #1e40af;
+      color: #000000;
     }
 
     /* Tables */
@@ -244,151 +242,149 @@
       width: 100%;
       border-collapse: collapse;
       margin: 8px 0 10px;
-      font-size: 8.2pt;
+      font-size: 8.5pt;
+      color: #000000;
     }
     th, td {
-      border: 1px solid #cbd5e1;
+      border: 1px solid #000000;
       padding: 5px 8px;
       text-align: left;
       vertical-align: top;
+      color: #000000;
     }
     th {
-      background: #f1f5f9;
-      color: #0f172a;
-      font-weight: 700;
+      background: #f0f0f0;
+      color: #000000;
+      font-weight: bold;
       text-transform: uppercase;
-      font-size: 7.2pt;
+      font-size: 7.8pt;
       letter-spacing: 0.03em;
     }
     tr:nth-child(even) td {
-      background: #f8fafc;
+      background: #fbfbfb;
     }
 
-    /* Code Blocks (CLEAN WHITE/LIGHT THEME - NO BLACK BACKGROUND) */
+    /* Code Blocks (Classic Academic Monochrome) */
     code {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.8pt;
-      background: #f1f5f9;
-      color: #b91c1c;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 8pt;
+      background: #f0f0f0;
+      color: #000000;
       padding: 1px 4px;
-      border-radius: 3px;
+      border: 1px solid #cccccc;
+      border-radius: 2px;
     }
     pre {
       background: #ffffff;
-      color: #0f172a;
-      border: 1.5px solid #cbd5e1;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.1pt;
+      color: #000000;
+      border: 1.5px solid #000000;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 7.2pt;
       padding: 8px 10px;
-      border-radius: 6px;
+      border-radius: 3px;
       overflow-x: auto;
-      margin: 4px 0 6px;
+      margin: 5px 0 7px;
       line-height: 1.38;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
+      box-shadow: none;
     }
-    .code-comment { color: #15803d; font-style: italic; }
-    .code-keyword { color: #1d4ed8; font-weight: 600; }
-    .code-type    { color: #0284c7; font-weight: 600; }
-    .code-str     { color: #b45309; }
 
-    /* Screenshot Instruction Placeholder Boxes */
+    /* Screenshot Instruction Placeholder Boxes (Monochrome) */
     .screenshot-placeholder {
-      border: 2px dashed #3b82f6;
-      background: #eff6ff;
-      border-radius: 8px;
-      padding: 12px 16px;
-      margin: 10px 0;
+      border: 2px dashed #000000;
+      background: #fcfcfc;
+      border-radius: 6px;
+      padding: 11px 16px;
+      margin: 9px 0;
       text-align: center;
     }
     .screenshot-badge {
       display: inline-block;
-      background: #2563eb;
+      background: #000000;
       color: #ffffff;
-      font-size: 7pt;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 9999px;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 2px 10px;
+      border-radius: 12px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
     .screenshot-title {
-      font-size: 10pt;
-      font-weight: 700;
-      color: #1e3a8a;
+      font-size: 10.5pt;
+      font-weight: bold;
+      color: #000000;
       margin-bottom: 3px;
     }
     .screenshot-desc {
-      font-size: 8.2pt;
-      color: #475569;
+      font-size: 8.5pt;
+      color: #222222;
       line-height: 1.4;
-      max-width: 550px;
-      margin: 0 auto 6px;
+      max-width: 560px;
+      margin: 0 auto 5px;
     }
     .screenshot-action {
       display: inline-block;
       background: #ffffff;
-      border: 1px solid #bfdbfe;
-      color: #1d4ed8;
-      font-size: 7.2pt;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 4px;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    /* Complexity Badges */
-    .badge {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 7.2pt;
-      font-weight: 700;
-      padding: 1px 5px;
+      border: 1px solid #000000;
+      color: #000000;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 3px 12px;
       border-radius: 3px;
-      display: inline-block;
+      font-family: 'Courier New', monospace;
     }
-    .b-green { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
-    .b-blue { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
-    .b-amber { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
 
-    /* SVG Diagram Containers */
-    .diagram-wrapper {
+    /* Badges */
+    .badge {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 7.5pt;
+      font-weight: bold;
+      padding: 1px 5px;
+      border-radius: 2px;
+      display: inline-block;
+      border: 1px solid #000000;
+      color: #000000;
       background: #ffffff;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 10px;
-      margin: 8px 0 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
-    .diagram-wrapper svg {
+
+    /* Diagram Image Container */
+    .diagram-img-box {
       width: 100%;
-      height: auto;
-      max-height: 480px;
+      text-align: center;
+      margin: 6px 0 10px;
+    }
+    .diagram-img-box img {
+      width: 100%;
+      max-height: 420px;
+      object-fit: contain;
+      border: 1px solid #000000;
+      border-radius: 4px;
+      padding: 3px;
+      background: #ffffff;
     }
   </style>
 </head>
 <body>
 
   <!-- ===================================================================== -->
-  <!-- PAGE 1: COVER PAGE (Identical Format to Friend's Report - Group)      -->
+  <!-- PAGE 1: COVER PAGE (Times New Roman & Pure Black Group Format)        -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="cover-container">
       <div>
         <div class="inst-seal">
-          <img src="data/uploads/dyp_logo.png" alt="DYPTC Logo" style="height: 50px; width: auto; object-fit: contain; margin-bottom: 4px;">
+          <img src="data/uploads/dyp_logo.png" alt="DYPTC Logo" style="height: 52px; width: auto; object-fit: contain; margin-bottom: 4px;">
         </div>
         <div class="inst-name">Dr. D. Y. Patil Technical Campus</div>
         <div class="inst-sub">Varale, Talegaon, Pune &bull; (Savitribai Phule Pune University)</div>
         <div class="inst-code">[Institute Code: 6991 &bull; SPPU Affiliated]</div>
       </div>
 
-      <div style="margin: 15px 0;">
+      <div style="margin: 14px 0;">
         <div class="report-badge">A Laboratory Course Project Report on</div>
         <h1 class="project-title">Smart Campus<br>Lost &amp; Found System</h1>
         <div class="project-subtitle">Automated Belongings Matching, Anti-Fraud Blind Custody &amp; DSA Performance Engine</div>
-        <div style="font-size: 8.5pt; color: #64748b; font-weight: 500;">
+        <div style="font-size: 9pt; color: #111111; font-weight: normal; margin-top: 4px;">
           Designed &amp; Implemented natively using ISO C++17, Crow Microframework, SQLite3 &amp; Pure HTML5/CSS3
         </div>
       </div>
@@ -396,47 +392,47 @@
       <div class="submission-grid">
         <div class="sub-box">
           <h4>Submitted By:</h4>
-          <div style="font-weight: 700; color: #1e3a8a; font-size: 9.5pt; margin-bottom: 6px;">
+          <div style="font-weight: bold; color: #000000; font-size: 9.5pt; margin-bottom: 6px;">
             Group Project (SE Computer Engineering)
           </div>
-          <table style="width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 8pt;">
+          <table style="width: 100%; border-collapse: collapse; margin-top: 4px; font-size: 8.5pt;">
             <thead>
-              <tr style="background: #f1f5f9;">
-                <th style="padding: 4px 6px; border: 1px solid #cbd5e1; text-align: center; width: 14%;">Sr. No.</th>
-                <th style="padding: 4px 8px; border: 1px solid #cbd5e1; text-align: left;">Student Name</th>
-                <th style="padding: 4px 6px; border: 1px solid #cbd5e1; text-align: center; width: 30%;">Roll No. / PRN</th>
+              <tr style="background: #f0f0f0;">
+                <th style="padding: 4px 6px; border: 1px solid #000000; text-align: center; width: 14%;">Sr. No.</th>
+                <th style="padding: 4px 8px; border: 1px solid #000000; text-align: left;">Student Name</th>
+                <th style="padding: 4px 6px; border: 1px solid #000000; text-align: center; width: 30%;">Roll No. / PRN</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">1.</td>
-                <td style="padding: 5px 8px; border: 1px solid #cbd5e1;">__________________________________</td>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center;">______________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center; font-weight: bold;">1.</td>
+                <td style="padding: 5px 8px; border: 1px solid #000000;">__________________________________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center;">______________</td>
               </tr>
               <tr>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">2.</td>
-                <td style="padding: 5px 8px; border: 1px solid #cbd5e1;">__________________________________</td>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center;">______________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center; font-weight: bold;">2.</td>
+                <td style="padding: 5px 8px; border: 1px solid #000000;">__________________________________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center;">______________</td>
               </tr>
               <tr>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">3.</td>
-                <td style="padding: 5px 8px; border: 1px solid #cbd5e1;">__________________________________</td>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center;">______________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center; font-weight: bold;">3.</td>
+                <td style="padding: 5px 8px; border: 1px solid #000000;">__________________________________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center;">______________</td>
               </tr>
               <tr>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center; font-weight: 600;">4.</td>
-                <td style="padding: 5px 8px; border: 1px solid #cbd5e1;">__________________________________</td>
-                <td style="padding: 5px 6px; border: 1px solid #cbd5e1; text-align: center;">______________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center; font-weight: bold;">4.</td>
+                <td style="padding: 5px 8px; border: 1px solid #000000;">__________________________________</td>
+                <td style="padding: 5px 6px; border: 1px solid #000000; text-align: center;">______________</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="sub-box">
           <h4>Under the Guidance of:</h4>
-          <p style="font-size: 10pt; font-weight: 700; color: #0f172a; margin-top: 4px;">Prof. Sayali Pawar</p>
-          <p style="font-size: 8.5pt; color: #475569; margin-top: 2px;">Assistant Professor</p>
-          <p style="font-size: 8.5pt; color: #475569; margin-top: 2px;">Department of Computer Engineering</p>
-          <div style="margin-top: 14px; padding-top: 8px; border-top: 1px dashed #cbd5e1; font-size: 8pt; color: #64748b;">
+          <p style="font-size: 10.5pt; font-weight: bold; color: #000000; margin-top: 4px;">Prof. Sayali Pawar</p>
+          <p style="font-size: 9pt; color: #000000; margin-top: 2px;">Assistant Professor</p>
+          <p style="font-size: 9pt; color: #000000; margin-top: 2px;">Department of Computer Engineering</p>
+          <div style="margin-top: 12px; padding-top: 8px; border-top: 1px dashed #000000; font-size: 8.5pt; color: #222222;">
             Laboratory: <strong>Data Structures &amp; Algorithms Lab</strong><br>
             Course Code: <strong>210257</strong>
           </div>
@@ -486,19 +482,19 @@
     </p>
     <ul>
       <li><strong>Structured Records:</strong> An encapsulated <code>CampusItem</code> record groups item identifiers, timestamps, locations, contact info, and custody status.</li>
-      <li><strong>Dynamic Array Caching:</strong> A <code>std::vector&lt;CampusItem&gt;</code> maintains in-memory data for $O(1)$ random access and cache-friendly contiguous layout.</li>
-      <li><strong>Master Sorting Engine:</strong> Implements <strong>Merge Sort</strong> ($O(N \log N)$ stable), <strong>Insertion Sort</strong> ($O(N)$ adaptive on nearly-sorted data), and <strong>Bubble Sort</strong> ($O(N^2)$ with early-exit optimization).</li>
-      <li><strong>Dual Searching Comparator:</strong> Implements <strong>Linear Search</strong> ($O(N)$ multi-criteria filtering) alongside <strong>Binary Search</strong> ($O(\log N)$ divide-and-conquer) on pre-sorted arrays.</li>
+      <li><strong>Dynamic Array Caching:</strong> A <code>std::vector&lt;CampusItem&gt;</code> maintains in-memory data for O(1) random access and cache-friendly contiguous layout.</li>
+      <li><strong>Master Sorting Engine:</strong> Implements <strong>Merge Sort</strong> (O(N log N) stable), <strong>Insertion Sort</strong> (O(N) adaptive on nearly-sorted data), and <strong>Bubble Sort</strong> (O(N²) with early-exit optimization).</li>
+      <li><strong>Dual Searching Comparator:</strong> Implements <strong>Linear Search</strong> (O(N) multi-criteria filtering) alongside <strong>Binary Search</strong> (O(log N) divide-and-conquer) on pre-sorted arrays.</li>
       <li><strong>Ranked Priority Queue (Max-Heap):</strong> Implements <code>std::priority_queue</code> with a custom functor to rank potential auto-matches by a 6-factor multi-attribute similarity score.</li>
-      <li><strong>Fuzzy String Matching:</strong> Employs <strong>Dynamic Programming Levenshtein Distance</strong> ($O(M \times N)$) to tolerate student spelling errors, fused with <strong>Jaccard Token Similarity</strong> to handle word permutation shifts.</li>
+      <li><strong>Fuzzy String Matching:</strong> Employs <strong>Dynamic Programming Levenshtein Distance</strong> (O(M × N)) to tolerate student spelling errors, fused with <strong>Jaccard Token Similarity</strong> to handle word permutation shifts.</li>
     </ul>
 
     <div class="highlight-card">
       <strong>Zero-Knowledge Blind Custody (Anti-Fraud Security):</strong><br>
       To prevent malicious users from browsing found items and filing fabricated loss claims, the platform implements a 
       Central Custody protocol. Regular students only lodge lost reports and inspect personal match status through private, 
-      cryptographic Claim Tokens (<code>/track</code>). The complete catalog and sorting benchmarks remain strictly guarded for authorized 
-      Admin evaluation (<code>/admin</code>), resolving real-world security while enabling full academic evaluation.
+      cryptographic Claim Tokens (/track). The complete catalog and sorting benchmarks remain strictly guarded for authorized 
+      Admin evaluation (/admin), resolving real-world security while enabling full academic evaluation.
     </div>
   </div>
 
@@ -523,16 +519,16 @@
     </p>
 
     <h2>2. Problem Statement</h2>
-    <div class="highlight-card" style="border-left-color: #b91c1c;">
+    <div class="highlight-card">
       <em>"To design, develop, and benchmark a secure, thread-safe, algorithmic Lost and Found web management system using C++17, demonstrating the practical application of sorting algorithms (Merge Sort, Bubble Sort, Insertion Sort), searching techniques (Linear vs Binary Search), Dynamic Programming string distance (Levenshtein), and Max-Heap Priority Queues to automate belongings recovery on the DYPTC campus."</em>
     </div>
 
     <h2>3. Objectives</h2>
     <ol>
-      <li><strong>Algorithmic Demonstration:</strong> Implement and benchmark Merge Sort, Bubble Sort, and Insertion Sort with real-time microsecond ($\mu s$) timing and swap counters.</li>
-      <li><strong>Divide-and-Conquer Search:</strong> Contrast Linear Search ($O(N)$) with Binary Search ($O(\log N)$) on pre-sorted datasets.</li>
+      <li><strong>Algorithmic Demonstration:</strong> Implement and benchmark Merge Sort, Bubble Sort, and Insertion Sort with real-time microsecond timing and swap counters.</li>
+      <li><strong>Divide-and-Conquer Search:</strong> Contrast Linear Search (O(N)) with Binary Search (O(log N)) on pre-sorted datasets.</li>
       <li><strong>Automated Matching Engine:</strong> Build a 6-Factor Multi-Attribute scoring engine ranking potential matches into a Max-Heap Priority Queue.</li>
-      <li><strong>Fuzzy Typo Tolerance:</strong> Apply Levenshtein Distance DP ($O(M \times N)$) and Jaccard Token overlap to match misspelled item names.</li>
+      <li><strong>Fuzzy Typo Tolerance:</strong> Apply Levenshtein Distance DP (O(M × N)) and Jaccard Token overlap to match misspelled item names.</li>
       <li><strong>Anti-Fraud Security:</strong> Enforce Zero-Knowledge Blind Custody so unauthorized students cannot browse found inventories to fabricate false ownership claims.</li>
       <li><strong>Zero-JavaScript Architecture:</strong> Deliver a fast, responsive, modern web UI purely through C++ server-side templating and CSS3.</li>
       <li><strong>Persistent Storage:</strong> Guarantee durability across server restarts using SQLite3 with parameterized prepared statements.</li>
@@ -572,37 +568,37 @@
     <h2>2. Dynamic Contiguous Array (<code>std::vector&lt;CampusItem&gt;</code>)</h2>
     <p>
       The campus inventory is loaded into a <code>std::vector&lt;CampusItem&gt;</code>. 
-      <em>Justification:</em> The number of misplaced items varies dynamically. Unlike raw C-style arrays (<code>CampusItem arr[100]</code>), vectors resize dynamically and provide contiguous memory cache locality, optimizing CPU instruction cache performance during iterative searches and sorting.
+      <em>Justification:</em> The number of misplaced items varies dynamically. Unlike raw C-style arrays, vectors resize dynamically and provide contiguous memory cache locality, optimizing CPU instruction cache performance during iterative searches and sorting.
     </p>
 
     <h2>3. Priority Queue / Max-Heap (<code>std::priority_queue</code>)</h2>
     <p>
       Employed in <code>dsa::findRankedMatches()</code> with custom comparator <code>MatchComparator</code>. 
-      <em>Justification:</em> Pairing $N$ lost items with $M$ found items produces $N \times M$ pairs. Sorting all pairs using QuickSort or Merge Sort costs $O(K \log K)$ where $K = N \times M$. A Max-Heap dynamically holds the highest similarity score at the root in $O(1)$ and extracts top-ranked candidates in $O(K \log 5)$ time, radically conserving CPU and memory resources.
+      <em>Justification:</em> Pairing N lost items with M found items produces N × M pairs. Sorting all pairs using QuickSort or Merge Sort costs O(K log K) where K = N × M. A Max-Heap dynamically holds the highest similarity score at the root in O(1) and extracts top-ranked candidates in O(K log 5) time, radically conserving CPU and memory resources.
     </p>
 
     <h2>4. Sorting Suite (Merge, Insertion, and Bubble Sort)</h2>
     <ul>
-      <li><strong>Merge Sort ($O(N \log N)$ Stable):</strong> Chosen as the default production sorter. Divide-and-conquer guarantees $O(N \log N)$ performance even in worst-case scenarios, and stability ensures that chronological registration order is preserved for items with identical dates.</li>
-      <li><strong>Insertion Sort ($O(N)$ Best / $O(N^2)$ Worst):</strong> Ideal for incremental additions. When 1-2 new lost items arrive into an already sorted list, Insertion Sort shifts elements in $O(N)$ time with zero extra space ($O(1)$).</li>
-      <li><strong>Bubble Sort ($O(N^2)$ Worst):</strong> Incorporated for educational benchmarking in the DSA Lab. Enhanced with an early-exit <code>swapped</code> boolean flag to terminate immediately when input is already ordered ($O(N)$).</li>
+      <li><strong>Merge Sort (O(N log N) Stable):</strong> Chosen as the default production sorter. Divide-and-conquer guarantees O(N log N) performance even in worst-case scenarios, and stability ensures that chronological registration order is preserved for items with identical dates.</li>
+      <li><strong>Insertion Sort (O(N) Best / O(N²) Worst):</strong> Ideal for incremental additions. When 1-2 new lost items arrive into an already sorted list, Insertion Sort shifts elements in O(N) time with zero extra space (O(1)).</li>
+      <li><strong>Bubble Sort (O(N²) Worst):</strong> Incorporated for educational benchmarking in the DSA Lab. Enhanced with an early-exit <code>swapped</code> boolean flag to terminate immediately when input is already ordered (O(N)).</li>
     </ul>
 
     <h2>5. Searching Suite (Linear vs Binary Search)</h2>
     <ul>
-      <li><strong>Linear Search ($O(N)$):</strong> Necessary for unsorted, multi-attribute filtering across category, color, location, and keywords simultaneously.</li>
-      <li><strong>Binary Search ($O(\log N)$):</strong> Applied after Merge Sorting by item name. Halves search intervals on each iteration, achieving lookup in 10 operations for 1,024 records.</li>
+      <li><strong>Linear Search (O(N)):</strong> Necessary for unsorted, multi-attribute filtering across category, color, location, and keywords simultaneously.</li>
+      <li><strong>Binary Search (O(log N)):</strong> Applied after Merge Sorting by item name. Halves search intervals on each iteration, achieving lookup in 10 operations for 1,024 records.</li>
     </ul>
 
     <h2>6. Hash Table Inverted Index (<code>std::unordered_map</code>)</h2>
     <p>
-      Maps categories to lists of record IDs (e.g., <code>"Electronics" &rarr; [1, 4, 9]</code>) for instantaneous $O(1)$ average subset lookups, and powers the bilingual English-to-Marathi translation engine.
+      Maps categories to lists of record IDs (e.g., "Electronics" &rarr; [1, 4, 9]) for instantaneous O(1) average subset lookups, and powers the bilingual English-to-Marathi translation engine.
     </p>
   </div>
 
 
   <!-- ===================================================================== -->
-  <!-- PAGE 5: FLOWCHART & SYSTEM DESIGN (VISUAL SVG DIAGRAM - NO BLACK BOX) -->
+  <!-- PAGE 5: FLOWCHART & SYSTEM DESIGN (EMBEDDED PNG IMAGE)                -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="running-header">
@@ -611,88 +607,17 @@
     </div>
 
     <h1 class="page-title">Flowchart &amp; System Workflow Design</h1>
-    <p style="font-size: 8.5pt; color: #475569; margin-bottom: 8px;">
+    <p style="font-size: 8.8pt; color: #000000; margin-bottom: 6px;">
       The following diagram illustrates the complete algorithmic pipeline of the Smart Campus system, tracking user input lodgment, 
       C++ security sanitization, SQLite3 persistence, multi-attribute scoring, and Priority Queue Max-Heap match ranking:
     </p>
 
-    <!-- Visual SVG Flowchart (Clear colors, no black code background) -->
-    <div class="diagram-wrapper">
-      <svg viewBox="0 0 740 450" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#2563eb"/>
-          </marker>
-          <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#059669"/>
-          </marker>
-          <marker id="arrow-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#7c3aed"/>
-          </marker>
-          <marker id="arrow-amber" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-            <path d="M 0 1.5 L 8 5 L 0 8.5 z" fill="#d97706"/>
-          </marker>
-        </defs>
-
-        <!-- Top Inputs: Lost & Found -->
-        <!-- Student Lost Report -->
-        <rect x="30" y="15" width="280" height="55" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2"/>
-        <text x="170" y="38" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#1e3a8a" text-anchor="middle">Student: Report Lost Belonging</text>
-        <text x="170" y="54" font-family="JetBrains Mono, monospace" font-size="9" fill="#2563eb" text-anchor="middle">HTTP POST /lost  (Zero-Knowledge)</text>
-
-        <!-- Finder Found Report -->
-        <rect x="430" y="15" width="280" height="55" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2"/>
-        <text x="570" y="38" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#065f46" text-anchor="middle">Finder: Turn In at Central Security</text>
-        <text x="570" y="54" font-family="JetBrains Mono, monospace" font-size="9" fill="#059669" text-anchor="middle">HTTP POST /found  (Gate 1 Booth)</text>
-
-        <!-- Down arrows to Sanitization -->
-        <path d="M 170 70 L 170 100 L 330 100 L 330 115" fill="none" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow-blue)"/>
-        <path d="M 570 70 L 570 100 L 410 100 L 410 115" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-emerald)"/>
-
-        <!-- Process: C++ Validation & Token Generator -->
-        <rect x="150" y="115" width="440" height="52" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2"/>
-        <text x="370" y="136" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#5b21b6" text-anchor="middle">C++ Server Input Validation &amp; Sanitization</text>
-        <text x="370" y="152" font-family="Inter, sans-serif" font-size="9.5" fill="#6d28d9" text-anchor="middle">Generate Unique Claim Token &bull; Assign Cryptographic Hash</text>
-
-        <!-- Arrow to SQLite3 DB -->
-        <path d="M 370 167 L 370 195" fill="none" stroke="#7c3aed" stroke-width="2" marker-end="url(#arrow-purple)"/>
-
-        <!-- Storage: SQLite3 Parameterized DB -->
-        <rect x="200" y="195" width="340" height="48" rx="8" fill="#f8fafc" stroke="#475569" stroke-width="2"/>
-        <text x="370" y="215" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#0f172a" text-anchor="middle">SQLite3 Persistent Database Engine</text>
-        <text x="370" y="231" font-family="JetBrains Mono, monospace" font-size="9" fill="#475569" text-anchor="middle">INSERT INTO items (...) &bull; ACID Guarantees</text>
-
-        <!-- Arrow to Multi-Factor DSA Engine -->
-        <path d="M 370 243 L 370 270" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow-blue)"/>
-
-        <!-- Matching Engine Box -->
-        <rect x="60" y="270" width="620" height="55" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
-        <text x="370" y="291" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#92400e" text-anchor="middle">Multi-Attribute 6-Factor DSA Matching Engine</text>
-        <text x="370" y="310" font-family="Inter, sans-serif" font-size="9" fill="#b45309" text-anchor="middle">Category (25%) + Levenshtein DP &amp; Jaccard (25%) + Location (15%) + Colour (15%) + Date (10%) + Keywords (10%</text>
-
-        <!-- Arrow to Decision Diamond -->
-        <path d="M 370 325 L 370 345" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
-
-        <!-- Decision Diamond: Score >= 30% -->
-        <polygon points="370,345 470,380 370,415 270,380" fill="#fef2f2" stroke="#ef4444" stroke-width="2"/>
-        <text x="370" y="377" font-family="Inter, sans-serif" font-size="9.5" font-weight="700" fill="#991b1b" text-anchor="middle">Score &ge; 30%</text>
-        <text x="370" y="390" font-family="Inter, sans-serif" font-size="8.5" fill="#b91c1c" text-anchor="middle">Candidate?</text>
-
-        <!-- Left Branch: No (Below Threshold) -->
-        <path d="M 270 380 L 120 380 L 120 405" fill="none" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow-amber)"/>
-        <rect x="30" y="405" width="180" height="38" rx="6" fill="#fef2f2" stroke="#f87171" stroke-width="1.5"/>
-        <text x="120" y="422" font-family="Inter, sans-serif" font-size="9" font-weight="600" fill="#991b1b" text-anchor="middle">No: Retain in Open Status</text>
-        <text x="120" y="434" font-family="Inter, sans-serif" font-size="7.5" fill="#7f1d1d" text-anchor="middle">(Wait for incoming Turn-In)</text>
-
-        <!-- Right Branch: Yes (Push to Priority Queue Max-Heap) -->
-        <path d="M 470 380 L 610 380 L 610 405" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-emerald)"/>
-        <rect x="500" y="405" width="220" height="38" rx="6" fill="#ecfdf5" stroke="#34d399" stroke-width="1.5"/>
-        <text x="610" y="422" font-family="Inter, sans-serif" font-size="9" font-weight="700" fill="#065f46" text-anchor="middle">Yes: Push to Max-Heap Priority Queue</text>
-        <text x="610" y="434" font-family="JetBrains Mono, monospace" font-size="7.5" fill="#047857" text-anchor="middle">std::priority_queue&lt;MatchResult&gt;</text>
-      </svg>
+    <!-- Embedded High-Resolution PNG Diagram Image -->
+    <div class="diagram-img-box">
+      <img src="data/uploads/system_flowchart.png" alt="Figure 5.1: System Flowchart &amp; High-Level Architecture Diagram">
     </div>
 
-    <h2>2. Algorithmic Processing Stages</h2>
+    <h2>Algorithmic Processing Stages</h2>
     <table>
       <thead>
         <tr>
@@ -706,31 +631,31 @@
         <tr>
           <td><strong>01. Ingestion</strong></td>
           <td>Crow REST Router</td>
-          <td><span class="badge b-green">$O(1)$</span></td>
+          <td><span class="badge">O(1)</span></td>
           <td>Receives multipart form data; generates unique <code>claim_token</code> for zero-knowledge tracking.</td>
         </tr>
         <tr>
           <td><strong>02. Persistence</strong></td>
           <td>SQLite3 Engine</td>
-          <td><span class="badge b-green">$O(1)$</span></td>
+          <td><span class="badge">O(1)</span></td>
           <td>Atomically commits records with parameterized queries, preventing SQL injection.</td>
         </tr>
         <tr>
           <td><strong>03. Sorting</strong></td>
           <td>Merge Sort Engine</td>
-          <td><span class="badge b-blue">$O(N \log N)$</span></td>
+          <td><span class="badge">O(N log N)</span></td>
           <td>Sorts active inventory chronologically or alphabetically for fast binary retrieval.</td>
         </tr>
         <tr>
           <td><strong>04. Similarity</strong></td>
           <td>Levenshtein DP + Jaccard</td>
-          <td><span class="badge b-amber">$O(M \times N)$</span></td>
+          <td><span class="badge">O(M × N)</span></td>
           <td>Computes edit distance matrix and set-theory token overlap to tolerate spelling errors.</td>
         </tr>
         <tr>
           <td><strong>05. Ranking</strong></td>
           <td>Max-Heap Priority Queue</td>
-          <td><span class="badge b-blue">$O(K \log K)$</span></td>
+          <td><span class="badge">O(K log K)</span></td>
           <td>Extracts candidate matches ordered by descending multi-attribute confidence score.</td>
         </tr>
       </tbody>
@@ -739,7 +664,7 @@
 
 
   <!-- ===================================================================== -->
-  <!-- PAGE 6: CLASS DIAGRAM & OBJECT DESIGN (CLEAN UML DIAGRAM - NO BLACK)  -->
+  <!-- PAGE 6: CLASS DIAGRAM & OBJECT DESIGN (EMBEDDED PNG IMAGE)            -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="running-header">
@@ -748,79 +673,18 @@
     </div>
 
     <h1 class="page-title">Class Diagram &amp; Object Design</h1>
-    <p style="font-size: 8.5pt; color: #475569; margin-bottom: 8px;">
+    <p style="font-size: 8.8pt; color: #000000; margin-bottom: 6px;">
       The system is architected using clean Object-Oriented C++ principles, separating entity models, matching structures, 
       functor comparators, and performance benchmark containers:
     </p>
 
-    <!-- Visual UML Class Diagram (Professional UML Boxes) -->
-    <div class="diagram-wrapper">
-      <svg viewBox="0 0 740 340" xmlns="http://www.w3.org/2000/svg">
-        <!-- Class 1: Item Struct -->
-        <g transform="translate(20, 10)">
-          <!-- Header -->
-          <rect x="0" y="0" width="280" height="32" rx="4" fill="#1e40af"/>
-          <text x="140" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;class&raquo; CampusItem</text>
-          <!-- Body -->
-          <rect x="0" y="32" width="280" height="280" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
-          <text x="12" y="52" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- id : int</text>
-          <text x="12" y="70" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- type : string  // "LOST" or "FOUND"</text>
-          <text x="12" y="88" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- name : string  // "HP Laptop 15s"</text>
-          <text x="12" y="106" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- category : string  // "Electronics"</text>
-          <text x="12" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- colour : string  // "Silver"</text>
-          <text x="12" y="142" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- location : string  // "Library 2F"</text>
-          <text x="12" y="160" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- date : string  // "YYYY-MM-DD"</text>
-          <text x="12" y="178" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- description : string</text>
-          <text x="12" y="196" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- student_id : string</text>
-          <text x="12" y="214" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- claim_token : string</text>
-          <text x="12" y="232" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- status : string  // "OPEN"/"MATCHED"</text>
-          <line x1="0" y1="245" x2="280" y2="245" stroke="#cbd5e1" stroke-width="1"/>
-          <text x="12" y="265" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ getId() : int</text>
-          <text x="12" y="283" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ getName() : string</text>
-          <text x="12" y="301" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ operator&lt;(other: CampusItem) : bool</text>
-        </g>
-
-        <!-- Association Line from Item to MatchResult -->
-        <line x1="300" y1="90" x2="410" y2="90" stroke="#3b82f6" stroke-width="2"/>
-        <polygon points="410,90 400,85 400,95" fill="#3b82f6"/>
-        <text x="350" y="82" font-family="Inter, sans-serif" font-size="8" fill="#1e40af" text-anchor="middle">contains 2</text>
-
-        <!-- Class 2: MatchResult Struct -->
-        <g transform="translate(420, 10)">
-          <!-- Header -->
-          <rect x="0" y="0" width="300" height="30" rx="4" fill="#059669"/>
-          <text x="150" y="19" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;struct&raquo; MatchResult</text>
-          <!-- Body -->
-          <rect x="0" y="30" width="300" height="115" fill="#ffffff" stroke="#6ee7b7" stroke-width="1.5"/>
-          <text x="12" y="49" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ lost_item : CampusItem</text>
-          <text x="12" y="67" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ found_item : CampusItem</text>
-          <text x="12" y="85" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ breakdown : MatchBreakdown</text>
-          <text x="12" y="103" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ overall_score : double  // 0.0 - 100.0</text>
-          <text x="12" y="121" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ is_high_confidence : bool</text>
-        </g>
-
-        <!-- Composition Line from MatchResult to MatchBreakdown -->
-        <line x1="570" y1="155" x2="570" y2="185" stroke="#4338ca" stroke-width="2"/>
-        <polygon points="570,185 565,175 575,175" fill="#4338ca"/>
-
-        <!-- Class 3: MatchBreakdown Struct -->
-        <g transform="translate(420, 185)">
-          <!-- Header -->
-          <rect x="0" y="0" width="300" height="28" rx="4" fill="#4338ca"/>
-          <text x="150" y="18" font-family="Inter, sans-serif" font-size="10.5" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;struct&raquo; MatchBreakdown</text>
-          <!-- Body -->
-          <rect x="0" y="28" width="300" height="105" fill="#ffffff" stroke="#a5b4fc" stroke-width="1.5"/>
-          <text x="12" y="45" font-family="JetBrains Mono, monospace" font-size="8" fill="#0f172a">+ category_score : double  (Weight: 25%)</text>
-          <text x="12" y="60" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ name_score : double      (Weight: 25%)</text>
-          <text x="12" y="75" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ location_score : double  (Weight: 15%)</text>
-          <text x="12" y="90" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ colour_score : double    (Weight: 15%)</text>
-          <text x="12" y="105" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ date &amp; keyword : double  (Weight: 20%)</text>
-        </g>
-      </svg>
+    <!-- Embedded High-Resolution PNG Diagram Image -->
+    <div class="diagram-img-box">
+      <img src="data/uploads/class_diagram.png" alt="Figure 6.1: Object-Oriented UML Class Diagram">
     </div>
 
-    <h2>2. Algorithmic Function Signatures</h2>
-    <table style="font-size: 8pt; margin-top: 4px;">
+    <h2>Core Algorithmic Function Signatures</h2>
+    <table>
       <thead>
         <tr>
           <th>Module</th>
@@ -832,22 +696,22 @@
         <tr>
           <td><strong>Sorting</strong></td>
           <td><code>void bubbleSortByName(vector&lt;CampusItem&gt;&amp;, bool asc)</code></td>
-          <td><span class="badge b-amber">$O(N^2)$ / $O(N)$ Best</span></td>
+          <td><span class="badge">O(N²) / O(N) Best</span></td>
         </tr>
         <tr>
           <td><strong>Searching</strong></td>
           <td><code>int binarySearchByName(const vector&lt;CampusItem&gt;&amp;, const string&amp;)</code></td>
-          <td><span class="badge b-green">$O(\log N)$ Divide-and-Conquer</span></td>
+          <td><span class="badge">O(log N) Divide-and-Conquer</span></td>
         </tr>
         <tr>
           <td><strong>Searching</strong></td>
           <td><code>int linearSearchByName(const vector&lt;CampusItem&gt;&amp;, const string&amp;)</code></td>
-          <td><span class="badge b-blue">$O(N)$ Sequential Scan</span></td>
+          <td><span class="badge">O(N) Sequential Scan</span></td>
         </tr>
         <tr>
-          <td><strong>Ranking</strong></td>
+          <td><strong>Display</strong></td>
           <td><code>void displayInventory(const vector&lt;CampusItem&gt;&amp;)</code></td>
-          <td><span class="badge b-green">$O(N)$ Tabular Output</span></td>
+          <td><span class="badge">O(N) Tabular Traversal</span></td>
         </tr>
       </tbody>
     </table>
@@ -855,7 +719,7 @@
 
 
   <!-- ===================================================================== -->
-  <!-- PAGE 7: C++ SOURCE CODE LISTING (PART 1)                              -->
+  <!-- PAGE 7: C++ SOURCE CODE LISTING (PART 1 - CLASSIC MONOCHROME)         -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="running-header">
@@ -864,83 +728,83 @@
     </div>
 
     <h1 class="page-title">Complete C++ Source Code (Part 1)</h1>
-    <p style="font-size: 8pt; color: #475569; margin-bottom: 4px;">
+    <p style="font-size: 8.5pt; color: #000000; margin-bottom: 4px;">
       Standalone C++ course model demonstrating Encapsulated Record Structure, Tabular Formatting, and Linear Search:
     </p>
 
     <pre>
-<span class="code-comment">// ============================================================================
-// Dr. D. Y. Patil Technical Campus, Pune &bull; Department of Computer Engineering
-// Course: Data Structures &amp; Algorithms Lab (210257) &bull; Academic Year: 2026-27
+// ============================================================================
+// Dr. D. Y. Patil Technical Campus, Pune - Department of Computer Engineering
+// Course: Data Structures &amp; Algorithms Lab (210257) - Academic Year: 2026-27
 // Project: Smart Campus Lost &amp; Found Management System (C++ Simulation Model)
-// ============================================================================</span>
-<span class="code-keyword">#include</span> <span class="code-str">&lt;iostream&gt;</span>
-<span class="code-keyword">#include</span> <span class="code-str">&lt;vector&gt;</span>
-<span class="code-keyword">#include</span> <span class="code-str">&lt;string&gt;</span>
-<span class="code-keyword">#include</span> <span class="code-str">&lt;iomanip&gt;</span>
-<span class="code-keyword">#include</span> <span class="code-str">&lt;algorithm&gt;</span>
-<span class="code-keyword">using namespace</span> std;
+// ============================================================================
+#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;iomanip&gt;
+#include &lt;algorithm&gt;
+using namespace std;
 
-<span class="code-comment">// Encapsulated record representing a campus misplaced belonging</span>
-<span class="code-keyword">class</span> <span class="code-type">CampusItem</span> {
-<span class="code-keyword">private:</span>
-    <span class="code-type">int</span> id;
-    <span class="code-type">string</span> type;        <span class="code-comment">// "LOST" or "FOUND"</span>
-    <span class="code-type">string</span> name;        <span class="code-comment">// e.g., "HP Pavilion Laptop 15s"</span>
-    <span class="code-type">string</span> category;    <span class="code-comment">// "Electronics", "ID &amp; Cards", etc.</span>
-    <span class="code-type">string</span> location;    <span class="code-comment">// e.g., "Central Library 2nd Floor"</span>
-    <span class="code-type">string</span> claim_token; <span class="code-comment">// e.g., "DYPTC-LST-01"</span>
+// Encapsulated record representing a campus misplaced belonging
+class CampusItem {
+private:
+    int id;
+    string type;        // "LOST" or "FOUND"
+    string name;        // e.g., "HP Pavilion Laptop 15s"
+    string category;    // "Electronics", "ID &amp; Cards", etc.
+    string location;    // e.g., "Central Library 2nd Floor"
+    string claim_token; // e.g., "DYPTC-LST-01"
 
-<span class="code-keyword">public:</span>
-    <span class="code-type">CampusItem</span>(<span class="code-type">int</span> itemId, <span class="code-type">string</span> itemType, <span class="code-type">string</span> itemName, 
-               <span class="code-type">string</span> itemCat, <span class="code-type">string</span> itemLoc, <span class="code-type">string</span> token)
+public:
+    CampusItem(int itemId, string itemType, string itemName, 
+               string itemCat, string itemLoc, string token)
         : id(itemId), type(itemType), name(itemName), 
           category(itemCat), location(itemLoc), claim_token(token) {}
 
-    <span class="code-type">int</span> getId() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> id; }
-    <span class="code-type">string</span> getType() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> type; }
-    <span class="code-type">string</span> getName() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> name; }
-    <span class="code-type">string</span> getCategory() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> category; }
-    <span class="code-type">string</span> getLocation() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> location; }
-    <span class="code-type">string</span> getClaimToken() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> claim_token; }
+    int getId() const { return id; }
+    string getType() const { return type; }
+    string getName() const { return name; }
+    string getCategory() const { return category; }
+    string getLocation() const { return location; }
+    string getClaimToken() const { return claim_token; }
 
-    <span class="code-comment">// Overload &lt; operator for alphabetical sorting</span>
-    <span class="code-type">bool</span> <span class="code-keyword">operator</span>&lt;(<span class="code-keyword">const</span> <span class="code-type">CampusItem</span>&amp; other) <span class="code-keyword">const</span> {
-        <span class="code-keyword">return</span> name &lt; other.name;
+    // Overload &lt; operator for alphabetical sorting
+    bool operator&lt;(const CampusItem&amp; other) const {
+        return name &lt; other.name;
     }
 };
 
-<span class="code-comment">// Displays campus inventory in a clean institutional tabular format</span>
-<span class="code-type">void</span> displayInventory(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items) {
-    cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; <span class="code-str">"ID"</span> &lt;&lt; setw(8) &lt;&lt; <span class="code-str">"Type"</span> 
-         &lt;&lt; setw(26) &lt;&lt; <span class="code-str">"Item Name"</span> &lt;&lt; setw(15) &lt;&lt; <span class="code-str">"Category"</span> 
-         &lt;&lt; setw(22) &lt;&lt; <span class="code-str">"Location"</span> &lt;&lt; <span class="code-str">"Claim Token\n"</span>;
-    cout &lt;&lt; string(85, <span class="code-str">'-'</span>) &lt;&lt; <span class="code-str">"\n"</span>;
-    <span class="code-keyword">for</span> (<span class="code-keyword">const auto</span>&amp; item : items) {
+// Displays campus inventory in a clean institutional tabular format
+void displayInventory(const vector&lt;CampusItem&gt;&amp; items) {
+    cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; "ID" &lt;&lt; setw(8) &lt;&lt; "Type" 
+         &lt;&lt; setw(26) &lt;&lt; "Item Name" &lt;&lt; setw(15) &lt;&lt; "Category" 
+         &lt;&lt; setw(22) &lt;&lt; "Location" &lt;&lt; "Claim Token\n";
+    cout &lt;&lt; string(85, '-') &lt;&lt; "\n";
+    for (const auto&amp; item : items) {
         cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; item.getId()
              &lt;&lt; setw(8) &lt;&lt; item.getType()
              &lt;&lt; setw(26) &lt;&lt; item.getName()
              &lt;&lt; setw(15) &lt;&lt; item.getCategory()
              &lt;&lt; setw(22) &lt;&lt; item.getLocation()
-             &lt;&lt; item.getClaimToken() &lt;&lt; <span class="code-str">"\n"</span>;
+             &lt;&lt; item.getClaimToken() &lt;&lt; "\n";
     }
 }
 
-<span class="code-comment">// Linear Search: Sequential O(N) lookup across active catalogue</span>
-<span class="code-type">int</span> linearSearchByName(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-keyword">const</span> <span class="code-type">string</span>&amp; target) {
-    <span class="code-keyword">for</span> (<span class="code-type">size_t</span> i = 0; i &lt; items.size(); ++i) {
-        <span class="code-keyword">if</span> (items[i].getName().find(target) != string::npos) {
-            <span class="code-keyword">return</span> <span class="code-keyword">static_cast</span>&lt;<span class="code-type">int</span>&gt;(i); <span class="code-comment">// Found at index i</span>
+// Linear Search: Sequential O(N) lookup across active catalogue
+int linearSearchByName(const vector&lt;CampusItem&gt;&amp; items, const string&amp; target) {
+    for (size_t i = 0; i &lt; items.size(); ++i) {
+        if (items[i].getName().find(target) != string::npos) {
+            return static_cast&lt;int&gt;(i); // Found at index i
         }
     }
-    <span class="code-keyword">return</span> -1; <span class="code-comment">// Item not found</span>
+    return -1; // Item not found
 }
 </pre>
   </div>
 
 
   <!-- ===================================================================== -->
-  <!-- PAGE 8: C++ SOURCE CODE LISTING (PART 2)                              -->
+  <!-- PAGE 8: C++ SOURCE CODE LISTING (PART 2 - CLASSIC MONOCHROME)         -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="running-header">
@@ -949,72 +813,72 @@
     </div>
 
     <h1 class="page-title">Complete C++ Source Code (Part 2)</h1>
-    <p style="font-size: 8pt; color: #475569; margin-bottom: 4px;">
+    <p style="font-size: 8.5pt; color: #000000; margin-bottom: 4px;">
       Continuation: Binary Search, Bubble Sort with early-exit optimization, and complete main() demonstration:
     </p>
 
     <pre>
-<span class="code-comment">// Binary Search: Divide-and-Conquer O(log N) lookup on pre-sorted inventory</span>
-<span class="code-type">int</span> binarySearchByName(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-keyword">const</span> <span class="code-type">string</span>&amp; target) {
-    <span class="code-type">int</span> low = 0, high = <span class="code-keyword">static_cast</span>&lt;<span class="code-type">int</span>&gt;(items.size()) - 1;
-    <span class="code-keyword">while</span> (low &lt;= high) {
-        <span class="code-type">int</span> mid = low + (high - low) / 2;
-        <span class="code-keyword">if</span> (items[mid].getName() == target) <span class="code-keyword">return</span> mid;
-        <span class="code-keyword">if</span> (items[mid].getName() &lt; target) low = mid + 1;
-        <span class="code-keyword">else</span> high = mid - 1;
+// Binary Search: Divide-and-Conquer O(log N) lookup on pre-sorted inventory
+int binarySearchByName(const vector&lt;CampusItem&gt;&amp; items, const string&amp; target) {
+    int low = 0, high = static_cast&lt;int&gt;(items.size()) - 1;
+    while (low &lt;= high) {
+        int mid = low + (high - low) / 2;
+        if (items[mid].getName() == target) return mid;
+        if (items[mid].getName() &lt; target) low = mid + 1;
+        else high = mid - 1;
     }
-    <span class="code-keyword">return</span> -1; <span class="code-comment">// Target element not found</span>
+    return -1; // Target element not found
 }
 
-<span class="code-comment">// Bubble Sort: In-place sorting with O(N) early-exit optimization</span>
-<span class="code-type">void</span> bubbleSortByName(<span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-type">bool</span> ascending = <span class="code-keyword">true</span>) {
-    <span class="code-keyword">const</span> <span class="code-type">size_t</span> n = items.size();
-    <span class="code-keyword">for</span> (<span class="code-type">size_t</span> i = 0; i &lt; n; ++i) {
-        <span class="code-type">bool</span> swapped = <span class="code-keyword">false</span>;
-        <span class="code-keyword">for</span> (<span class="code-type">size_t</span> j = 0; j + 1 &lt; n - i; ++j) {
-            <span class="code-type">bool</span> condition = ascending ? (items[j + 1] &lt; items[j]) 
+// Bubble Sort: In-place sorting with O(N) early-exit optimization
+void bubbleSortByName(vector&lt;CampusItem&gt;&amp; items, bool ascending = true) {
+    const size_t n = items.size();
+    for (size_t i = 0; i &lt; n; ++i) {
+        bool swapped = false;
+        for (size_t j = 0; j + 1 &lt; n - i; ++j) {
+            bool condition = ascending ? (items[j + 1] &lt; items[j]) 
                                        : (items[j] &lt; items[j + 1]);
-            <span class="code-keyword">if</span> (condition) {
+            if (condition) {
                 swap(items[j], items[j + 1]);
-                swapped = <span class="code-keyword">true</span>;
+                swapped = true;
             }
         }
-        <span class="code-keyword">if</span> (!swapped) <span class="code-keyword">break</span>; <span class="code-comment">// Best Case O(N) if already ordered</span>
+        if (!swapped) break; // Best Case O(N) if already ordered
     }
 }
 
-<span class="code-type">int</span> main() {
-    cout &lt;&lt; <span class="code-str">"=========================================================\n"</span>;
-    cout &lt;&lt; <span class="code-str">"  DYPTC SMART CAMPUS LOST &amp; FOUND - DSA LAB SIMULATION   \n"</span>;
-    cout &lt;&lt; <span class="code-str">"=========================================================\n\n"</span>;
+int main() {
+    cout &lt;&lt; "=========================================================\n";
+    cout &lt;&lt; "  DYPTC SMART CAMPUS LOST &amp; FOUND - DSA LAB SIMULATION   \n";
+    cout &lt;&lt; "=========================================================\n\n";
 
-    <span class="code-comment">// Seeded campus belongings records</span>
-    <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt; inventory = {
-        <span class="code-type">CampusItem</span>(1, <span class="code-str">"LOST"</span>,  <span class="code-str">"HP Pavilion Laptop 15s"</span>, <span class="code-str">"Electronics"</span>, <span class="code-str">"Library 2nd Floor"</span>,  <span class="code-str">"DYPTC-LST-01"</span>),
-        <span class="code-type">CampusItem</span>(2, <span class="code-str">"FOUND"</span>, <span class="code-str">"Casio fx-991CW Calc"</span>,    <span class="code-str">"Books &amp; Stat"</span>, <span class="code-str">"AI&amp;DS Lab 204"</span>,      <span class="code-str">"DYPTC-FND-02"</span>),
-        <span class="code-type">CampusItem</span>(3, <span class="code-str">"LOST"</span>,  <span class="code-str">"College ID Smart Card"</span>,  <span class="code-str">"ID &amp; Cards"</span>,   <span class="code-str">"Canteen Counter"</span>,    <span class="code-str">"DYPTC-LST-03"</span>),
-        <span class="code-type">CampusItem</span>(4, <span class="code-str">"FOUND"</span>, <span class="code-str">"Wireless Earbuds Sleeve"</span>,<span class="code-str">"Electronics"</span>, <span class="code-str">"Cafeteria Gate 1"</span>,   <span class="code-str">"DYPTC-FND-04"</span>)
+    // Seeded campus belongings records
+    vector&lt;CampusItem&gt; inventory = {
+        CampusItem(1, "LOST",  "HP Pavilion Laptop 15s", "Electronics", "Library 2nd Floor",  "DYPTC-LST-01"),
+        CampusItem(2, "FOUND", "Casio fx-991CW Calc",    "Books &amp; Stat", "AI&amp;DS Lab 204",      "DYPTC-FND-02"),
+        CampusItem(3, "LOST",  "College ID Smart Card",  "ID &amp; Cards",   "Canteen Counter",    "DYPTC-LST-03"),
+        CampusItem(4, "FOUND", "Wireless Earbuds Sleeve","Electronics", "Cafeteria Gate 1",   "DYPTC-FND-04")
     };
 
-    cout &lt;&lt; <span class="code-str">"1. Initial Misplaced Belongings Catalogue:\n"</span>;
+    cout &lt;&lt; "1. Initial Misplaced Belongings Catalogue:\n";
     displayInventory(inventory);
 
-    <span class="code-comment">// 1. Demonstrate Linear Search O(N)</span>
-    cout &lt;&lt; <span class="code-str">"\n2. Linear Search for 'Casio':\n"</span>;
-    <span class="code-type">int</span> pos = linearSearchByName(inventory, <span class="code-str">"Casio"</span>);
-    <span class="code-keyword">if</span> (pos != -1) cout &lt;&lt; <span class="code-str">"   --&gt; Match found at record #"</span> &lt;&lt; pos + 1 &lt;&lt; <span class="code-str">": "</span> &lt;&lt; inventory[pos].getName() &lt;&lt; <span class="code-str">"\n"</span>;
+    // 1. Demonstrate Linear Search O(N)
+    cout &lt;&lt; "\n2. Linear Search for 'Casio':\n";
+    int pos = linearSearchByName(inventory, "Casio");
+    if (pos != -1) cout &lt;&lt; "   --&gt; Match found at record #" &lt;&lt; pos + 1 &lt;&lt; ": " &lt;&lt; inventory[pos].getName() &lt;&lt; "\n";
 
-    <span class="code-comment">// 2. Demonstrate Bubble Sort O(N^2)</span>
-    cout &lt;&lt; <span class="code-str">"\n3. Sorting Inventory Alphabetically via Bubble Sort:\n"</span>;
-    bubbleSortByName(inventory, <span class="code-keyword">true</span>);
+    // 2. Demonstrate Bubble Sort O(N^2)
+    cout &lt;&lt; "\n3. Sorting Inventory Alphabetically via Bubble Sort:\n";
+    bubbleSortByName(inventory, true);
     displayInventory(inventory);
 
-    <span class="code-comment">// 3. Demonstrate Binary Search O(log N)</span>
-    cout &lt;&lt; <span class="code-str">"\n4. Binary Search on Sorted Data for 'College ID Smart Card':\n"</span>;
-    <span class="code-type">int</span> binPos = binarySearchByName(inventory, <span class="code-str">"College ID Smart Card"</span>);
-    <span class="code-keyword">if</span> (binPos != -1) cout &lt;&lt; <span class="code-str">"   --&gt; Located in O(log N) operations at position #"</span> &lt;&lt; binPos + 1 &lt;&lt; <span class="code-str">"\n"</span>;
+    // 3. Demonstrate Binary Search O(log N)
+    cout &lt;&lt; "\n4. Binary Search on Sorted Data for 'College ID Smart Card':\n";
+    int binPos = binarySearchByName(inventory, "College ID Smart Card");
+    if (binPos != -1) cout &lt;&lt; "   --&gt; Located in O(log N) operations at position #" &lt;&lt; binPos + 1 &lt;&lt; "\n";
 
-    <span class="code-keyword">return</span> 0;
+    return 0;
 }
 </pre>
   </div>
@@ -1047,7 +911,7 @@
       <tbody>
         <tr>
           <td>#1</td>
-          <td><span class="badge b-amber">LOST</span></td>
+          <td><span class="badge">LOST</span></td>
           <td>HP Pavilion Laptop 15s (Silver)</td>
           <td>Electronics</td>
           <td>Central Library 2nd Floor</td>
@@ -1056,7 +920,7 @@
         </tr>
         <tr>
           <td>#2</td>
-          <td><span class="badge b-green">FOUND</span></td>
+          <td><span class="badge">FOUND</span></td>
           <td>HP 15-inch Silver Laptop</td>
           <td>Electronics</td>
           <td>Reading Room Table 14</td>
@@ -1065,7 +929,7 @@
         </tr>
         <tr>
           <td>#3</td>
-          <td><span class="badge b-amber">LOST</span></td>
+          <td><span class="badge">LOST</span></td>
           <td>College ID Card (Computer Dept)</td>
           <td>ID &amp; Cards</td>
           <td>Canteen Table Corner</td>
@@ -1074,7 +938,7 @@
         </tr>
         <tr>
           <td>#4</td>
-          <td><span class="badge b-green">FOUND</span></td>
+          <td><span class="badge">FOUND</span></td>
           <td>Wireless Earbuds with Black Sleeve</td>
           <td>Electronics</td>
           <td>Cafeteria Counter 3</td>
@@ -1083,7 +947,7 @@
         </tr>
         <tr>
           <td>#5</td>
-          <td><span class="badge b-amber">LOST</span></td>
+          <td><span class="badge">LOST</span></td>
           <td>Casio fx-991CW Calculator</td>
           <td>Books &amp; Stat</td>
           <td>AI&amp;DS Lab 204</td>
@@ -1109,43 +973,43 @@
           <td>TC-01</td>
           <td><strong>Merge Sort</strong></td>
           <td>Items sorted by Date (Descending)</td>
-          <td>Guaranteed $O(N \log N)$ execution; correct reverse chronological sequence; Stability verified.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>Guaranteed O(N log N) execution; correct reverse chronological sequence; Stability verified.</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
         <tr>
           <td>TC-02</td>
           <td><strong>Bubble Sort</strong></td>
           <td>Pre-sorted Array Test</td>
-          <td><code>swapped</code> flag remains false; terminates after 1 pass in $O(N)$ Best Case.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>swapped flag remains false; terminates after 1 pass in O(N) Best Case.</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
         <tr>
           <td>TC-03</td>
           <td><strong>Binary Search</strong></td>
           <td>Target: "HP Pavilion Laptop"</td>
-          <td>Locates item in $O(\log N)$ comparisons after alphabetical Merge Sort.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>Locates item in O(log N) comparisons after alphabetical Merge Sort.</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
         <tr>
           <td>TC-04</td>
           <td><strong>Levenshtein DP</strong></td>
           <td>"AirPods" vs "Air pod"</td>
-          <td>Distance = 1; Normalized Similarity = $85.7\%$; triggers potential match warning.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>Distance = 1; Normalized Similarity = 85.7%; triggers potential match warning.</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
         <tr>
           <td>TC-05</td>
           <td><strong>Jaccard Tokens</strong></td>
           <td>"Silver HP Laptop" vs "Laptop HP Silver"</td>
-          <td>Intersection = 3, Union = 3; Similarity = $100.0\%$; immune to word permutations.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>Intersection = 3, Union = 3; Similarity = 100.0%; immune to word permutations.</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
         <tr>
           <td>TC-06</td>
           <td><strong>Priority Queue</strong></td>
           <td>Multi-item matching set</td>
-          <td>Highest confidence score (94.2%) is popped first from Heap root in $O(\log K)$.</td>
-          <td><span class="badge b-green">PASS</span></td>
+          <td>Highest confidence score (94.2%) is popped first from Heap root in O(log K).</td>
+          <td><span class="badge">PASS</span></td>
         </tr>
       </tbody>
     </table>
@@ -1161,7 +1025,7 @@
 
 
   <!-- ===================================================================== -->
-  <!-- PAGE 10: SCREENSHOTS & UI SHOWCASE (WITH CLEAR INSTRUCTIONS)          -->
+  <!-- PAGE 10: SCREENSHOTS & UI SHOWCASE (MONOCHROME & TIMES NEW ROMAN)     -->
   <!-- ===================================================================== -->
   <div class="page">
     <div class="running-header">
@@ -1170,7 +1034,7 @@
     </div>
 
     <h1 class="page-title">Screenshots &amp; Visual UI Showcase</h1>
-    <p>
+    <p style="font-size: 9pt; color: #000000; margin-bottom: 6px;">
       खाली दिलेल्या <strong>४ मुख्य स्क्रीनशॉट बॉक्सेसमध्ये</strong> तुमच्या चालू असलेल्या प्रोजेक्टचे 
       (<code>http://localhost:18080</code> किंवा लाईव्ह साईटचे) स्क्रीनशॉट्स काढून प्रिंट किंवा पेस्ट करा:
     </p>
@@ -1190,7 +1054,7 @@
       <span class="screenshot-badge">Screenshot 2</span>
       <div class="screenshot-title">२. Master Catalog with Live DSA Sorting Demonstrator (`/items`)</div>
       <div class="screenshot-desc">
-        <strong>कोणता स्क्रीनशॉट लावायचा?:</strong> ॲडमिन लॉगिनमधील Master Catalog. ज्यामध्ये वर Merge Sort, Bubble Sort, किंवा Insertion Sort निवडलेला टूलबार आणि खाली लागलेला वेळ (&mu;s), तुलनांची संख्या (Comparisons), आणि आयटम कार्ड्स दिसतील.
+        <strong>कोणता स्क्रीनशॉट लावायचा?:</strong> ॲडमिन लॉगिनमधील Master Catalog. ज्यामध्ये वर Merge Sort, Bubble Sort, किंवा Insertion Sort निवडलेला टूलबार आणि खाली लागलेला वेळ, तुलनांची संख्या, आणि आयटम कार्ड्स दिसतील.
       </div>
       <div class="screenshot-action">PASTE SCREENSHOT OF SORTING DEMONSTRATOR PAGE HERE (15cm x 5.5cm)</div>
     </div>
@@ -1200,7 +1064,7 @@
       <span class="screenshot-badge">Screenshot 3</span>
       <div class="screenshot-title">३. Live Linear Search vs Binary Search Comparison (`/search`)</div>
       <div class="screenshot-desc">
-        <strong>कोणता स्क्रीनशॉट लावायचा?:</strong> ॲडमिनमधील Search स्क्रीन. ज्यामध्ये DSA Search Algorithm (Linear vs Binary) चे ड्रॉपडाउन आणि $O(\log N)$ किंवा $O(N)$ चे मेट्रिक्स बॅनर स्पष्ट दिसेल.
+        <strong>कोणता स्क्रीनशॉट लावायचा?:</strong> ॲडमिनमधील Search स्क्रीन. ज्यामध्ये DSA Search Algorithm (Linear vs Binary) चे ड्रॉपडाउन आणि O(log N) किंवा O(N) चे मेट्रिक्स बॅनर स्पष्ट दिसेल.
       </div>
       <div class="screenshot-action">PASTE SCREENSHOT OF DSA SEARCH COMPARISON HERE (15cm x 5.5cm)</div>
     </div>
@@ -1234,9 +1098,9 @@
       with a production-grade campus utility. By implementing pure C++17 algorithms, the application proves that:
     </p>
     <ul>
-      <li><strong>Merge Sort</strong> offers predictable, stable $O(N \log N)$ sorting for institutional inventories regardless of dataset disorder.</li>
-      <li><strong>Binary Search</strong> delivers logarithmic $O(\log N)$ item retrieval when paired with pre-sorted structures.</li>
-      <li><strong>Max-Heap Priority Queues</strong> provide an optimal approach to ranking candidate matches without executing costly full $O(K \log K)$ sorting over Cartesian pair products.</li>
+      <li><strong>Merge Sort</strong> offers predictable, stable O(N log N) sorting for institutional inventories regardless of dataset disorder.</li>
+      <li><strong>Binary Search</strong> delivers logarithmic O(log N) item retrieval when paired with pre-sorted structures.</li>
+      <li><strong>Max-Heap Priority Queues</strong> provide an optimal approach to ranking candidate matches without executing costly full O(K log K) sorting over Cartesian pair products.</li>
       <li><strong>Dynamic Programming (Levenshtein) and Jaccard Set Overlap</strong> successfully compensate for human spelling inconsistencies and keyword order variations.</li>
       <li><strong>Zero-Knowledge Blind Custody (RBAC)</strong> ensures rigorous protection against fraudulent claims, while retaining complete administrative transparency for academic viva evaluation.</li>
     </ul>
@@ -1245,7 +1109,7 @@
     <ol>
       <li><strong>OCR Student ID Scanning:</strong> Integrate lightweight Tesseract C++ OCR to auto-populate student roll numbers from photos of campus ID smart cards.</li>
       <li><strong>IoT Gate Integration:</strong> Connect physical turnstile RFID readers at Gate 1 and Central Library to verify student presence during item retrieval handovers.</li>
-      <li><strong>Automated SMS / Push Dispatch:</strong> Integrate Twilio / SMTP gateway in C++ to instantly send SMS alerts to students when an automated match exceeds $85\%$.</li>
+      <li><strong>Automated SMS / Push Dispatch:</strong> Integrate Twilio / SMTP gateway in C++ to instantly send SMS alerts to students when an automated match exceeds 85%.</li>
       <li><strong>Cross-Campus Federated Deployment:</strong> Expand the database to synchronize across other D. Y. Patil group campuses (Akurdi, Pimpri, Navi Mumbai).</li>
       <li><strong>Deep Neural Embedding:</strong> Augment token-based Jaccard similarity with ONNX C++ vector embeddings for image-based visual similarity matching.</li>
     </ol>
@@ -1255,11 +1119,11 @@
       <li><strong>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein (CLRS)</strong>, <em>"Introduction to Algorithms"</em>, 3rd Edition, MIT Press. (Reference for Merge Sort, Heaps, and Dynamic Programming).</li>
       <li><strong>Savitribai Phule Pune University (SPPU)</strong>, <em>"Computer Engineering Second Year Syllabus (Course Code: 210257 - Data Structures &amp; Algorithms Lab)"</em>.</li>
       <li><strong>Bjarne Stroustrup</strong>, <em>"The C++ Programming Language"</em>, 4th Edition, Addison-Wesley. (Standard template library, vector memory model, functor comparators).</li>
-      <li><strong>Crow C++ Framework Documentation</strong>, <a href="https://crowcpp.org/" style="color:#2563eb;">https://crowcpp.org/</a> &bull; Fast, easy-to-use C++ microframework for web services.</li>
-      <li><strong>SQLite3 Documentation &amp; C/C++ Interface</strong>, <a href="https://www.sqlite.org/cintro.html" style="color:#2563eb;">https://www.sqlite.org/cintro.html</a> &bull; Prepared statements and ACID guarantees.</li>
+      <li><strong>Crow C++ Framework Documentation</strong>, <a href="https://crowcpp.org/" style="color:#000000; text-decoration: underline;">https://crowcpp.org/</a> &bull; Fast, easy-to-use C++ microframework for web services.</li>
+      <li><strong>SQLite3 Documentation &amp; C/C++ Interface</strong>, <a href="https://www.sqlite.org/cintro.html" style="color:#000000; text-decoration: underline;">https://www.sqlite.org/cintro.html</a> &bull; Prepared statements and ACID guarantees.</li>
     </ul>
 
-    <div style="margin-top: 30px; border-top: 2px solid #991b1b; padding-top: 12px; text-align: center; font-size: 8.5pt; color: #475569;">
+    <div style="margin-top: 25px; border-top: 1.5px solid #000000; padding-top: 10px; text-align: center; font-size: 8.5pt; color: #000000;">
       <strong>Dr. D. Y. Patil Technical Campus (DYPTC)</strong> &bull; Talegaon-Varale, Pune &bull; DTE Code: 6991<br>
       Department of Computer Engineering &bull; DSA Course Project Official Technical Report (Academic Year 2026-27)
     </div>
