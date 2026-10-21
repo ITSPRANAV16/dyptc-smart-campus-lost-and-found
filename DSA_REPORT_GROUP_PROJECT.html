@@ -264,7 +264,7 @@
       background: #f8fafc;
     }
 
-    /* Code Blocks */
+    /* Code Blocks (CLEAN WHITE/LIGHT THEME - NO BLACK BACKGROUND) */
     code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 7.8pt;
@@ -274,16 +274,22 @@
       border-radius: 3px;
     }
     pre {
-      background: #0f172a;
-      color: #f8fafc;
+      background: #ffffff;
+      color: #0f172a;
+      border: 1.5px solid #cbd5e1;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 7.2pt;
+      font-size: 7.1pt;
       padding: 8px 10px;
-      border-radius: 5px;
+      border-radius: 6px;
       overflow-x: auto;
-      margin: 5px 0 8px;
-      line-height: 1.4;
+      margin: 4px 0 6px;
+      line-height: 1.38;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.03);
     }
+    .code-comment { color: #15803d; font-style: italic; }
+    .code-keyword { color: #1d4ed8; font-weight: 600; }
+    .code-type    { color: #0284c7; font-weight: 600; }
+    .code-str     { color: #b45309; }
 
     /* Screenshot Instruction Placeholder Boxes */
     .screenshot-placeholder {
@@ -479,8 +485,8 @@
       Computer Engineering curriculum:
     </p>
     <ul>
-      <li><strong>Structured Records:</strong> An encapsulated <code>Item</code> struct groups item identifiers, timestamps, locations, contact info, and custody status.</li>
-      <li><strong>Dynamic Array Caching:</strong> A <code>std::vector&lt;Item&gt;</code> maintains in-memory data for $O(1)$ random access and cache-friendly contiguous layout.</li>
+      <li><strong>Structured Records:</strong> An encapsulated <code>CampusItem</code> record groups item identifiers, timestamps, locations, contact info, and custody status.</li>
+      <li><strong>Dynamic Array Caching:</strong> A <code>std::vector&lt;CampusItem&gt;</code> maintains in-memory data for $O(1)$ random access and cache-friendly contiguous layout.</li>
       <li><strong>Master Sorting Engine:</strong> Implements <strong>Merge Sort</strong> ($O(N \log N)$ stable), <strong>Insertion Sort</strong> ($O(N)$ adaptive on nearly-sorted data), and <strong>Bubble Sort</strong> ($O(N^2)$ with early-exit optimization).</li>
       <li><strong>Dual Searching Comparator:</strong> Implements <strong>Linear Search</strong> ($O(N)$ multi-criteria filtering) alongside <strong>Binary Search</strong> ($O(\log N)$ divide-and-conquer) on pre-sorted arrays.</li>
       <li><strong>Ranked Priority Queue (Max-Heap):</strong> Implements <code>std::priority_queue</code> with a custom functor to rank potential auto-matches by a 6-factor multi-attribute similarity score.</li>
@@ -555,18 +561,18 @@
 
     <h1 class="page-title">Data Structures Used &amp; Justification</h1>
 
-    <h2>1. Encapsulated Record Structure (<code>struct Item</code>)</h2>
+    <h2>1. Encapsulated Record Structure (<code>class CampusItem</code>)</h2>
     <p>
-      Each lost or found entity is modeled as an encapsulated C++ structure grouping <code>id</code>, <code>type</code> (LOST/FOUND), 
+      Each lost or found entity is modeled as an encapsulated C++ class grouping <code>id</code>, <code>type</code> (LOST/FOUND), 
       <code>name</code>, <code>category</code>, <code>colour</code>, <code>location</code>, <code>date</code>, <code>description</code>, 
       <code>contact_name</code>, <code>student_id</code>, <code>claim_token</code>, and <code>status</code>. 
       <em>Justification:</em> Prevents disjointed parallel arrays and guarantees atomic object manipulation during sorting and database mapping.
     </p>
 
-    <h2>2. Dynamic Contiguous Array (<code>std::vector&lt;Item&gt;</code>)</h2>
+    <h2>2. Dynamic Contiguous Array (<code>std::vector&lt;CampusItem&gt;</code>)</h2>
     <p>
-      The campus inventory is loaded into a <code>std::vector&lt;Item&gt;</code>. 
-      <em>Justification:</em> The number of misplaced items varies dynamically. Unlike raw C-style arrays (<code>Item arr[100]</code>), vectors resize dynamically and provide contiguous memory cache locality, optimizing CPU instruction cache performance during iterative searches and sorting.
+      The campus inventory is loaded into a <code>std::vector&lt;CampusItem&gt;</code>. 
+      <em>Justification:</em> The number of misplaced items varies dynamically. Unlike raw C-style arrays (<code>CampusItem arr[100]</code>), vectors resize dynamically and provide contiguous memory cache locality, optimizing CPU instruction cache performance during iterative searches and sorting.
     </p>
 
     <h2>3. Priority Queue / Max-Heap (<code>std::priority_queue</code>)</h2>
@@ -662,7 +668,7 @@
         <!-- Matching Engine Box -->
         <rect x="60" y="270" width="620" height="55" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2"/>
         <text x="370" y="291" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#92400e" text-anchor="middle">Multi-Attribute 6-Factor DSA Matching Engine</text>
-        <text x="370" y="310" font-family="Inter, sans-serif" font-size="9" fill="#b45309" text-anchor="middle">Category (25%) + Levenshtein DP &amp; Jaccard (25%) + Location (15%) + Colour (15%) + Date (10%) + Keywords (10%)</text>
+        <text x="370" y="310" font-family="Inter, sans-serif" font-size="9" fill="#b45309" text-anchor="middle">Category (25%) + Levenshtein DP &amp; Jaccard (25%) + Location (15%) + Colour (15%) + Date (10%) + Keywords (10%</text>
 
         <!-- Arrow to Decision Diamond -->
         <path d="M 370 325 L 370 345" fill="none" stroke="#d97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
@@ -754,24 +760,24 @@
         <g transform="translate(20, 10)">
           <!-- Header -->
           <rect x="0" y="0" width="280" height="32" rx="4" fill="#1e40af"/>
-          <text x="140" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;struct&raquo; Item</text>
+          <text x="140" y="20" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;class&raquo; CampusItem</text>
           <!-- Body -->
           <rect x="0" y="32" width="280" height="280" fill="#ffffff" stroke="#93c5fd" stroke-width="1.5"/>
-          <text x="12" y="52" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ id : int</text>
-          <text x="12" y="70" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ type : string  // "LOST" or "FOUND"</text>
-          <text x="12" y="88" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ name : string  // "HP Laptop 15s"</text>
-          <text x="12" y="106" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ category : string  // "Electronics"</text>
-          <text x="12" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ colour : string  // "Silver"</text>
-          <text x="12" y="142" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ location : string  // "Library 2F"</text>
-          <text x="12" y="160" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ date : string  // "YYYY-MM-DD"</text>
-          <text x="12" y="178" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ description : string</text>
-          <text x="12" y="196" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ student_id : string</text>
-          <text x="12" y="214" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ claim_token : string</text>
-          <text x="12" y="232" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ status : string  // "OPEN"/"MATCHED"</text>
+          <text x="12" y="52" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- id : int</text>
+          <text x="12" y="70" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- type : string  // "LOST" or "FOUND"</text>
+          <text x="12" y="88" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- name : string  // "HP Laptop 15s"</text>
+          <text x="12" y="106" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- category : string  // "Electronics"</text>
+          <text x="12" y="124" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- colour : string  // "Silver"</text>
+          <text x="12" y="142" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- location : string  // "Library 2F"</text>
+          <text x="12" y="160" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- date : string  // "YYYY-MM-DD"</text>
+          <text x="12" y="178" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- description : string</text>
+          <text x="12" y="196" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- student_id : string</text>
+          <text x="12" y="214" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- claim_token : string</text>
+          <text x="12" y="232" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">- status : string  // "OPEN"/"MATCHED"</text>
           <line x1="0" y1="245" x2="280" y2="245" stroke="#cbd5e1" stroke-width="1"/>
-          <text x="12" y="265" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ isLost() : bool</text>
-          <text x="12" y="283" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ isFound() : bool</text>
-          <text x="12" y="301" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ getNormalizedTitle() : string</text>
+          <text x="12" y="265" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ getId() : int</text>
+          <text x="12" y="283" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ getName() : string</text>
+          <text x="12" y="301" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#2563eb">+ operator&lt;(other: CampusItem) : bool</text>
         </g>
 
         <!-- Association Line from Item to MatchResult -->
@@ -786,8 +792,8 @@
           <text x="150" y="19" font-family="Inter, sans-serif" font-size="11" font-weight="700" fill="#ffffff" text-anchor="middle">&laquo;struct&raquo; MatchResult</text>
           <!-- Body -->
           <rect x="0" y="30" width="300" height="115" fill="#ffffff" stroke="#6ee7b7" stroke-width="1.5"/>
-          <text x="12" y="49" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ lost_item : Item</text>
-          <text x="12" y="67" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ found_item : Item</text>
+          <text x="12" y="49" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ lost_item : CampusItem</text>
+          <text x="12" y="67" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ found_item : CampusItem</text>
           <text x="12" y="85" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ breakdown : MatchBreakdown</text>
           <text x="12" y="103" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ overall_score : double  // 0.0 - 100.0</text>
           <text x="12" y="121" font-family="JetBrains Mono, monospace" font-size="8.5" fill="#0f172a">+ is_high_confidence : bool</text>
@@ -825,43 +831,23 @@
       <tbody>
         <tr>
           <td><strong>Sorting</strong></td>
-          <td><code>void dsa::mergeSort(vector&lt;Item&gt;&amp;, string sortBy, bool asc, SortMetrics&amp;)</code></td>
-          <td><span class="badge b-green">$O(N \log N)$ Guaranteed</span></td>
-        </tr>
-        <tr>
-          <td><strong>Sorting</strong></td>
-          <td><code>void dsa::bubbleSort(vector&lt;Item&gt;&amp;, string sortBy, bool asc, SortMetrics&amp;)</code></td>
-          <td><span class="badge b-amber">$O(N^2)$ / $O(N)$ Best</span></td>
-        </tr>
-        <tr>
-          <td><strong>Sorting</strong></td>
-          <td><code>void dsa::insertionSort(vector&lt;Item&gt;&amp;, string sortBy, bool asc, SortMetrics&amp;)</code></td>
+          <td><code>void bubbleSortByName(vector&lt;CampusItem&gt;&amp;, bool asc)</code></td>
           <td><span class="badge b-amber">$O(N^2)$ / $O(N)$ Best</span></td>
         </tr>
         <tr>
           <td><strong>Searching</strong></td>
-          <td><code>vector&lt;Item&gt; dsa::binarySearchByName(vector&lt;Item&gt;, string q, SearchMetrics&amp;)</code></td>
+          <td><code>int binarySearchByName(const vector&lt;CampusItem&gt;&amp;, const string&amp;)</code></td>
           <td><span class="badge b-green">$O(\log N)$ Divide-and-Conquer</span></td>
         </tr>
         <tr>
           <td><strong>Searching</strong></td>
-          <td><code>vector&lt;Item&gt; dsa::linearSearch(vector&lt;Item&gt;, string q, string cat, SearchMetrics&amp;)</code></td>
+          <td><code>int linearSearchByName(const vector&lt;CampusItem&gt;&amp;, const string&amp;)</code></td>
           <td><span class="badge b-blue">$O(N)$ Sequential Scan</span></td>
         </tr>
         <tr>
-          <td><strong>Fuzzy DP</strong></td>
-          <td><code>int dsa::levenshteinDistance(const string&amp; s1, const string&amp; s2)</code></td>
-          <td><span class="badge b-amber">$O(M \times N)$ Dynamic Prog.</span></td>
-        </tr>
-        <tr>
-          <td><strong>Set Token</strong></td>
-          <td><code>double dsa::jaccardSimilarity(const string&amp; s1, const string&amp; s2)</code></td>
-          <td><span class="badge b-green">$O(|A| + |B|)$ Hash Set</span></td>
-        </tr>
-        <tr>
           <td><strong>Ranking</strong></td>
-          <td><code>vector&lt;MatchResult&gt; dsa::findRankedMatches(vector&lt;Item&gt;, vector&lt;Item&gt;)</code></td>
-          <td><span class="badge b-blue">$O(K \log K)$ Max-Heap</span></td>
+          <td><code>void displayInventory(const vector&lt;CampusItem&gt;&amp;)</code></td>
+          <td><span class="badge b-green">$O(N)$ Tabular Output</span></td>
         </tr>
       </tbody>
     </table>
@@ -877,84 +863,77 @@
       <strong>Dr. D. Y. Patil Technical Campus, Pune</strong>
     </div>
 
-    <h1 class="page-title">Complete C++ Source Code (Part 1: DSA Engine)</h1>
-    <p style="font-size: 8pt; color: #64748b; margin-bottom: 4px;">
-      Extract from <code>src/dsa_engine.hpp</code> demonstrating Levenshtein DP, Jaccard Tokenization, and Sorting implementations:
+    <h1 class="page-title">Complete C++ Source Code (Part 1)</h1>
+    <p style="font-size: 8pt; color: #475569; margin-bottom: 4px;">
+      Standalone C++ course model demonstrating Encapsulated Record Structure, Tabular Formatting, and Linear Search:
     </p>
 
     <pre>
-#pragma once
-#include "models.hpp"
-#include &lt;vector&gt;
-#include &lt;string&gt;
-#include &lt;queue&gt;
-#include &lt;unordered_map&gt;
-#include &lt;unordered_set&gt;
-#include &lt;algorithm&gt;
-#include &lt;chrono&gt;
+<span class="code-comment">// ============================================================================
+// Dr. D. Y. Patil Technical Campus, Pune &bull; Department of Computer Engineering
+// Course: Data Structures &amp; Algorithms Lab (210257) &bull; Academic Year: 2026-27
+// Project: Smart Campus Lost &amp; Found Management System (C++ Simulation Model)
+// ============================================================================</span>
+<span class="code-keyword">#include</span> <span class="code-str">&lt;iostream&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-str">&lt;vector&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-str">&lt;string&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-str">&lt;iomanip&gt;</span>
+<span class="code-keyword">#include</span> <span class="code-str">&lt;algorithm&gt;</span>
+<span class="code-keyword">using namespace</span> std;
 
-namespace dsa {
+<span class="code-comment">// Encapsulated record representing a campus misplaced belonging</span>
+<span class="code-keyword">class</span> <span class="code-type">CampusItem</span> {
+<span class="code-keyword">private:</span>
+    <span class="code-type">int</span> id;
+    <span class="code-type">string</span> type;        <span class="code-comment">// "LOST" or "FOUND"</span>
+    <span class="code-type">string</span> name;        <span class="code-comment">// e.g., "HP Pavilion Laptop 15s"</span>
+    <span class="code-type">string</span> category;    <span class="code-comment">// "Electronics", "ID &amp; Cards", etc.</span>
+    <span class="code-type">string</span> location;    <span class="code-comment">// e.g., "Central Library 2nd Floor"</span>
+    <span class="code-type">string</span> claim_token; <span class="code-comment">// e.g., "DYPTC-LST-01"</span>
 
-// 1. Dynamic Programming Levenshtein Distance (O(M * N))
-inline int levenshteinDistance(const std::string&amp; s1, const std::string&amp; s2) {
-    const size_t m = s1.size(), n = s2.size();
-    if (m == 0) return static_cast&lt;int&gt;(n);
-    if (n == 0) return static_cast&lt;int&gt;(m);
+<span class="code-keyword">public:</span>
+    <span class="code-type">CampusItem</span>(<span class="code-type">int</span> itemId, <span class="code-type">string</span> itemType, <span class="code-type">string</span> itemName, 
+               <span class="code-type">string</span> itemCat, <span class="code-type">string</span> itemLoc, <span class="code-type">string</span> token)
+        : id(itemId), type(itemType), name(itemName), 
+          category(itemCat), location(itemLoc), claim_token(token) {}
 
-    std::vector&lt;std::vector&lt;int&gt;&gt; dp(m + 1, std::vector&lt;int&gt;(n + 1, 0));
-    for (size_t i = 0; i &lt;= m; ++i) dp[i][0] = static_cast&lt;int&gt;(i);
-    for (size_t j = 0; j &lt;= n; ++j) dp[0][j] = static_cast&lt;int&gt;(j);
+    <span class="code-type">int</span> getId() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> id; }
+    <span class="code-type">string</span> getType() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> type; }
+    <span class="code-type">string</span> getName() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> name; }
+    <span class="code-type">string</span> getCategory() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> category; }
+    <span class="code-type">string</span> getLocation() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> location; }
+    <span class="code-type">string</span> getClaimToken() <span class="code-keyword">const</span> { <span class="code-keyword">return</span> claim_token; }
 
-    for (size_t i = 1; i &lt;= m; ++i) {
-        for (size_t j = 1; j &lt;= n; ++j) {
-            int cost = (std::tolower(s1[i - 1]) == std::tolower(s2[j - 1])) ? 0 : 1;
-            dp[i][j] = std::min({ dp[i - 1][j] + 1,        // Deletion
-                                  dp[i][j - 1] + 1,        // Insertion
-                                  dp[i - 1][j - 1] + cost  // Substitution
-                                });
-        }
+    <span class="code-comment">// Overload &lt; operator for alphabetical sorting</span>
+    <span class="code-type">bool</span> <span class="code-keyword">operator</span>&lt;(<span class="code-keyword">const</span> <span class="code-type">CampusItem</span>&amp; other) <span class="code-keyword">const</span> {
+        <span class="code-keyword">return</span> name &lt; other.name;
     }
-    return dp[m][n];
+};
+
+<span class="code-comment">// Displays campus inventory in a clean institutional tabular format</span>
+<span class="code-type">void</span> displayInventory(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items) {
+    cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; <span class="code-str">"ID"</span> &lt;&lt; setw(8) &lt;&lt; <span class="code-str">"Type"</span> 
+         &lt;&lt; setw(26) &lt;&lt; <span class="code-str">"Item Name"</span> &lt;&lt; setw(15) &lt;&lt; <span class="code-str">"Category"</span> 
+         &lt;&lt; setw(22) &lt;&lt; <span class="code-str">"Location"</span> &lt;&lt; <span class="code-str">"Claim Token\n"</span>;
+    cout &lt;&lt; string(85, <span class="code-str">'-'</span>) &lt;&lt; <span class="code-str">"\n"</span>;
+    <span class="code-keyword">for</span> (<span class="code-keyword">const auto</span>&amp; item : items) {
+        cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; item.getId()
+             &lt;&lt; setw(8) &lt;&lt; item.getType()
+             &lt;&lt; setw(26) &lt;&lt; item.getName()
+             &lt;&lt; setw(15) &lt;&lt; item.getCategory()
+             &lt;&lt; setw(22) &lt;&lt; item.getLocation()
+             &lt;&lt; item.getClaimToken() &lt;&lt; <span class="code-str">"\n"</span>;
+    }
 }
 
-// 2. Jaccard Token Similarity (Set Theory: |A &cap; B| / |A &cup; B|)
-inline double jaccardSimilarity(const std::string&amp; s1, const std::string&amp; s2) {
-    auto tokensA = tokenize(s1);
-    auto tokensB = tokenize(s2);
-    if (tokensA.empty() &amp;&amp; tokensB.empty()) return 1.0;
-    if (tokensA.empty() || tokensB.empty()) return 0.0;
-
-    std::unordered_set&lt;std::string&gt; setA(tokensA.begin(), tokensA.end());
-    std::unordered_set&lt;std::string&gt; setB(tokensB.begin(), tokensB.end());
-
-    int intersect = 0;
-    for (const auto&amp; t : setA) {
-        if (setB.find(t) != setB.end()) intersect++;
-    }
-    int unionCount = static_cast&lt;int&gt;(setA.size() + setB.size()) - intersect;
-    return (unionCount &lt;= 0) ? 0.0 : (static_cast&lt;double&gt;(intersect) / unionCount);
-}
-
-// 3. Bubble Sort with Early Exit Optimization (O(N^2) / O(N) Best)
-inline void bubbleSort(std::vector&lt;Item&gt;&amp; items, const std::string&amp; sortBy, bool asc, SortMetrics&amp; m) {
-    auto start = std::chrono::high_resolution_clock::now();
-    m.algorithm_name = "Bubble Sort";
-    m.comparisons = 0; m.swaps_or_shifts = 0;
-    const size_t n = items.size();
-
-    for (size_t i = 0; i &lt; n; ++i) {
-        bool swapped = false;
-        for (size_t j = 0; j + 1 &lt; n - i; ++j) {
-            if (compareItems(items[j + 1], items[j], sortBy, asc, m.comparisons)) {
-                std::swap(items[j], items[j + 1]);
-                m.swaps_or_shifts++;
-                swapped = true;
-            }
+<span class="code-comment">// Linear Search: Sequential O(N) lookup across active catalogue</span>
+<span class="code-type">int</span> linearSearchByName(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-keyword">const</span> <span class="code-type">string</span>&amp; target) {
+    <span class="code-keyword">for</span> (<span class="code-type">size_t</span> i = 0; i &lt; items.size(); ++i) {
+        <span class="code-keyword">if</span> (items[i].getName().find(target) != string::npos) {
+            <span class="code-keyword">return</span> <span class="code-keyword">static_cast</span>&lt;<span class="code-type">int</span>&gt;(i); <span class="code-comment">// Found at index i</span>
         }
-        if (!swapped) break; // Optimized Early Termination
     }
-    auto end = std::chrono::high_resolution_clock::now();
-    m.duration_microseconds = std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(end - start).count();
+    <span class="code-keyword">return</span> -1; <span class="code-comment">// Item not found</span>
 }
 </pre>
   </div>
@@ -969,91 +948,74 @@ inline void bubbleSort(std::vector&lt;Item&gt;&amp; items, const std::string&amp
       <strong>Dr. D. Y. Patil Technical Campus, Pune</strong>
     </div>
 
-    <h1 class="page-title">Complete C++ Source Code (Part 2: Merge Sort &amp; Heap)</h1>
-    <p style="font-size: 8pt; color: #64748b; margin-bottom: 4px;">
-      Extract from <code>src/dsa_engine.hpp</code> demonstrating Divide-and-Conquer Merge Sort and Priority Queue Max-Heap matching:
+    <h1 class="page-title">Complete C++ Source Code (Part 2)</h1>
+    <p style="font-size: 8pt; color: #475569; margin-bottom: 4px;">
+      Continuation: Binary Search, Bubble Sort with early-exit optimization, and complete main() demonstration:
     </p>
 
     <pre>
-// 4. Stable Divide-and-Conquer Merge Sort (O(N log N) Guaranteed)
-inline void merge(std::vector&lt;Item&gt;&amp; items, int left, int mid, int right, 
-                  const std::string&amp; sortBy, bool asc, SortMetrics&amp; m) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
-    std::vector&lt;Item&gt; L(items.begin() + left, items.begin() + mid + 1);
-    std::vector&lt;Item&gt; R(items.begin() + mid + 1, items.begin() + right + 1);
-
-    int i = 0, j = 0, k = left;
-    while (i &lt; n1 &amp;&amp; j &lt; n2) {
-        if (compareItems(L[i], R[j], sortBy, asc, m.comparisons)) {
-            items[k++] = L[i++];
-        } else {
-            items[k++] = R[j++];
-        }
-        m.swaps_or_shifts++;
+<span class="code-comment">// Binary Search: Divide-and-Conquer O(log N) lookup on pre-sorted inventory</span>
+<span class="code-type">int</span> binarySearchByName(<span class="code-keyword">const</span> <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-keyword">const</span> <span class="code-type">string</span>&amp; target) {
+    <span class="code-type">int</span> low = 0, high = <span class="code-keyword">static_cast</span>&lt;<span class="code-type">int</span>&gt;(items.size()) - 1;
+    <span class="code-keyword">while</span> (low &lt;= high) {
+        <span class="code-type">int</span> mid = low + (high - low) / 2;
+        <span class="code-keyword">if</span> (items[mid].getName() == target) <span class="code-keyword">return</span> mid;
+        <span class="code-keyword">if</span> (items[mid].getName() &lt; target) low = mid + 1;
+        <span class="code-keyword">else</span> high = mid - 1;
     }
-    while (i &lt; n1) items[k++] = L[i++];
-    while (j &lt; n2) items[k++] = R[j++];
+    <span class="code-keyword">return</span> -1; <span class="code-comment">// Target element not found</span>
 }
 
-inline void mergeSortInternal(std::vector&lt;Item&gt;&amp; items, int left, int right, 
-                              const std::string&amp; sortBy, bool asc, SortMetrics&amp; m) {
-    if (left &lt; right) {
-        int mid = left + (right - left) / 2;
-        mergeSortInternal(items, left, mid, sortBy, asc, m);
-        mergeSortInternal(items, mid + 1, right, sortBy, asc, m);
-        merge(items, left, mid, right, sortBy, asc, m);
-    }
-}
-
-// 5. Binary Search (O(log N)) on Name Field
-inline std::vector&lt;Item&gt; binarySearchByName(std::vector&lt;Item&gt; items, const std::string&amp; q, SearchMetrics&amp; m) {
-    SortMetrics sm;
-    mergeSort(items, "name", true, sm); // Prerequisite: Ensure Pre-sorted Data
-
-    int low = 0, high = static_cast&lt;int&gt;(items.size()) - 1;
-    std::string target = toLower(q);
-    std::vector&lt;Item&gt; results;
-
-    while (low &lt;= high) {
-        m.comparisons++;
-        int mid = low + (high - low) / 2;
-        std::string midName = toLower(items[mid].name);
-
-        if (midName.find(target) != std::string::npos) {
-            results.push_back(items[mid]);
-            break;
-        } else if (midName &lt; target) {
-            low = mid + 1;
-        } else {
-            high = mid - 1;
-        }
-    }
-    return results;
-}
-
-// 6. Priority Queue Max-Heap Auto-Matches Ranking Engine
-inline std::vector&lt;MatchResult&gt; findRankedMatches(const std::vector&lt;Item&gt;&amp; lostItems, 
-                                                  const std::vector&lt;Item&gt;&amp; foundItems) {
-    std::priority_queue&lt;MatchResult, std::vector&lt;MatchResult&gt;, MatchComparator&gt; maxHeap;
-
-    for (const auto&amp; lost : lostItems) {
-        for (const auto&amp; found : foundItems) {
-            MatchResult res = evaluateMatch(lost, found);
-            if (res.overall_score &gt;= 30.0) { // Candidate threshold
-                maxHeap.push(res);
+<span class="code-comment">// Bubble Sort: In-place sorting with O(N) early-exit optimization</span>
+<span class="code-type">void</span> bubbleSortByName(<span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt;&amp; items, <span class="code-type">bool</span> ascending = <span class="code-keyword">true</span>) {
+    <span class="code-keyword">const</span> <span class="code-type">size_t</span> n = items.size();
+    <span class="code-keyword">for</span> (<span class="code-type">size_t</span> i = 0; i &lt; n; ++i) {
+        <span class="code-type">bool</span> swapped = <span class="code-keyword">false</span>;
+        <span class="code-keyword">for</span> (<span class="code-type">size_t</span> j = 0; j + 1 &lt; n - i; ++j) {
+            <span class="code-type">bool</span> condition = ascending ? (items[j + 1] &lt; items[j]) 
+                                       : (items[j] &lt; items[j + 1]);
+            <span class="code-keyword">if</span> (condition) {
+                swap(items[j], items[j + 1]);
+                swapped = <span class="code-keyword">true</span>;
             }
         }
+        <span class="code-keyword">if</span> (!swapped) <span class="code-keyword">break</span>; <span class="code-comment">// Best Case O(N) if already ordered</span>
     }
-
-    std::vector&lt;MatchResult&gt; ranked;
-    while (!maxHeap.empty()) {
-        ranked.push_back(maxHeap.top()); // Highest score at root
-        maxHeap.pop();
-    }
-    return ranked;
 }
-} // namespace dsa
+
+<span class="code-type">int</span> main() {
+    cout &lt;&lt; <span class="code-str">"=========================================================\n"</span>;
+    cout &lt;&lt; <span class="code-str">"  DYPTC SMART CAMPUS LOST &amp; FOUND - DSA LAB SIMULATION   \n"</span>;
+    cout &lt;&lt; <span class="code-str">"=========================================================\n\n"</span>;
+
+    <span class="code-comment">// Seeded campus belongings records</span>
+    <span class="code-type">vector</span>&lt;<span class="code-type">CampusItem</span>&gt; inventory = {
+        <span class="code-type">CampusItem</span>(1, <span class="code-str">"LOST"</span>,  <span class="code-str">"HP Pavilion Laptop 15s"</span>, <span class="code-str">"Electronics"</span>, <span class="code-str">"Library 2nd Floor"</span>,  <span class="code-str">"DYPTC-LST-01"</span>),
+        <span class="code-type">CampusItem</span>(2, <span class="code-str">"FOUND"</span>, <span class="code-str">"Casio fx-991CW Calc"</span>,    <span class="code-str">"Books &amp; Stat"</span>, <span class="code-str">"AI&amp;DS Lab 204"</span>,      <span class="code-str">"DYPTC-FND-02"</span>),
+        <span class="code-type">CampusItem</span>(3, <span class="code-str">"LOST"</span>,  <span class="code-str">"College ID Smart Card"</span>,  <span class="code-str">"ID &amp; Cards"</span>,   <span class="code-str">"Canteen Counter"</span>,    <span class="code-str">"DYPTC-LST-03"</span>),
+        <span class="code-type">CampusItem</span>(4, <span class="code-str">"FOUND"</span>, <span class="code-str">"Wireless Earbuds Sleeve"</span>,<span class="code-str">"Electronics"</span>, <span class="code-str">"Cafeteria Gate 1"</span>,   <span class="code-str">"DYPTC-FND-04"</span>)
+    };
+
+    cout &lt;&lt; <span class="code-str">"1. Initial Misplaced Belongings Catalogue:\n"</span>;
+    displayInventory(inventory);
+
+    <span class="code-comment">// 1. Demonstrate Linear Search O(N)</span>
+    cout &lt;&lt; <span class="code-str">"\n2. Linear Search for 'Casio':\n"</span>;
+    <span class="code-type">int</span> pos = linearSearchByName(inventory, <span class="code-str">"Casio"</span>);
+    <span class="code-keyword">if</span> (pos != -1) cout &lt;&lt; <span class="code-str">"   --&gt; Match found at record #"</span> &lt;&lt; pos + 1 &lt;&lt; <span class="code-str">": "</span> &lt;&lt; inventory[pos].getName() &lt;&lt; <span class="code-str">"\n"</span>;
+
+    <span class="code-comment">// 2. Demonstrate Bubble Sort O(N^2)</span>
+    cout &lt;&lt; <span class="code-str">"\n3. Sorting Inventory Alphabetically via Bubble Sort:\n"</span>;
+    bubbleSortByName(inventory, <span class="code-keyword">true</span>);
+    displayInventory(inventory);
+
+    <span class="code-comment">// 3. Demonstrate Binary Search O(log N)</span>
+    cout &lt;&lt; <span class="code-str">"\n4. Binary Search on Sorted Data for 'College ID Smart Card':\n"</span>;
+    <span class="code-type">int</span> binPos = binarySearchByName(inventory, <span class="code-str">"College ID Smart Card"</span>);
+    <span class="code-keyword">if</span> (binPos != -1) cout &lt;&lt; <span class="code-str">"   --&gt; Located in O(log N) operations at position #"</span> &lt;&lt; binPos + 1 &lt;&lt; <span class="code-str">"\n"</span>;
+
+    <span class="code-keyword">return</span> 0;
+}
 </pre>
   </div>
 
