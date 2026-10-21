@@ -264,7 +264,18 @@
       background: #fbfbfb;
     }
 
-    /* Code Blocks (Classic Academic Monochrome) */
+    /* Complete elimination of browser scrollbars in print and view */
+    * {
+      scrollbar-width: none !important;
+      -ms-overflow-style: none !important;
+    }
+    ::-webkit-scrollbar {
+      display: none !important;
+      width: 0px !important;
+      height: 0px !important;
+    }
+
+    /* Code Blocks (Classic Academic Monochrome - Zero Scrollbars) */
     code {
       font-family: 'Courier New', Courier, monospace;
       font-size: 8pt;
@@ -279,12 +290,17 @@
       color: #000000;
       border: 1.5px solid #000000;
       font-family: 'Courier New', Courier, monospace;
-      font-size: 7.2pt;
+      font-size: 7.0pt;
       padding: 8px 10px;
       border-radius: 3px;
-      overflow-x: auto;
-      margin: 5px 0 7px;
-      line-height: 1.38;
+      overflow: hidden !important;
+      overflow-x: hidden !important;
+      overflow-y: hidden !important;
+      white-space: pre-wrap !important;
+      word-break: break-word !important;
+      word-wrap: break-word !important;
+      margin: 4px 0 6px;
+      line-height: 1.35;
       box-shadow: none;
     }
 
@@ -776,16 +792,16 @@ public:
 
 // Displays campus inventory in a clean institutional tabular format
 void displayInventory(const vector&lt;CampusItem&gt;&amp; items) {
-    cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; "ID" &lt;&lt; setw(8) &lt;&lt; "Type" 
-         &lt;&lt; setw(26) &lt;&lt; "Item Name" &lt;&lt; setw(15) &lt;&lt; "Category" 
-         &lt;&lt; setw(22) &lt;&lt; "Location" &lt;&lt; "Claim Token\n";
-    cout &lt;&lt; string(85, '-') &lt;&lt; "\n";
+    cout &lt;&lt; left &lt;&lt; setw(4) &lt;&lt; "ID" &lt;&lt; setw(7) &lt;&lt; "Type" 
+         &lt;&lt; setw(24) &lt;&lt; "Item Name" &lt;&lt; setw(14) &lt;&lt; "Category" 
+         &lt;&lt; setw(18) &lt;&lt; "Location" &lt;&lt; "Token\n";
+    cout &lt;&lt; string(68, '-') &lt;&lt; "\n";
     for (const auto&amp; item : items) {
-        cout &lt;&lt; left &lt;&lt; setw(5) &lt;&lt; item.getId()
-             &lt;&lt; setw(8) &lt;&lt; item.getType()
-             &lt;&lt; setw(26) &lt;&lt; item.getName()
-             &lt;&lt; setw(15) &lt;&lt; item.getCategory()
-             &lt;&lt; setw(22) &lt;&lt; item.getLocation()
+        cout &lt;&lt; left &lt;&lt; setw(4) &lt;&lt; item.getId()
+             &lt;&lt; setw(7) &lt;&lt; item.getType()
+             &lt;&lt; setw(24) &lt;&lt; item.getName()
+             &lt;&lt; setw(14) &lt;&lt; item.getCategory()
+             &lt;&lt; setw(18) &lt;&lt; item.getLocation()
              &lt;&lt; item.getClaimToken() &lt;&lt; "\n";
     }
 }
@@ -848,16 +864,20 @@ void bubbleSortByName(vector&lt;CampusItem&gt;&amp; items, bool ascending = true
 }
 
 int main() {
-    cout &lt;&lt; "=========================================================\n";
-    cout &lt;&lt; "  DYPTC SMART CAMPUS LOST &amp; FOUND - DSA LAB SIMULATION   \n";
-    cout &lt;&lt; "=========================================================\n\n";
+    cout &lt;&lt; "======================================================\n";
+    cout &lt;&lt; " DYPTC SMART CAMPUS LOST &amp; FOUND - DSA LAB SIMULATION \n";
+    cout &lt;&lt; "======================================================\n\n";
 
     // Seeded campus belongings records
     vector&lt;CampusItem&gt; inventory = {
-        CampusItem(1, "LOST",  "HP Pavilion Laptop 15s", "Electronics", "Library 2nd Floor",  "DYPTC-LST-01"),
-        CampusItem(2, "FOUND", "Casio fx-991CW Calc",    "Books &amp; Stat", "AI&amp;DS Lab 204",      "DYPTC-FND-02"),
-        CampusItem(3, "LOST",  "College ID Smart Card",  "ID &amp; Cards",   "Canteen Counter",    "DYPTC-LST-03"),
-        CampusItem(4, "FOUND", "Wireless Earbuds Sleeve","Electronics", "Cafeteria Gate 1",   "DYPTC-FND-04")
+        CampusItem(1, "LOST",  "HP Pavilion Laptop 15s", 
+                   "Electronics", "Library 2F", "DYPTC-LST-01"),
+        CampusItem(2, "FOUND", "Casio fx-991CW Calc", 
+                   "Books &amp; Stat", "AI&amp;DS Lab", "DYPTC-FND-02"),
+        CampusItem(3, "LOST",  "College ID Smart Card", 
+                   "ID &amp; Cards", "Canteen", "DYPTC-LST-03"),
+        CampusItem(4, "FOUND", "Wireless Earbuds Sleeve", 
+                   "Electronics", "Gate 1", "DYPTC-FND-04")
     };
 
     cout &lt;&lt; "1. Initial Misplaced Belongings Catalogue:\n";
@@ -866,7 +886,10 @@ int main() {
     // 1. Demonstrate Linear Search O(N)
     cout &lt;&lt; "\n2. Linear Search for 'Casio':\n";
     int pos = linearSearchByName(inventory, "Casio");
-    if (pos != -1) cout &lt;&lt; "   --&gt; Match found at record #" &lt;&lt; pos + 1 &lt;&lt; ": " &lt;&lt; inventory[pos].getName() &lt;&lt; "\n";
+    if (pos != -1) {
+        cout &lt;&lt; "   --&gt; Match located: " 
+             &lt;&lt; inventory[pos].getName() &lt;&lt; "\n";
+    }
 
     // 2. Demonstrate Bubble Sort O(N^2)
     cout &lt;&lt; "\n3. Sorting Inventory Alphabetically via Bubble Sort:\n";
@@ -874,9 +897,12 @@ int main() {
     displayInventory(inventory);
 
     // 3. Demonstrate Binary Search O(log N)
-    cout &lt;&lt; "\n4. Binary Search on Sorted Data for 'College ID Smart Card':\n";
+    cout &lt;&lt; "\n4. Binary Search on Sorted Data for 'College ID':\n";
     int binPos = binarySearchByName(inventory, "College ID Smart Card");
-    if (binPos != -1) cout &lt;&lt; "   --&gt; Located in O(log N) operations at position #" &lt;&lt; binPos + 1 &lt;&lt; "\n";
+    if (binPos != -1) {
+        cout &lt;&lt; "   --&gt; Located in O(log N) at position #" 
+             &lt;&lt; binPos + 1 &lt;&lt; "\n";
+    }
 
     return 0;
 }
