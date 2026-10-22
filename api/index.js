@@ -351,7 +351,8 @@ module.exports = (req, res) => {
 
   // Static Assets
   if (pathname === '/style.css') {
-    const cssPath = path.join(process.cwd(), 'style.css');
+    let cssPath = path.join(process.cwd(), 'static', 'style.css');
+    if (!fs.existsSync(cssPath)) cssPath = path.join(process.cwd(), 'style.css');
     if (fs.existsSync(cssPath)) {
       res.setHeader('Content-Type', 'text/css');
       return res.end(fs.readFileSync(cssPath, 'utf8'));

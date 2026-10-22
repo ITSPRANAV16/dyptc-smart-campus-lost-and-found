@@ -92,21 +92,27 @@ inline std::string maskContactInfo(const std::string& contact, bool isAdmin) {
  return "<em>Contact Protected</em>";
 }
 
-// Reads file content from disk (supports both root directory and templates/ folder)
+// Reads file content from disk (supports root, templates/, and static/ folders)
 inline std::string readFile(const std::string& filePath) {
- std::ifstream file(filePath, std::ios::binary);
- if (file.is_open()) {
- std::stringstream buffer;
- buffer << file.rdbuf();
- return buffer.str();
- }
- std::ifstream file2("templates/" + filePath, std::ios::binary);
- if (file2.is_open()) {
- std::stringstream buffer;
- buffer << file2.rdbuf();
- return buffer.str();
- }
- return "";
+  std::ifstream file(filePath, std::ios::binary);
+  if (file.is_open()) {
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    return buffer.str();
+  }
+  std::ifstream file2("templates/" + filePath, std::ios::binary);
+  if (file2.is_open()) {
+    std::stringstream buffer;
+    buffer << file2.rdbuf();
+    return buffer.str();
+  }
+  std::ifstream file3("static/" + filePath, std::ios::binary);
+  if (file3.is_open()) {
+    std::stringstream buffer;
+    buffer << file3.rdbuf();
+    return buffer.str();
+  }
+  return "";
 }
 
 // Replaces all occurrences of placeholder in template
