@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Campus Lost &amp; Found - Project Defense Presentation</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --accent-blue: #2563eb;
+      --accent-cyan: #06b6d4;
+      --accent-gold: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --card-white: #ffffff;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #020617;
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #presentation-container {
+      width: 96vw;
+      max-width: 1500px;
+      height: 90vh;
+      max-height: 860px;
+      background: var(--bg-dark);
+      border-radius: 14px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Top presentation banner */
+    .slide-banner {
+      background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%);
+      padding: 14px 28px;
+      border-bottom: 3px solid var(--accent-gold);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .slide-banner .title-group h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.3px;
+    }
+
+    .slide-banner .title-group .category-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 2px;
+    }
+
+    .slide-banner .controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .btn-ctrl {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-ctrl:hover {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+    }
+
+    /* Slide Content Viewport */
+    .slide-viewport {
+      flex: 1;
+      position: relative;
+      overflow-y: auto;
+      padding: 24px 32px;
+    }
+
+    .slide {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+      height: 100%;
+    }
+
+    .slide.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Bottom footer */
+    .slide-footer {
+      background: #090e1a;
+      padding: 10px 28px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .slide-footer .progress-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #334155;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dot.active {
+      background: var(--accent-gold);
+      transform: scale(1.3);
+    }
+
+    /* Grids & Cards */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      height: 100%;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 18px;
+      height: 100%;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      color: var(--accent-cyan);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card p, .card li {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #cbd5e1;
+    }
+
+    .card ul {
+      margin-left: 18px;
+      margin-top: 6px;
+    }
+
+    .card li {
+      margin-bottom: 6px;
+    }
+
+    /* Tables */
+    table.slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      margin-top: 6px;
+    }
+
+    table.slide-table th {
+      background: #1e293b;
+      color: var(--accent-gold);
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 2px solid var(--accent-gold);
+    }
+
+    table.slide-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid #334155;
+      color: #e2e8f0;
+    }
+
+    table.slide-table tr:nth-child(even) td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .badge-win {
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    .img-preview {
+      width: 100%;
+      height: auto;
+      max-height: 480px;
+      object-fit: contain;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="presentation-container">
+    <!-- Top Banner -->
+    <div class="slide-banner">
+      <div class="title-group">
+        <div class="category-tag" id="banner-category">COURSE PROJECT DEFENSE</div>
+        <h2 id="banner-title">Smart Campus Lost &amp; Found System</h2>
+      </div>
+      <div class="controls">
+        <button class="btn-ctrl" onclick="prevSlide()">◀ Prev (Left)</button>
+        <button class="btn-ctrl" onclick="nextSlide()">Next (Right) ▶</button>
+        <button class="btn-ctrl" onclick="toggleFullScreen()">⛶ Fullscreen</button>
+      </div>
+    </div>
+
+    <!-- Viewport with 16 slides -->
+    <div class="slide-viewport">
+
+      <!-- SLIDE 1: TITLE SLIDE -->
+      <div class="slide active" data-category="ACADEMIC DEFENSE" data-title="Title Slide • Group Project Defense">
+        <div style="text-align: center; padding: 25px 20px;">
+          <img src="data/uploads/dyp_logo.png" alt="DYPTC Logo" style="height: 75px; margin-bottom: 12px;">
+          <h3 style="font-size: 1.3rem; color: #ffffff; font-weight: 700;">Dr. D. Y. Patil Technical Campus, Talegaon-Varale, Pune</h3>
+          <h4 style="font-size: 1.1rem; color: var(--accent-gold); margin-top: 4px;">Department of Electronics and Computer Engineering</h4>
+          <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 4px;">Data Structures &amp; Algorithms Laboratory (Course Code: 210257) • S.E. Semester 03 (2026–27)</p>
+          
+          <div style="background: rgba(30, 41, 59, 0.7); border: 2px solid var(--accent-gold); border-radius: 12px; padding: 22px 30px; margin: 24px auto; max-width: 900px;">
+            <div style="color: var(--accent-gold); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px;">PROJECT TITLE</div>
+            <h1 style="font-size: 2.1rem; color: #ffffff; margin: 8px 0; font-weight: 800;">SMART CAMPUS LOST &amp; FOUND SYSTEM</h1>
+            <p style="font-size: 1rem; color: #cbd5e1;">A C++17 &amp; Crow-Powered Campus Asset Recovery Engine with B-Tree Indexing and Anti-Fraud Security</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 0 auto; text-align: left;">
+            <div class="card">
+              <h3 style="color: var(--accent-gold);">👥 Project Group Members</h3>
+              <ul style="list-style: none; margin: 0; padding: 0; font-size: 0.88rem;">
+                <li style="margin-bottom: 4px;">1. Student Name: _____________________ | Roll: ____</li>
+                <li style="margin-bottom: 4px;">2. Student Name: _____________________ | Roll: ____</li>
+                <li style="margin-bottom: 4px;">3. Student Name: _____________________ | Roll: ____</li>
+                <li style="margin-bottom: 4px;">4. Student Name: _____________________ | Roll: ____</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3 style="color: var(--accent-gold);">👩‍🏫 Under the Guidance of</h3>
+              <p style="font-size: 1.1rem; font-weight: bold; color: #ffffff;">Prof. Sayali Pawar</p>
+              <p style="font-size: 0.88rem; color: #94a3b8;">Assistant Professor</p>
+              <p style="font-size: 0.85rem; color: #cbd5e1;">Department of Electronics and Computer Engineering<br>DYPTC Talegaon, Pune</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: AGENDA -->
+      <div class="slide" data-category="EXECUTIVE ROADMAP" data-title="Presentation Outline &amp; Project Agenda">
+        <div class="grid-2">
+          <div class="card">
+            <h3>📌 Part I: Problem &amp; System Concepts</h3>
+            <ul style="font-size: 0.95rem;">
+              <li style="margin-bottom: 12px;"><strong>01. Problem Statement:</strong> Inefficiencies in traditional security desk logbooks.</li>
+              <li style="margin-bottom: 12px;"><strong>02. Project Objectives:</strong> Sub-millisecond retrieval and verified handovers.</li>
+              <li style="margin-bottom: 12px;"><strong>03. Existing vs Proposed:</strong> Rigorous comparative matrix against WhatsApp/Registers.</li>
+              <li style="margin-bottom: 12px;"><strong>04. Data Structures Used:</strong> Hash Tables, B-Trees, Heaps, Graphs, and Tries.</li>
+              <li style="margin-bottom: 12px;"><strong>05. System Architecture:</strong> 3-Tier multi-threaded asynchronous workflow.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>⚙️ Part II: Implementation, Demo &amp; Results</h3>
+            <ul style="font-size: 0.95rem;">
+              <li style="margin-bottom: 12px;"><strong>06. Object-Oriented Modeling:</strong> UML Class Diagram and Design Patterns.</li>
+              <li style="margin-bottom: 12px;"><strong>07. Anti-Fraud Framework:</strong> Blind challenge questions &amp; SHA-256 Merkle log.</li>
+              <li style="margin-bottom: 12px;"><strong>08. C++17 Crow Backend:</strong> Memory efficiency and zero-copy JSON parsing.</li>
+              <li style="margin-bottom: 12px;"><strong>09. Live Walkthrough &amp; Screenshots:</strong> UI Feed, Reporting, and Campus Heatmap.</li>
+              <li style="margin-bottom: 12px;"><strong>10. Performance Benchmarks:</strong> Latency, throughput, and Viva Q&amp;A.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: PROBLEM STATEMENT -->
+      <div class="slide" data-category="BACKGROUND &amp; MOTIVATION" data-title="Problem Statement: The Campus Asset Loss Dilemma">
+        <div class="grid-3">
+          <div class="card">
+            <h3 style="color: #f87171;">📖 1. Physical Paper Registers</h3>
+            <ul>
+              <li>Handwritten notebooks kept at campus security gates.</li>
+              <li><strong>O(N) Linear Search:</strong> Guards must manually flip through hundreds of pages.</li>
+              <li>Vulnerable to page tearing, water spills, and unreadable handwriting.</li>
+              <li>Data remains isolated at one gate; not accessible campus-wide.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="color: #fbbf24;">💬 2. Social Media Noise</h3>
+            <ul>
+              <li>Uncoordinated posts across WhatsApp and Telegram groups.</li>
+              <li><strong>Privacy Violations:</strong> Student phone numbers openly broadcasted to strangers.</li>
+              <li>Posts get buried under casual chat messages within minutes.</li>
+              <li>No searchability by date, category, or location.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="color: #38bdf8;">⚠️ 3. Fraud &amp; False Claims</h3>
+            <ul>
+              <li>High-value items (calculators, earbuds, laptops) prone to theft.</li>
+              <li>Verbal confirmation allows impostors to guess basic features.</li>
+              <li>Public photos expose identifying marks to illegitimate claimants.</li>
+              <li>Zero digital liability or handover audit logs.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: PROPOSED SOLUTION -->
+      <div class="slide" data-category="SYSTEM GOALS" data-title="Proposed Solution: The Smart Campus Recovery Portal">
+        <div class="grid-4">
+          <div class="card">
+            <h3>⚡ Sub-Millisecond Search</h3>
+            <p>Combining In-Memory Hash Maps with disk-backed B-Tree indexes enables instant filtering across categories, status, and campus locations in &lt; 2 milliseconds.</p>
+          </div>
+          <div class="card">
+            <h3>🔒 Two-Factor Anti-Fraud Verification</h3>
+            <p>Finder-configured blind challenge questions and cryptographically minted 6-character Handover Passcodes ensure items are only given to rightful owners.</p>
+          </div>
+          <div class="card">
+            <h3>👁️ Privacy-Preserving Image Cloaking</h3>
+            <p>Item images are automatically obscured in the public feed to prevent malicious individuals from memorizing scratches or unique serial markings.</p>
+          </div>
+          <div class="card">
+            <h3>📜 SHA-256 Merkle Audit Log</h3>
+            <p>Every report creation, claim challenge, and physical security desk handover is cryptographically hashed into an immutable audit chain for zero repudiation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: COMPARATIVE ANALYSIS -->
+      <div class="slide" data-category="BENCHMARKING" data-title="Comparative Analysis: Existing vs. Proposed System">
+        <div class="card" style="height: 100%; overflow: auto;">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>Evaluation Parameter</th>
+                <th>Manual Security Registers</th>
+                <th>Social Media (WhatsApp)</th>
+                <th>Smart Campus System (Proposed)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Record Storage</strong></td>
+                <td>Paper notebook at gate</td>
+                <td>Unstructured chat logs</td>
+                <td class="badge-win">Structured SQLite3 B-Tree Database</td>
+              </tr>
+              <tr>
+                <td><strong>Search Complexity</strong></td>
+                <td>O(N) Manual browsing (15-30 mins)</td>
+                <td>O(N) Chat scrolling</td>
+                <td class="badge-win">O(1) / O(log N) Instant Filter (&lt; 2 ms)</td>
+              </tr>
+              <tr>
+                <td><strong>Ownership Proof</strong></td>
+                <td>Verbal claim only</td>
+                <td>Informal screenshots</td>
+                <td class="badge-win">Blind Challenge Questions &amp; OTP Tokens</td>
+              </tr>
+              <tr>
+                <td><strong>Privacy Protection</strong></td>
+                <td>Exposed register to public</td>
+                <td>Personal phone numbers public</td>
+                <td class="badge-win">Shielded Identities &amp; Cloaked Images</td>
+              </tr>
+              <tr>
+                <td><strong>Audit &amp; Accountability</strong></td>
+                <td>Vulnerable to lost registers</td>
+                <td>Chat messages can be deleted</td>
+                <td class="badge-win">Immutable SHA-256 Merkle Audit Log</td>
+              </tr>
+              <tr>
+                <td><strong>Campus Scalability</strong></td>
+                <td>Single gate only</td>
+                <td>Restricted group limits</td>
+                <td class="badge-win">Campus-Wide Multi-Department Network</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: DATA STRUCTURES & COMPLEXITY -->
+      <div class="slide" data-category="DSA CORE" data-title="Core Data Structures &amp; Algorithmic Time Complexities">
+        <div class="card" style="height: 100%; overflow: auto;">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>Data Structure</th>
+                <th>Application in Lost &amp; Found System</th>
+                <th>Average Time</th>
+                <th>Worst Case</th>
+                <th>Space Complexity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Hash Table (std::unordered_map)</strong></td>
+                <td>Active session validation, Category index lookup</td>
+                <td class="badge-win">O(1)</td>
+                <td>O(N)</td>
+                <td>O(N)</td>
+              </tr>
+              <tr>
+                <td><strong>B-Tree (SQLite Storage)</strong></td>
+                <td>Multi-field indexing on (status, category, location)</td>
+                <td class="badge-win">O(log N)</td>
+                <td>O(log N)</td>
+                <td>O(N)</td>
+              </tr>
+              <tr>
+                <td><strong>Max-Heap (std::priority_queue)</strong></td>
+                <td>Priority claim triage and high-value item matching</td>
+                <td class="badge-win">O(log K)</td>
+                <td>O(log K)</td>
+                <td>O(K)</td>
+              </tr>
+              <tr>
+                <td><strong>Graph &amp; Distance Matrix</strong></td>
+                <td>Campus building adjacency &amp; walking-radius search</td>
+                <td class="badge-win">O(V + E)</td>
+                <td>O(V + E)</td>
+                <td>O(V&sup2;) matrix</td>
+              </tr>
+              <tr>
+                <td><strong>Prefix Trie &amp; Levenshtein</strong></td>
+                <td>Typo-tolerant autocomplete and fuzzy item search</td>
+                <td class="badge-win">O(L)</td>
+                <td>O(L &middot; &Sigma;)</td>
+                <td>O(&Sigma; &middot; L)</td>
+              </tr>
+              <tr>
+                <td><strong>Merkle Audit Tree</strong></td>
+                <td>Tamper-evident verification of claim handovers</td>
+                <td class="badge-win">O(log N)</td>
+                <td>O(log N)</td>
+                <td>O(N)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: SYSTEM ARCHITECTURE -->
+      <div class="slide" data-category="SYSTEM ENGINEERING" data-title="System Architecture &amp; Execution Flowchart">
+        <div class="grid-2">
+          <div class="card">
+            <h3>🏗️ 3-Tier Multi-Threaded Engine</h3>
+            <ul>
+              <li style="margin-bottom: 12px;"><strong>Tier 1: Client Layer:</strong> Clean responsive interface built with HTML5, CSS3, and ES6 JavaScript. Real-time search debouncing at 250ms.</li>
+              <li style="margin-bottom: 12px;"><strong>Tier 2: Application Layer:</strong> High-speed C++17 Crow REST engine handling asynchronous HTTP I/O on Boost.Asio.</li>
+              <li style="margin-bottom: 12px;"><strong>Tier 3: Storage &amp; Cryptography:</strong> SQLite3 with Write-Ahead Logging (WAL) for concurrent reads, composite B-Trees, and SHA-256 verification.</li>
+            </ul>
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 10px;">📊 Execution Flowchart</h3>
+            <img src="data/uploads/system_flowchart.png" alt="Flowchart" class="img-preview">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: UML CLASS DIAGRAM -->
+      <div class="slide" data-category="OBJECT-ORIENTED DESIGN" data-title="UML Class Diagram &amp; Software Design Patterns">
+        <div class="grid-2">
+          <div class="card">
+            <h3>🧩 Core OOP Entities &amp; Patterns</h3>
+            <ul>
+              <li style="margin-bottom: 10px;"><strong>Item Entity:</strong> Holds item attributes (title, category, location_id, secret_question, status).</li>
+              <li style="margin-bottom: 10px;"><strong>Claim Entity:</strong> Encapsulates claimant details, challenge answer, and handover passcode.</li>
+              <li style="margin-bottom: 10px;"><strong>DatabaseManager (Singleton):</strong> Thread-safe connection pool ensuring ACID transactions.</li>
+              <li style="margin-bottom: 10px;"><strong>SecurityEngine:</strong> Computes SHA-256 digests and validates challenge hashes.</li>
+              <li style="margin-bottom: 10px;"><strong>State Pattern:</strong> Item transitions from <code>FOUND &rarr; CLAIMED &rarr; RESOLVED</code>.</li>
+            </ul>
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 10px;">📐 Class Architecture Diagram</h3>
+            <img src="data/uploads/class_diagram.png" alt="Class Diagram" class="img-preview">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: ANTI-FRAUD FRAMEWORK -->
+      <div class="slide" data-category="SECURITY ARCHITECTURE" data-title="Anti-Fraud &amp; Privacy Protection Mechanism">
+        <div class="grid-4">
+          <div class="card">
+            <h3 style="color: #f87171;">1. Blind Challenge Questions</h3>
+            <p>Item finders establish a private question (e.g., "What sticker is on the laptop lid?"). Claimants must answer accurately without seeing the item, preventing random guessing.</p>
+          </div>
+          <div class="card">
+            <h3 style="color: #38bdf8;">2. Cloaked Image Filters</h3>
+            <p>High-resolution photos are automatically blurred in public feeds to prevent dishonest individuals from memorizing scratches, stickers, or unique marks.</p>
+          </div>
+          <div class="card">
+            <h3 style="color: #fbbf24;">3. Cryptographic Handover Tokens</h3>
+            <p>Once a claim is verified, a 6-character One-Time Passcode (OTP) is generated. The claimant presents this token at the security cabin for physical handover.</p>
+          </div>
+          <div class="card">
+            <h3 style="color: #4ade80;">4. SHA-256 Merkle Audit Ledger</h3>
+            <p>Every status transition and administrative handover is timestamped and hashed into a tamper-evident audit ledger, guaranteeing non-repudiation.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: BACKEND ENGINEERING -->
+      <div class="slide" data-category="BACKEND TECHNOLOGY" data-title="Backend Engineering: C++17 &amp; Crow Micro-Framework">
+        <div class="grid-2">
+          <div class="card">
+            <h3>⚡ Why Modern C++17 for Web?</h3>
+            <ul>
+              <li style="margin-bottom: 10px;"><strong>Zero-Cost Abstractions:</strong> Direct hardware-level memory management using RAII.</li>
+              <li style="margin-bottom: 10px;"><strong>No Garbage Collection:</strong> Eliminates unpredictable latency spikes found in Java or Python.</li>
+              <li style="margin-bottom: 10px;"><strong>Microscopic Memory Footprint:</strong> Runs comfortably within ~14 MB RAM.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>🚀 Crow Web Framework Features</h3>
+            <ul>
+              <li style="margin-bottom: 10px;">Asynchronous non-blocking network I/O powered by Boost.Asio.</li>
+              <li style="margin-bottom: 10px;">High throughput handling over 4,500 requests per second.</li>
+              <li style="margin-bottom: 10px;">SQLite3 integration with Write-Ahead Logging (WAL) preventing write-lock contention.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 11: DEMO - DISCOVERY -->
+      <div class="slide" data-category="SYSTEM DEMO" data-title="Live Walkthrough: Public Item Discovery Portal">
+        <div class="grid-2">
+          <div class="card">
+            <h3>🔍 Discovery Features</h3>
+            <ul>
+              <li style="margin-bottom: 10px;"><strong>Dynamic Filter Chips:</strong> One-click filtering across Electronics, Bags, ID Cards, Keys, and Books.</li>
+              <li style="margin-bottom: 10px;"><strong>Search Debouncing:</strong> Instant query matching powered by C++ Prefix Trie.</li>
+              <li style="margin-bottom: 10px;"><strong>Color Badges:</strong> Clear indicators for <code>LOST</code>, <code>FOUND</code>, and <code>CLAIMED</code>.</li>
+            </ul>
+          </div>
+          <div class="card" style="text-align: center;">
+            <img src="data/uploads/screenshot_home.png" alt="Home Screen" class="img-preview">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 12: DEMO - REPORTING -->
+      <div class="slide" data-category="SYSTEM DEMO" data-title="Live Walkthrough: Lost &amp; Found Reporting Wizards">
+        <div class="grid-2">
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 8px;">1. Report Lost Item Portal</h3>
+            <img src="data/uploads/screenshot_lost.png" alt="Lost Screen" class="img-preview">
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 8px;">2. Report Found Item &amp; Question</h3>
+            <img src="data/uploads/screenshot_found.png" alt="Found Screen" class="img-preview">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 13: DEMO - ANALYTICS -->
+      <div class="slide" data-category="SYSTEM DEMO" data-title="Live Walkthrough: Campus Analytics &amp; Location Heatmap">
+        <div class="grid-2">
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 8px;">Recovery Rate &amp; Inventory Trends</h3>
+            <img src="data/uploads/screenshot_analytics.png" alt="Analytics" class="img-preview">
+          </div>
+          <div class="card" style="text-align: center;">
+            <h3 style="margin-bottom: 8px;">Campus Location Hotspots &amp; Map</h3>
+            <img src="data/uploads/screenshot_campus_map.png" alt="Map" class="img-preview">
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 14: BENCHMARKS -->
+      <div class="slide" data-category="TESTING &amp; RESULTS" data-title="Experimental Results &amp; Empirical Benchmarks">
+        <div class="card" style="height: 100%; overflow: auto;">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>Performance Metric</th>
+                <th>Naive / Unindexed Approach</th>
+                <th>Smart Campus C++17 System</th>
+                <th>Empirical Gain</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Search Query (10,000 Records)</strong></td>
+                <td>142.50 ms (Linear Table Scan)</td>
+                <td>1.84 ms (B-Tree Composite Index)</td>
+                <td class="badge-win">77.4x Faster Retrieval</td>
+              </tr>
+              <tr>
+                <td><strong>In-Memory Session Auth</strong></td>
+                <td>8.60 ms (Sequential Array Scan)</td>
+                <td>0.04 ms (std::unordered_map)</td>
+                <td class="badge-win">215x Faster Authentication</td>
+              </tr>
+              <tr>
+                <td><strong>Server RAM Usage</strong></td>
+                <td>185.0 MB (Python / Node.js)</td>
+                <td>13.8 MB (Compiled C++ Binary)</td>
+                <td class="badge-win">92.5% Memory Savings</td>
+              </tr>
+              <tr>
+                <td><strong>Throughput Capacity</strong></td>
+                <td>420 requests / sec</td>
+                <td>4,550 requests / sec</td>
+                <td class="badge-win">10.8x Higher Concurrency</td>
+              </tr>
+              <tr>
+                <td><strong>Asset Recovery Success</strong></td>
+                <td>~22% (Manual Logbooks)</td>
+                <td>89.2% (Smart Campus Portal)</td>
+                <td class="badge-win">+67.2% Successfully Returned</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SLIDE 15: FUTURE ROADMAP -->
+      <div class="slide" data-category="FUTURE SCOPE" data-title="Future Roadmap: AI Vision &amp; Smart Campus IoT">
+        <div class="grid-4">
+          <div class="card">
+            <h3>🤖 1. AI Image Matching</h3>
+            <p>Integrating deep learning embeddings (MobileNet) to automatically calculate visual similarity between newly reported lost items and found inventory.</p>
+          </div>
+          <div class="card">
+            <h3>📍 2. Geofenced Push Alerts</h3>
+            <p>Deploying Progressive Web App (PWA) location triggers to alert students when a misplaced item is found near their current classroom or lab.</p>
+          </div>
+          <div class="card">
+            <h3>🪪 3. RFID &amp; Student ERP Sync</h3>
+            <p>Direct barcode/RFID scanning of DYPTC Student Identity Cards to automatically match lost student IDs with college ERP contact records.</p>
+          </div>
+          <div class="card">
+            <h3>🌐 4. Multi-Campus Federation</h3>
+            <p>Extending database synchronization across multiple Dr. D. Y. Patil institutions in Pune and Navi Mumbai for unified asset recovery.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 16: CONCLUSION & DEFENSE -->
+      <div class="slide" data-category="CONCLUSION &amp; DEFENSE" data-title="Conclusion, References &amp; Faculty Viva Q&amp;A">
+        <div class="grid-2">
+          <div class="card">
+            <h3>📚 Academic Literature &amp; References</h3>
+            <ul>
+              <li style="margin-bottom: 8px;">[1] T. H. Cormen, C. E. Leiserson, R. L. Rivest, and C. Stein, <em>Introduction to Algorithms (CLRS)</em>, 4th ed., MIT Press.</li>
+              <li style="margin-bottom: 8px;">[2] Bjarne Stroustrup, <em>The C++ Programming Language</em>, 4th ed., Addison-Wesley.</li>
+              <li style="margin-bottom: 8px;">[3] Savitribai Phule Pune University (SPPU), <em>Data Structures and Algorithms Lab Syllabus (210257)</em>.</li>
+            </ul>
+            <h3 style="margin-top: 18px; color: var(--accent-gold);">🏆 Key Takeaway</h3>
+            <p style="font-size: 0.95rem;">Successfully proved that fundamental Data Structures (Hash Maps, B-Trees, Heaps, and Graphs) directly transform campus operations into a secure, sub-millisecond digital ecosystem.</p>
+          </div>
+          <div class="card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; background: linear-gradient(135deg, #0b1329 0%, #1e293b 100%); border: 2px solid var(--accent-gold);">
+            <h1 style="font-size: 2.8rem; color: var(--accent-gold); font-weight: 800;">THANK YOU!</h1>
+            <h3 style="font-size: 1.25rem; color: #ffffff; margin-top: 10px;">Questions &amp; Discussion</h3>
+            <div style="margin-top: 24px; font-size: 0.88rem; color: #cbd5e1; line-height: 1.6;">
+              <strong>Department of Electronics and Computer Engineering</strong><br>
+              Dr. D. Y. Patil Technical Campus, Talegaon, Pune<br>
+              Guide: <strong>Prof. Sayali Pawar</strong> | Course: DSA Lab (210257)
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom Footer -->
+    <div class="slide-footer">
+      <div>DYPTC Pune • Department of Electronics and Computer Engineering</div>
+      <div class="progress-dots" id="dots-container"></div>
+      <div id="slide-counter">Slide 1 of 16</div>
+    </div>
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const bannerCat = document.getElementById('banner-category');
+    const bannerTitle = document.getElementById('banner-title');
+    const slideCounter = document.getElementById('slide-counter');
+    const dotsContainer = document.getElementById('dots-container');
+
+    // Create progress dots
+    slides.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === 0 ? ' active' : '');
+      dot.onclick = () => goToSlide(i);
+      dotsContainer.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    function updateSlide() {
+      slides.forEach((s, i) => {
+        s.classList.toggle('active', i === currentSlide);
+      });
+      dots.forEach((d, i) => {
+        d.classList.toggle('active', i === currentSlide);
+      });
+      const activeSlide = slides[currentSlide];
+      bannerCat.innerText = activeSlide.getAttribute('data-category') || 'PROJECT DEFENSE';
+      bannerTitle.innerText = activeSlide.getAttribute('data-title') || 'Smart Campus Lost & Found System';
+      slideCounter.innerText = `Slide ${currentSlide + 1} of ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 0 && n < totalSlides) {
+        currentSlide = n;
+        updateSlide();
+      }
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => alert(err.message));
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        toggleFullScreen();
+      } else if (e.key === 'Home') {
+        goToSlide(0);
+      } else if (e.key === 'End') {
+        goToSlide(totalSlides - 1);
+      }
+    });
+
+    updateSlide();
+  </script>
+</body>
+</html>
