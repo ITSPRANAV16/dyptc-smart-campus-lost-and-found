@@ -244,3 +244,69 @@ http://localhost:18080
 | **`sqlite3.h` not found** | Verify MSYS2 UCRT64 include path is present in `tasks.json` / `-I` flag. In MSYS2, run `pacman -S mingw-w64-ucrt-x86_64-sqlite3`. |
 | **Winsock linker errors (`WSAStartup`)** | Make sure `-lws2_32 -lmswsock` flags are included at the end of the `g++` compile command. |
 | **Data reset** | To start with a fresh database, delete `data/lost_found.db`. The server will automatically recreate and re-seed it on next launch. |
+
+---
+
+## 9. Repository Structure
+
+```
+COURSE_PROJECT/
+├── docs/                             # Academic Reports & Documentation
+│   ├── DSA_REPORT_GROUP_PROJECT.pdf  # Main 12-page Academic Report (Times New Roman, Pure Black)
+│   ├── DSA_REPORT_GROUP_PROJECT.html # HTML version of Report
+│   ├── DSA_ALGORITHMS_GUIDE.md       # Comprehensive DSA Reference Guide
+│   ├── MADAM_CODE_EXPLANATION.md     # Code Explanation Guide
+│   └── archive/                      # Historical / Reference Reports
+│       ├── DSA REPORT.pdf            # Reference Report
+│       ├── DSA_REPORT_FINAL.pdf
+│       ├── DSA_REPORT_PRANAV_PATIL.pdf
+│       └── DYPTC_DSA_PROJECT_DOCUMENTATION.pdf
+│
+├── presentation/                     # Viva Defense Slides & Deck
+│   ├── SMART_CAMPUS_LOST_AND_FOUND_PRESENTATION.pptx # 16-Slide Official PowerPoint Presentation
+│   └── SMART_CAMPUS_LOST_AND_FOUND_PRESENTATION.html # Interactive Browser Slide Deck
+│
+├── src/                              # C++17 Application Source Code
+│   ├── main.cpp                      # Crow HTTP Web Server & Route Handlers
+│   ├── dsa_engine.hpp                # DSA Core (Hash Table, B-Tree, Heaps, Graphs, Tries)
+│   ├── database.hpp                  # SQLite3 Manager, Indexes & WAL mode
+│   ├── models.hpp                    # OOP Entities (Item, Claim, Location, AuditEntry)
+│   └── html_renderer.hpp             # Template Loader (checks templates/ & static/)
+│
+├── templates/                        # Frontend Web Templates (HTML5)
+│   ├── index.html                    # Main Portal & Discovery Feed
+│   ├── lost.html                     # Report Lost Item Form
+│   ├── found.html                    # Report Found Item & Security Question Setup
+│   ├── admin.html                    # Administrative Panel
+│   ├── analytics.html                # Campus Recovery Metrics & Trends
+│   ├── heatmap.html                  # Location Hotspots Visualizer
+│   ├── details.html                  # Deep Item Details
+│   ├── track.html                    # Claim Status Tracking
+│   ├── matches.html                  # Candidate Matches
+│   ├── receipt.html                  # Handover Passcode Slip
+│   ├── honors.html                   # Honesty Leaderboard
+│   ├── items.html                    # Public Catalog
+│   ├── login.html                    # Admin Login
+│   ├── search.html                   # Search Interface
+│   └── style.css                     # Stylesheet fallback
+│
+├── static/                           # Static Assets
+│   └── style.css                     # Primary Responsive Stylesheet
+│
+├── data/                             # Persistence & Uploads
+│   ├── lost_found.db                 # SQLite3 Database
+│   └── uploads/                      # Diagram PNGs, SVGs & Item Photos
+│
+├── api/                              # Cloud / Serverless Function (Vercel)
+│   └── index.js
+│
+├── include/                          # Third-Party C++ Headers
+│   └── crow_all.h                    # Crow C++ Micro-Framework
+│
+├── smart_campus.exe                  # Precompiled Windows Native Binary
+├── Dockerfile                        # Docker Container Config
+├── package.json                      # Vercel Deployment Config
+├── render.yaml                       # Render Cloud Config
+├── vercel.json                       # Vercel Rewrites
+└── README.md                         # Project Guide
+```
